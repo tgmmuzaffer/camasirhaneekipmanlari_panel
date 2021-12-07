@@ -1,0 +1,64 @@
+﻿@model panel.Models.User
+@{
+    var roleList = ViewBag.RoleList;
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+        <li class="breadcrumb-item active">Kullanıcı Ekle</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-body">
+            Kullanıcı adı olarak mail girilmeli.
+            <br />
+            Role olarak "Admin" ya da daha kısıtlı yetkilere sahip "Editor" girilebilir
+        </div>
+    </div>
+    <div class="col-4">
+
+        <form method="post" enctype="multipart/form-data" asp-action="AddPanelUser" asp-antiforgery="true">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+            <div class="form-outline mb-4">
+                <label asp-for="UserName" class="form-label">Kullanıcı adı</label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-outline mb-4">
+                <label asp-for="Role" class="form-label">Rol</label>
+                <div class="col-12">
+                    @*@Html.DropDownList(x=>x,
+                        new List<SelectListItem> {
+                            new SelectListItem {
+                                Text="Admin",
+                                Value="Admin",
+                            },
+                            new SelectListItem {
+                                Text="Editor",
+                                Value="Editor",
+                                Selected=true
+                            },
+
+                        }, "Rol Seçiniz", new { @class = "form-control" })*@
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mb-4">Kaydet</button>
+        </form>
+    </div>
+
+</div>
+
+
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

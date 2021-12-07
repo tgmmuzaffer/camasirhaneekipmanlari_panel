@@ -43,5 +43,31 @@ namespace panel.Repository
                 return new User();
             }
         }
+
+
+        public async Task<bool> Register(string url, User user)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            if (user != null)
+            {
+                request.Content = new StringContent(
+                    JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            }
+            else
+            {
+                return false;
+            }
+
+            var client = _clientFactory.CreateClient();
+            HttpResponseMessage response = await client.SendAsync(request);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

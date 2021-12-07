@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using panel.RepoExtension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +25,26 @@ namespace panel
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                   .AddCookie(options =>
+                   {
+                       options.Cookie.HttpOnly = true;
+                       options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                       options.LoginPath = "/login";
+                       options.AccessDeniedPath = "/Home/AccessDenied";
+                       options.SlidingExpiration = true;
+                   });
             services.AddControllersWithViews();
+            services.ConfigureServices();
+            services.AddHttpClient();
+
+            services.AddSession(opt =>
+            {
+                opt.IOTimeout = TimeSpan.FromSeconds(5);
+                opt.IdleTimeout = TimeSpan.FromMinutes(10);
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,9 +64,11 @@ namespace panel
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseCors(opt =>opt.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+            app.UseSession();
+            //app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
