@@ -40,8 +40,8 @@ namespace panel
 
             services.AddSession(opt =>
             {
-                opt.IOTimeout = TimeSpan.FromSeconds(5);
-                opt.IdleTimeout = TimeSpan.FromMinutes(10);
+                opt.IOTimeout = TimeSpan.FromMinutes(30);
+                opt.IdleTimeout = TimeSpan.FromMinutes(30);
                 opt.Cookie.HttpOnly = true;
                 opt.Cookie.IsEssential = true;
             });

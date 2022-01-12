@@ -16,6 +16,7 @@ namespace panel.RepoExtension
         public static void ConfigureServices(this IServiceCollection services)
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IRoleRepo, RoleRepo>();
             services.AddScoped<ILoginRepo, LoginRepo>();
             services.AddScoped<IPropertyTabRepo, PropertyTabRepo>();
             services.AddScoped<IUserRepo, UserRepo>();

@@ -6,6 +6,7 @@ namespace panel.Models
 {
     public class User : IEntity
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Email is required")]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
@@ -13,9 +14,8 @@ namespace panel.Models
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public string Role { get; set; }
+        public int RoleId { get; set; }
+        //public Role Role { get; set; }
         public string Token { get; set; }
-        [NotMapped]
-        public List<Role>Roles{ get; set; }
     }
 }

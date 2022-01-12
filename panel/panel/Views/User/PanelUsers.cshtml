@@ -1,0 +1,70 @@
+﻿@using panel.Models.Dtos
+@model ICollection<UserDto>
+@{
+    int i = 1;
+}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Tables</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+        <li class="breadcrumb-item active">Panel Kullanıcıları</li>
+    </ol>
+    @{ if (Model != null)
+        {
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Kullanıcılar
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>İsim</th>
+                                <th>Rol</th>
+                                <th>Sil</th>
+                                <th>Güncelle</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.Role.RoleName</td>
+                                    <td>
+                                        Sil
+                                        <a href="deletepaneluser/@item.Id">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        Güncelle
+                                        <a href="updatepaneluser/@item.Id">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                   Üzgünüm kullanıcı kayıtları bulunamadı.                    
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,8 +1,11 @@
 ﻿using Newtonsoft.Json;
 using panel.Models;
+using panel.Models.Dtos;
 using panel.Repository.IRepository;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using System.Text;
@@ -18,29 +21,30 @@ namespace panel.Repository
         {
             _clientFactory = clientFactory;
         }
-        public async Task<User> Login(string url, User user)
+        public async Task<UserDto> Login(string url, UserDto userDto)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, url);
-            if (user != null)
+            if (userDto != null)
             {
                 request.Content = new StringContent(
-                    JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+                    JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json");
             }
             else
             {
-                return new User();
+                return new UserDto();
             }
 
             var client = _clientFactory.CreateClient();
             HttpResponseMessage response = await client.SendAsync(request);
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<User>(jsonString);
+                var jsonString =  response.Content.ReadAsStringAsync().Result.ToString();
+                var userdata = JsonConvert.DeserializeObject<UserDto>(jsonString);
+                return userdata;
             }
             else
             {
-                return new User();
+                return new UserDto();
             }
         }
 

@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Charts - SB Admin</title>
-    <link href="css/styles.css" rel="stylesheet" />
+    <link href="~/css/styles.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
@@ -47,7 +47,7 @@
                         <div class="collapse" id="collapseUser" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" href="/addpaneluser">Panel Kullanıcısı Ekle</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                                <a class="nav-link" href="/panelusers">Panel Kullanıcıları</a>
                             </nav>
                         </div>
 
@@ -112,6 +112,21 @@
             </nav>
         </div>
         <div id="layoutSidenav_content">
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["success"]
+                    <button style="padding:revert; float:right;" id="ok" type="button" class="btn btn-primary btn-xs">X</button>
+
+                </div>
+            }
+            @if (@TempData["fail"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["fail"]
+                    <button style="padding:revert; float:right;" id="times" type="button" class="btn btn-primary btn-xs">X</button>
+                </div>
+            }
             <main>
                 @RenderBody()
             </main>
@@ -135,10 +150,20 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
+    <script src="~/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="assets/demo/chart-pie-demo.js"></script>
+    <script src="~/assets/demo/chart-area-demo.js"></script>
+    <script src="~/assets/demo/chart-bar-demo.js"></script>
+    <script src="~/assets/demo/chart-pie-demo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="~/js/datatables-simple-demo.js"></script>
+    <script type="text/javascript">
+        $("#times").click(function () {
+            $(".alert").hide();
+        });
+        $("#ok").click(function () {
+            $(".alert").hide();
+        });
+    </script>
 </body>
 </html>

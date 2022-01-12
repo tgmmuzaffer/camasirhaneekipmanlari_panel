@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using panel.Models;
+using panel.Models.Dtos;
 using panel.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -29,9 +30,16 @@ namespace panel.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            HttpContext.Session.TryGetValue("Jwt", out byte[] value); 
+            string token = string.Empty;
+
+            if (value != null && value.Length > 0)
+            {
+                return View();
+            }
+                return RedirectToAction("Login");
         }
-        
+
         public IActionResult Privacy()
         {
             return View();
@@ -44,20 +52,21 @@ namespace panel.Controllers
             User user = new User();
             return View(user);
         }
+
         [AllowAnonymous]
         [HttpPost("loginUser")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginUser(User user)
+        public async Task<IActionResult> LoginUser(UserDto userDto)
         {
-            User userdata = await _loginRepo.Login(StaticDetail.StaticDetails.login, user);
+            var userdata = await _loginRepo.Login(StaticDetail.StaticDetails.login, userDto);
             if (string.IsNullOrEmpty(userdata.Token))
             {
+                //alert
                 return View();
             }
             
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, userdata.UserName));
-            identity.AddClaim(new Claim(ClaimTypes.Role, userdata.Role));
+            identity.AddClaim(new Claim(ClaimTypes.Role, userdata.Role.RoleName));
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
@@ -75,25 +84,25 @@ namespace panel.Controllers
 
         [HttpPost("register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(User user)
+        public async Task<IActionResult> Register(UserDto userDto)
         {
-            User userdata = await _loginRepo.Login(StaticDetail.StaticDetails.login, user);
+            UserDto userdata = await _loginRepo.Login(StaticDetail.StaticDetails.login, userDto);
             if (string.IsNullOrEmpty(userdata.Token))
             {
                 return View();
             }
             byte[] token = Encoding.UTF8.GetBytes(userdata.Token);
-            byte[] userole = Encoding.UTF8.GetBytes(userdata.Role);
+            byte[] userole = Encoding.UTF8.GetBytes(userdata.Role.RoleName);
             HttpContext.Session.Set("Jwt", token);
             HttpContext.Session.Set("UserRole", userole);
 
             return RedirectToAction("Index");
         }
         [HttpGet("logout")]
-        public async Task<IActionResult> LogOut()
+        public IActionResult LogOut()
         {
             byte[] token = { };
-            HttpContext.SignOutAsync();
+            _ = HttpContext.SignOutAsync();
             HttpContext.Session.Set("Jwt", token);
             return RedirectToAction("Index");
         }
