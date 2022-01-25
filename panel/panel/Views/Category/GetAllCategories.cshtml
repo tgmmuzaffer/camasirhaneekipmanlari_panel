@@ -1,22 +1,26 @@
 ﻿@using panel.Models.Dtos
-@model ICollection<UserDto>
+@model List<CategoryDto>
 @{
     int i = 1;
 }
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Kullanıcı Listesi</h1>
+
+
+<div class="container mt-3">
+    <h1>Kategori Listesi</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Kullanıcı Listesi</li>
+            <li class="breadcrumb-item active" aria-current="page">Kategori Listesi</li>
         </ol>
     </nav>
+
+
     @{ if (Model != null)
         {
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-table me-1"></i>
-                    Kullanıcılar
+                    Kategoriler
                 </div>
                 <div class="card-body">
                     <table id="datatablesSimple">
@@ -24,7 +28,6 @@
                             <tr>
                                 <th>No</th>
                                 <th>İsim</th>
-                                <th>Rol</th>
                                 <th>Sil</th>
                                 <th>Güncelle</th>
 
@@ -36,17 +39,16 @@
 
                                 <tr>
                                     <td>@i</td>
-                                    <td>@item.UserName</td>
-                                    <td>@item.Role.RoleName</td>
+                                    <td>@item.Name</td>
                                     <td>
                                         Sil
-                                        <a href="deletepaneluser/@item.Id">
+                                        <a href="deleteCategory/@item.Id">
                                             <i class="far fa-trash-alt"></i>
                                         </a>
                                     </td>
                                     <td>
                                         Güncelle
-                                        <a href="updatepaneluser/@item.Id">
+                                        <a href="updateCategory/@item.Id">
                                             <i class="far fa-edit"></i>
                                         </a>
                                     </td>
@@ -58,13 +60,16 @@
                     </table>
                 </div>
             </div>
+            <div style="text-align:end">
+                <a href="/addCategory" class="btn btn-primary"> Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i></a>
 
+            </div>
         }
         else
         {
             <div class="card mb-4">
                 <div class="card-body">
-                    Üzgünüm kullanıcı kayıtları bulunamadı.
+                    Üzgünüm kategori kayıtları bulunamadı.
                 </div>
             </div>
         }

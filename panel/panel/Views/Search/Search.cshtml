@@ -1,0 +1,87 @@
+﻿@using panel.Models.Dtos
+@model SearchDto
+@*@{
+        string searchtext = string.Empty;
+        if (Model != null && !string.IsNullOrEmpty(Model.SearchText))
+        {
+            searchtext = Model.SearchText ;
+        }
+    }*@
+
+<div class="container-fluid px-4 m-md-auto">
+    <h1 class="mt-4" style="text-align:center">Arama Sonuç Listesi</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" style="place-content:center">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Arama Sonuç Listesi</li>
+        </ol>
+    </nav>
+
+    <div class="container">
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <input class="form-control" type="text" name="searchText" id="searchText" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="searchbutton"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-6 m-md-auto">
+        <ul class="list-group" id="searchresult">
+        </ul>
+    </div>
+    @*@{ if (Model.SearchResultDtos.Count > 0)
+            {
+                <div class="col-md-6 m-md-auto">
+                    <ul class="list-group">
+                        @foreach (var item in Model.SearchResultDtos)
+                        {
+                            <li class="list-group-item"><a href="/@item.SearhResultUrl">@item.SearhResultUrlName</a></li>
+
+                        }
+                    </ul>
+                </div>
+
+
+            }
+            else
+            {
+                <div class="card mb-4">
+                    <div class="card-body">
+                        Üzgünüm sonuç bulunamadı.
+                    </div>
+                </div>
+            }
+        }*@
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#searchbutton").click(function () {
+        var inpt = $("#searchText").val();
+        var format = /[ `!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+        if (inpt == "") {
+            alert("Lütfen aramak istediğiniz metni giriniz. ");
+        }
+        else if (format.test(inpt)) {
+            alert("Özel karakter gitremezsiniz. ");
+        }
+        else {
+            $.post("search", { searchText: inpt }, function (result) {
+                var jarray = JSON.parse(result).SearchResultDtos;
+                $.each(jarray, function (index) {
+                    console.log(index)
+                    var url = jarray[index].SearhResultUrl;
+                    var name = jarray[index].SearhResultUrlName;
+                    $("#searchresult")
+                        .append("<li class='list-group-item'><a href='/" + url + "''>" + name + "</a></li>");
+                });
+            });
+        }
+
+    });
+</script>

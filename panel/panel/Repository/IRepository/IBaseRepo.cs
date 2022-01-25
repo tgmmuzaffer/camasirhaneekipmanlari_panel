@@ -10,7 +10,7 @@ namespace panel.Repository.IRepository
     {
         Task<ICollection<T>> GetList(string url, string token=null);
         Task<T> Get(string url, string token=null);
-        Task<T> Create(string url, T entity, string token);
+        Task<int> Create(string url, T entity, string token);
         Task<bool> Update(string url, T entity, string token);
         Task<bool> Delete(string url, string token);
         Task<bool> IsExist(string url, string name, string token = null);

@@ -57,10 +57,10 @@ namespace panel.Controllers
         [HttpPost("loginUser")]
         public async Task<IActionResult> LoginUser(UserDto userDto)
         {
+            string trycount = "1";
             var userdata = await _loginRepo.Login(StaticDetail.StaticDetails.login, userDto);
             if (string.IsNullOrEmpty(userdata.Token))
             {
-                //alert
                 return View();
             }
             

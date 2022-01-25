@@ -19,35 +19,43 @@ namespace panel.Repository
             _clientFactory = clientFactory;
         }
 
-        public async Task<T> Create(string url, T entity, string token)
+        public async Task<int> Create(string url, T entity, string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            if (entity != null)
+            try
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                if (entity != null)
+                {
+                    request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+                }
+                else
+                {
+                    return 0;
+                }
+                var client = _clientFactory.CreateClient();
+                if (token != null && token.Length != 0)
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+
+
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    return Convert.ToInt32(jsonString);
+                }
+                else
+                {
+                    return 0;
+                }
             }
-            else
+            catch (Exception e)
             {
-                return null;
+
+                throw new Exception(e.Message);
             }
 
-            var client = _clientFactory.CreateClient();
-            if (token != null && token.Length != 0)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-
-
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<T>(jsonString);
-            }
-            else
-            {
-                return null;
-            }
         }
 
         public async Task<bool> Update(string url, T entity, string token)
@@ -58,16 +66,16 @@ namespace panel.Repository
                 request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
             }
 
-            var client= _clientFactory.CreateClient();
-            if(token != null && token.Length != 0)
+            var client = _clientFactory.CreateClient();
+            if (token != null && token.Length != 0)
             {
-                client.DefaultRequestHeaders.Authorization= new AuthenticationHeaderValue("Bearer", token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
 
-            HttpResponseMessage response= await client.SendAsync(request);
+            HttpResponseMessage response = await client.SendAsync(request);
             if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
-                return true;                
+                return true;
             }
             return false;
         }
@@ -81,7 +89,7 @@ namespace panel.Repository
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
             HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
                 return true;
             }
@@ -126,7 +134,7 @@ namespace panel.Repository
             return null;
         }
 
-        public async Task<bool> IsExist(string url,string name, string token = null)
+        public async Task<bool> IsExist(string url, string name, string token = null)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, url + name);
 

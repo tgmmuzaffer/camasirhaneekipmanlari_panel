@@ -18,8 +18,12 @@ namespace panel.RepoExtension
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IRoleRepo, RoleRepo>();
             services.AddScoped<ILoginRepo, LoginRepo>();
-            services.AddScoped<IPropertyTabRepo, PropertyTabRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
+            services.AddScoped<IPropertyDescRepo, PropertyDescRepo>();
+            services.AddScoped<IProductRepo, ProductRepo>();
+            services.AddScoped<ICategoryRepo, CategoryRepo>();
+            services.AddScoped<IProductPropertyRepo, ProductPropertyRepo>();
+            services.AddScoped<IFileUpload, FileUplaod>();
         }
     }
 }

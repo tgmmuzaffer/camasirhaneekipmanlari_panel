@@ -22,7 +22,7 @@ namespace panel.Controllers
             _roleRepo = roleRepo;
         }
 
-        [HttpGet("panelusers")]
+        [HttpGet(template:"panelusers", Name ="Panel Kullanıcıları")]
         public async Task<IActionResult> PanelUsers()
         {
             HttpContext.Session.TryGetValue("Jwt", out byte[] value);
@@ -36,7 +36,7 @@ namespace panel.Controllers
             return View(resultUser);
         }
 
-        [Route("addpaneluser")]
+        [Route(template:"addpaneluser", Name ="Panel Kullanıcısı Ekle")]
         public async Task<IActionResult> AddPanelUser()
         {
 

@@ -1,0 +1,45 @@
+﻿@using panel.Models.Dtos
+@model PropertyDescription
+@{
+    var productProperties = new List<SelectListItem>();
+    if (ViewBag.ProductPropertyList != null)
+    {
+        productProperties = ViewBag.ProductPropertyList as List<SelectListItem>;
+    }
+}
+<div class="container mt-3">
+    <h1>Özellik Açıklması Güncelle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Özellik Açıklması Güncelle</li>
+        </ol>
+    </nav>
+
+
+    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdatePropertyDescriptionContent" asp-antiforgery="true">
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <div class="form-group mt-3">
+            <label style="display:block"> Özellikler</label>
+            <select class="form-control" asp-for="ProductPropertyId">
+                @foreach (var item in productProperties)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group mt-3">
+            <label asp-for="Name">Özellik Açıklaması</label>
+            <input asp-for="Name" class="form-control" value="@Model.Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+
+</div>
