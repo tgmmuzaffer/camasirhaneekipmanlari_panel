@@ -1,0 +1,60 @@
+﻿@using panel.Models
+@model Contact
+
+<style>
+    iframe{
+        width:inherit !important;
+        height:250px;
+    }
+</style>
+<div class="container mt-3">
+    <h1>İletişim Bilgileri Güncelle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">İletişim Bilgileri Güncelle</li>
+        </ol>
+    </nav>
+
+    @Html.Raw(Model.MapAdress)
+
+    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateContactContent" asp-antiforgery="true">
+        <input type="hidden" class="form-control" asp-for="Id" value="@Model.Id">
+        <div class="form-group mt-2">
+            <label asp-for="Name">İsim</label>
+            <input class="form-control" asp-for="Name" value="@Model.Name" placeholder="İsim">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="Adress">Adres</label>
+            <input class="form-control" asp-for="Adress" value="@Model.Adress" placeholder="Adres">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="MapAdress">IFrame</label>
+            <input asp-for="MapAdress" class="form-control" aria-describedby="iframeHelp" placeholder="IFrame" value="@Model.MapAdress">
+            <small id="iframeHelp" class="form-text text-muted">GoogleMaps ile adres belirlendikten sonra alınan iframe</small>
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="Email">E-Posta</label>
+            <input asp-for="Email" type="email" value="@Model.Email" class="form-control" placeholder="E-Posta">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="Phone1">Tel No 1</label>
+            <input asp-for="Phone1" type="tel" value="@Model.Phone1" class="form-control" placeholder="Tel No 1">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="Phone2">Tel No 2</label>
+            <input asp-for="Phone2" type="tel" value="@Model.Phone2" class="form-control" placeholder="Tel No 2">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="WorkHour1">Çalışma Saati 1</label>
+            <input asp-for="WorkHour1" type="tel" value="@Model.WorkHour1" class="form-control" placeholder="Çalışma Saati 1">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="WorkHour2">Çalışma Saati 2</label>
+            <input asp-for="WorkHour2" type="tel" value="@Model.WorkHour2" class="form-control" placeholder="Çalışma Saati 2">
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+</div>

@@ -38,5 +38,17 @@
         public static string getAllProductProperties = mainUrl + "api/productproperty/getAllProductProperties";
         public static string updateProductProperty = mainUrl + "api/productproperty/updateProductProperty";
         public static string deleteProductProperty = mainUrl + "api/productproperty/deleteProductProperty/";
+        //contact
+        public static string createContact = mainUrl + "api/contact/createContact";
+        public static string getContact = mainUrl + "api/contact/getContact/";
+        public static string getAllContacts = mainUrl + "api/contact/getAllContacts";
+        public static string updateContact = mainUrl + "api/contact/updateContact";
+        public static string deleteContact = mainUrl + "api/contact/deleteContact/";
+        //tag
+        public static string createTag = mainUrl + "api/tag/createTag";
+        public static string getTag = mainUrl + "api/tag/getTag/";
+        public static string getAllTags = mainUrl + "api/tag/getAllTags";
+        public static string updateTag = mainUrl + "api/tag/updateTag";
+        public static string deleteTag = mainUrl + "api/tag/deleteTag/";
     }
 }

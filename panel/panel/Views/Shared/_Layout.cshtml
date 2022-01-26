@@ -20,7 +20,6 @@
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="input-group" id="searchdiv">
-                @*<input class="form-control" type="text" name="searchText" id="searchText" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />*@
                 <a href="/searchpage" class="btn btn-primary" type="button"><i class="fas fa-search"></i></a>
             </div>
         </form>
@@ -109,6 +108,34 @@
                             </nav>
                         </div>
 
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fa fa-plug"></i></div>
+                            İletişim
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseContact" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/addContact">İletişim Bilgisi Ekle</a>
+                            </nav>
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/getAllContacts">İletişim Bilgileri</a>
+                            </nav>
+                        </div>
+
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseTag" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fa fa-bullseye"></i></div>
+                            Taglar
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseTag" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/addTag">Tag Ekle</a>
+                            </nav>
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/getAllTags">Tag Listesi</a>
+                            </nav>
+                        </div>
+
 
                     </div>
                 </div>
@@ -173,9 +200,9 @@
 
         var loc = window.location.pathname;
         if (window.location.pathname == "/searchpage") {
-            $("#searchdiv").css("display","none");
+            $("#searchdiv").css("display", "none");
         }
-        
+
     </script>
 </body>
 </html>

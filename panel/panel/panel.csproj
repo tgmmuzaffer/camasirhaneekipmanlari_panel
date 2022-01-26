@@ -51,7 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\PropertyTab\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
 

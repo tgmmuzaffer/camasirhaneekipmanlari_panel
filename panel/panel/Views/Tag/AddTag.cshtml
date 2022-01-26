@@ -1,0 +1,26 @@
+﻿@using panel.Models
+@model Tag
+
+<div class="container mt-3">
+    <h1>Tag Ekle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Tag Ekle</li>
+        </ol>
+    </nav>
+
+
+    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateTag" asp-antiforgery="true">
+       
+        <div class="form-group mt-3">
+            <label asp-for="Name">Tag Adı</label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+
+</div>
