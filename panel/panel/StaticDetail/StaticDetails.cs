@@ -56,5 +56,12 @@
         public static string getAllBlogs = mainUrl + "api/blog/getAllBlogs";
         public static string updateBlog = mainUrl + "api/blog/updateBlog";
         public static string deleteBlog = mainUrl + "api/blog/deleteBlog/";
+        //blog
+        public static string createSlider = mainUrl + "api/slider/createSlider";
+        public static string getSlider = mainUrl + "api/slider/getSlider/";
+        public static string getAllSliders = mainUrl + "api/slider/getAllSliders";
+        public static string getAllShowingSliders = mainUrl + "api/slider/getAllSliders/";
+        public static string updateSlider = mainUrl + "api/slider/updateSlider";
+        public static string deleteSlider = mainUrl + "api/slider/deleteSlider/";
     }
 }

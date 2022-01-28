@@ -14,16 +14,13 @@ namespace panel.Repository
 {
     public class FileUplaod : IFileUpload
     {
-
         private readonly IHttpClientFactory _clientFactory;
         private readonly IHostingEnvironment _hostingEnvironment;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public FileUplaod(IHttpClientFactory clientFactory, IHostingEnvironment hostingEnvironment, IWebHostEnvironment webHostEnvironment)
+        public FileUplaod(IHttpClientFactory clientFactory, IHostingEnvironment hostingEnvironment)
         {
             _clientFactory = clientFactory;
             _hostingEnvironment = hostingEnvironment;
-            _webHostEnvironment = webHostEnvironment;
         }
         public async Task<string> UploadFile(IFormFile file, string imageName)
         {
@@ -54,10 +51,9 @@ namespace panel.Repository
                     if (whitelist.Any(a => extension.Contains(a)))
                     {
                         //string path = await SaveImage(file, imageName);
-                        string fileName = imageName + ".webp";
                         if (!string.IsNullOrEmpty(imageName))
                         {
-                            string path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + fileName;
+                            string path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + imageName;
                             using (var webPFileStream = new FileStream(path, FileMode.Create))
                             {
                                 using ImageFactory imageFactory = new(preserveExifData: false);
