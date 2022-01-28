@@ -1,0 +1,78 @@
+﻿@using panel.Models.Dtos
+@model List<BlogDto>
+@{
+    int i = 1;
+}
+
+<div class="container mt-3">
+    <h1>Blog Listesi</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Blog Listesi</li>
+        </ol>
+    </nav>
+
+
+    @{ if (Model != null)
+        {
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Blog Listesi
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Başlık</th>
+                                <th>Taglar</th>
+                                <th>Sil</th>
+                                <th>Güncelle</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.Title</td>
+
+                                    <td>@String.Join(", ", item.TagNames)</td>
+                                    <td>
+                                        Sil
+                                        <a href="deleteBlog/@item.Id/@item.Title">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        Güncelle
+                                        <a href="updateBlog/@item.Id">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="text-align:end">
+                <a href="/addBlog" class="btn btn-primary"> Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i></a>
+
+            </div>
+        }
+        else
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    Üzgünüm iletişim kayıtları bulunamadı.
+                </div>
+            </div>
+        }
+    }
+</div>

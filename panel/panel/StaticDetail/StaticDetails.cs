@@ -50,5 +50,11 @@
         public static string getAllTags = mainUrl + "api/tag/getAllTags";
         public static string updateTag = mainUrl + "api/tag/updateTag";
         public static string deleteTag = mainUrl + "api/tag/deleteTag/";
+        //blog
+        public static string createBlog = mainUrl + "api/blog/createBlog";
+        public static string getBlog = mainUrl + "api/blog/getBlog/";
+        public static string getAllBlogs = mainUrl + "api/blog/getAllBlogs";
+        public static string updateBlog = mainUrl + "api/blog/updateBlog";
+        public static string deleteBlog = mainUrl + "api/blog/deleteBlog/";
     }
 }

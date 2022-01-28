@@ -48,29 +48,33 @@ namespace panel.Repository
             };
             try
             {
-                string extension = Path.GetExtension(file.FileName);
-                if (whitelist.Any(a => extension.Contains(a)))
+                if (file != null)
                 {
-                    string path = await SaveImage(file, imageName);
-                    string fileName = imageName + ".webp";
-                    if (!string.IsNullOrEmpty(path))
+                    string extension = Path.GetExtension(file.FileName);
+                    if (whitelist.Any(a => extension.Contains(a)))
                     {
-                        path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + fileName;
-                        using (var webPFileStream = new FileStream(path, FileMode.Create))
+                        //string path = await SaveImage(file, imageName);
+                        string fileName = imageName + ".webp";
+                        if (!string.IsNullOrEmpty(imageName))
                         {
-                            using ImageFactory imageFactory = new(preserveExifData: false);
-                            imageFactory.Load(file.OpenReadStream())
-                                        .Format(new WebPFormat())
-                                        .Quality(80)
-                                        .Save(webPFileStream);
+                            string path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + fileName;
+                            using (var webPFileStream = new FileStream(path, FileMode.Create))
+                            {
+                                using ImageFactory imageFactory = new(preserveExifData: false);
+                                imageFactory.Load(file.OpenReadStream())
+                                            .Format(new WebPFormat())
+                                            .Quality(80)
+                                            .Save(webPFileStream);
+                            }
+                            return path;
                         }
-                        return path;
-                    }
-                    else
-                    {
-                        return string.Empty;
+                        else
+                        {
+                            return string.Empty;
+                        }
                     }
                 }
+
                 return string.Empty;
             }
             catch (Exception e)
@@ -80,28 +84,29 @@ namespace panel.Repository
         }
 
 
-        public async Task<string> SaveImage(IFormFile file, string imageName)
-        {
-            try
-            {
-                string extension = Path.GetExtension(file.FileName);
-                imageName += extension;
-                if (!Directory.Exists(_hostingEnvironment.WebRootPath + "\\images\\"))
-                {
-                    Directory.CreateDirectory(_hostingEnvironment.WebRootPath + "\\images\\");
-                }
-                using (FileStream filestream = File.Create(_hostingEnvironment.WebRootPath + "\\images\\" + imageName))
-                {
-                    file.CopyTo(filestream);
-                    filestream.Flush();
-                    return "\\images\\" + file.FileName;
-                }
-            }
-            catch (Exception)
-            {
+        //public async Task<string> SaveImage(IFormFile file, string imageName)
+        //{
+        //    try
+        //    {
+        //        string extension = Path.GetExtension(file.FileName);
+        //        imageName += extension;
+        //        if (!Directory.Exists(_hostingEnvironment.WebRootPath + "\\images\\"))
+        //        {
+        //            Directory.CreateDirectory(_hostingEnvironment.WebRootPath + "\\images\\");
+        //        }
 
-                return string.Empty;
-            }
-        }
+        //            using (FileStream filestream = File.Create(_hostingEnvironment.WebRootPath + "\\images\\" + imageName))
+        //            {
+        //                file.CopyTo(filestream);
+        //                filestream.Flush();
+        //            }
+        //            return file.FileName;
+
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return string.Empty;
+        //    }
+        //}
     }
 }
