@@ -56,12 +56,18 @@
         public static string getAllBlogs = mainUrl + "api/blog/getAllBlogs";
         public static string updateBlog = mainUrl + "api/blog/updateBlog";
         public static string deleteBlog = mainUrl + "api/blog/deleteBlog/";
-        //blog
+        //slider
         public static string createSlider = mainUrl + "api/slider/createSlider";
         public static string getSlider = mainUrl + "api/slider/getSlider/";
         public static string getAllSliders = mainUrl + "api/slider/getAllSliders";
         public static string getAllShowingSliders = mainUrl + "api/slider/getAllSliders/";
         public static string updateSlider = mainUrl + "api/slider/updateSlider";
         public static string deleteSlider = mainUrl + "api/slider/deleteSlider/";
+        //referance
+        public static string createReferance = mainUrl + "api/referance/createReferance";
+        public static string getReferance = mainUrl + "api/referance/getReferance/";
+        public static string getAllReferances = mainUrl + "api/referance/getAllReferances";
+        public static string updateReferance = mainUrl + "api/referance/updateReferance";
+        public static string deleteReferance = mainUrl + "api/referance/deleteReferance/";
     }
 }

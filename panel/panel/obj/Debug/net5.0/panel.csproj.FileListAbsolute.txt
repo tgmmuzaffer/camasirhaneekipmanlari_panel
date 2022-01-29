@@ -439,3 +439,6 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Slider\AddSlider.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Slider\GetAllSlider.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Slider\UpdateSlider.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Referance\AddReferance.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Referance\GetAllReferance.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Referance\UpdateReferance.cshtml.g.cs

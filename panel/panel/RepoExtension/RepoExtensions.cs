@@ -28,6 +28,7 @@ namespace panel.RepoExtension
             services.AddScoped<ITagRepo, TagRepo>();
             services.AddScoped<IBlogRepo, BlogRepo>();
             services.AddScoped<ISliderRepo, SliderRepo>();
+            services.AddScoped<IReferanceRepo, ReferanceRepo>();
         }
     }
 }
