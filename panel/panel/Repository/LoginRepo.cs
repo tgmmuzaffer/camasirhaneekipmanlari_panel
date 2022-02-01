@@ -23,28 +23,36 @@ namespace panel.Repository
         }
         public async Task<UserDto> Login(string url, UserDto userDto)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            if (userDto != null)
+            try
             {
-                request.Content = new StringContent(
-                    JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json");
-            }
-            else
-            {
-                return new UserDto();
-            }
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                if (userDto != null)
+                {
+                    request.Content = new StringContent(
+                        JsonConvert.SerializeObject(userDto), Encoding.UTF8, "application/json");
+                }
+                else
+                {
+                    return new UserDto();
+                }
 
-            var client = _clientFactory.CreateClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var jsonString =  response.Content.ReadAsStringAsync().Result.ToString();
-                var userdata = JsonConvert.DeserializeObject<UserDto>(jsonString);
-                return userdata;
+                var client = _clientFactory.CreateClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = response.Content.ReadAsStringAsync().Result.ToString();
+                    var userdata = JsonConvert.DeserializeObject<UserDto>(jsonString);
+                    return userdata;
+                }
+                else
+                {
+                    return new UserDto();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return new UserDto();
+
+                throw new Exception(e.Message);
             }
         }
 
@@ -71,6 +79,69 @@ namespace panel.Repository
             else
             {
                 return false;
+            }
+        }
+
+
+        public async Task<UserDto> GetUserDataByName(string url, string name)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, url + name);
+
+                var client = _clientFactory.CreateClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+
+                    if (string.IsNullOrEmpty(jsonString))
+                    {
+                        return new UserDto();
+                    }
+                    var userdata = JsonConvert.DeserializeObject<UserDto>(jsonString);
+                    return userdata;
+                }
+
+                return new UserDto();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+        }
+
+        public async Task<bool> GetByResetPass(string url, User user)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                if (user != null)
+                {
+                    request.Content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+                }
+                else
+                {
+                    return false;
+                }
+                var client = _clientFactory.CreateClient();
+
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
             }
         }
     }

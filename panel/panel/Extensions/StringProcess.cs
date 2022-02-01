@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace panel.RepoExtension
+namespace panel.Extensions
 {
-    public static class ClearString
+    public static class StringProcess
     {
-        public static string Clear(string val)
+        public static string ClearString(string val)
         {
             if (!string.IsNullOrEmpty(val))
             {
@@ -24,6 +24,21 @@ namespace panel.RepoExtension
                 return returnText;
             }
             return null;
+        }
+
+        public static string GenerateString()
+        {
+            Random res = new Random();
+            String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            int size = 8;
+            String randomstring = "";
+
+            for (int i = 0; i < size; i++)
+            {
+                int x = res.Next(str.Length);
+                randomstring = randomstring + str[x];
+            }
+            return randomstring;
         }
     }
 }

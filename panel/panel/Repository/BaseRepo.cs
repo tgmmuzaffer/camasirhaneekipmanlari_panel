@@ -60,24 +60,32 @@ namespace panel.Repository
 
         public async Task<bool> Update(string url, T entity, string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            if (entity != null)
+            try
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+                var request = new HttpRequestMessage(HttpMethod.Post, url);
+                if (entity != null)
+                {
+                    request.Content = new StringContent(JsonConvert.SerializeObject(entity), Encoding.UTF8, "application/json");
+                }
+
+                var client = _clientFactory.CreateClient();
+                if (token != null && token.Length != 0)
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
 
-            var client = _clientFactory.CreateClient();
-            if (token != null && token.Length != 0)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-            {
-                return true;
-            }
-            return false;
         }
         public async Task<bool> Delete(string url, string token)
         {

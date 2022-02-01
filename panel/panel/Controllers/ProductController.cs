@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using panel.Models;
-using panel.RepoExtension;
+using panel.Extensions;
 using panel.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -53,7 +53,7 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            product.ImagePath = ClearString.Clear(product.Name);
+            product.ImagePath = StringProcess.ClearString(product.Name);
             product.ImageName = product.ImagePath;
             string uploadedfilePath =await _fileUpload.UploadFile(product.Imagefile, product.ImagePath);
             if (!string.IsNullOrEmpty(uploadedfilePath))

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using panel.Models;
 using panel.Models.Dtos;
-using panel.RepoExtension;
+using panel.Extensions;
 using panel.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            sliderDto.ImageName = ClearString.Clear(sliderDto.SliderName) + ".webp";
+            sliderDto.ImageName = StringProcess.ClearString(sliderDto.SliderName) + ".webp";
             var uploadedfilePath = await _fileUpload.UploadFile(sliderDto.Image, sliderDto.ImageName);
             if (!string.IsNullOrEmpty(uploadedfilePath))
             {
@@ -90,7 +90,7 @@ namespace panel.Controllers
                 token = Encoding.Default.GetString(value);
             }
 
-            sliderDto.ImageName = ClearString.Clear(sliderDto.SliderName)+ ".webp";
+            sliderDto.ImageName = StringProcess.ClearString(sliderDto.SliderName)+ ".webp";
             if (sliderDto.Image == null)
             {
                 var orjsliderdetails = await _sliderRepo.Get(StaticDetail.StaticDetails.getSlider + sliderDto.Id, token);

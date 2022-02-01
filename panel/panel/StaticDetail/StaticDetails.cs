@@ -3,6 +3,7 @@
     public static class StaticDetails
     {
         public static string mainUrl = "https://localhost:44396/";
+        public static string currentUrl = "https://localhost:44301/";
         //role
         public static string getRoles = mainUrl + "api/role/getRoles";
         //user
@@ -13,7 +14,8 @@
         public static string getAllUser = mainUrl+ "api/user/getAllUser";
         public static string updateUser = mainUrl+ "api/user/updateUser";
         public static string deleteUser = mainUrl+ "api/user/deleteUser/";
-        public static string getByUserName = mainUrl+ "api/user/getByUserName";
+        public static string getByUserName = mainUrl+ "api/user/getByUserName/";
+        public static string resetPassword = mainUrl+ "api/user/resetPassword";
         //propertyDesc
         public static string createPropertyDesc = mainUrl+ "api/propertyDesc/createPropertyDesc";
         public static string getPropertyDesc = mainUrl+ "api/propertyDesc/getPropertyDesc/";

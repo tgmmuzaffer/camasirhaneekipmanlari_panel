@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using panel.Models;
 using panel.Models.Dtos;
-using panel.RepoExtension;
+using panel.Extensions;
 using panel.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -62,7 +62,7 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            blog.ImagePath = ClearString.Clear(blog.Title);
+            blog.ImagePath = StringProcess.ClearString(blog.Title);
             blog.ImageName = blog.ImagePath;
             string uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImagePath);
             if (!string.IsNullOrEmpty(uploadedfilePath))
@@ -125,7 +125,7 @@ namespace panel.Controllers
                 token = Encoding.Default.GetString(value);
             }
 
-            blog.ImageName = ClearString.Clear(blog.Title);
+            blog.ImageName = StringProcess.ClearString(blog.Title);
             if (blog.ImageFile == null)
             {
                 var orjblogdetails = await _blogRepo.Get(StaticDetail.StaticDetails.getBlog + blog.Id, token);
@@ -172,7 +172,7 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            string imgPath = ClearString.Clear(title);
+            string imgPath = StringProcess.ClearString(title);
             bool result = await _blogRepo.Delete(StaticDetail.StaticDetails.deleteBlog + Id, token);
             var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + imgPath + ".webp";
             System.IO.File.Delete(orjpath);

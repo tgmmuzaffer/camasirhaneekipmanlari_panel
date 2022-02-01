@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using panel.Models.Dtos;
-using panel.RepoExtension;
+using panel.Extensions;
 using panel.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            referanceDto.ImageName = ClearString.Clear(referanceDto.Name) + ".webp";
+            referanceDto.ImageName = StringProcess.ClearString(referanceDto.Name) + ".webp";
             var uploadedfilePath = await _fileUpload.UploadFile(referanceDto.Image, referanceDto.ImageName);
             if (!string.IsNullOrEmpty(uploadedfilePath))
             {
@@ -88,7 +88,7 @@ namespace panel.Controllers
                 token = Encoding.Default.GetString(value);
             }
 
-            referanceDto.ImageName = ClearString.Clear(referanceDto.Name) + ".webp";
+            referanceDto.ImageName = StringProcess.ClearString(referanceDto.Name) + ".webp";
             if (referanceDto.Image == null)
             {
                 var orjreferancedetails = await _referanceRepo.Get(StaticDetail.StaticDetails.getReferance + referanceDto.Id, token);
