@@ -26,35 +26,37 @@
                 <div class="card-body">
                     <table id="datatablesSimple">
                         <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>İsim</th>
-                                <th>Sil</th>
-                                <th>Güncelle</th>
+                                <tr>
+                                    <th>No</th>
+                                    <th>İsim</th>
+                                    <th>Görsel</th>
+                                    <th>Sil</th>
+                                    <th>Güncelle</th>
 
-                            </tr>
+                                </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
 
-                                <tr>
-                                    <td>@i</td>
-                                    <td>@item.Name</td>
-                                    <td>
-                                        Sil
-                                        <a href="deleteProduct/@item.Id">
-                                            <i class="far fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        Güncelle
-                                        <a href="updateProduct/@item.Id">
-                                            <i class="far fa-edit"></i>
-                                        </a>
-                                    </td>
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Name</td>
+                                <td><img src="~/images/webpImages/@item.ImagePath" style="height:50px;" /></td>
+                                <td>
+                                    Sil
+                                    <a href="deleteProduct/@item.Id">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    Güncelle
+                                    <a href="updateProduct/@item.Id">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td>
 
-                                </tr>
+                            </tr>
                                 i++;
                             }
                         </tbody>

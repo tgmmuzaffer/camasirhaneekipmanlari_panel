@@ -64,7 +64,7 @@ namespace panel.Controllers
             }
             blog.ImagePath = StringProcess.ClearString(blog.Title);
             blog.ImageName = blog.ImagePath;
-            string uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImagePath);
+            string uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImagePath+".webp");
             if (!string.IsNullOrEmpty(uploadedfilePath))
             {
                 byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);

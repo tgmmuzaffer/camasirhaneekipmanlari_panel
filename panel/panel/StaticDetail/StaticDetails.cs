@@ -11,6 +11,8 @@
         public static string register = mainUrl+"api/user/register";
         public static string registerUser = mainUrl+"api/user/registerUser";
         public static string getUser = mainUrl+ "api/user/getUser/";
+        public static string getMyData = mainUrl+ "api/user/getMyData/";
+        public static string updateMyDataContent = mainUrl+ "api/user/updateMyDataContent";
         public static string getAllUser = mainUrl+ "api/user/getAllUser";
         public static string updateUser = mainUrl+ "api/user/updateUser";
         public static string deleteUser = mainUrl+ "api/user/deleteUser/";

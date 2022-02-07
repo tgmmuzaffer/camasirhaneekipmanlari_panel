@@ -27,6 +27,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Başlık</th>
+                                <th>Görsel</th>
                                 <th>Taglar</th>
                                 <th>Sil</th>
                                 <th>Güncelle</th>
@@ -39,16 +40,15 @@
                                 <tr>
                                     <td>@i</td>
                                     <td>@item.Title</td>
+                                    <td><img src="~/images/webpImages/@item.ImagePath" style="height:50px;"/></td>
 
                                     <td>@String.Join(", ", item.TagNames)</td>
                                     <td>
-                                        Sil
                                         <a href="deleteBlog/@item.Id/@item.Title">
                                             <i class="far fa-trash-alt"></i>
                                         </a>
                                     </td>
                                     <td>
-                                        Güncelle
                                         <a href="updateBlog/@item.Id">
                                             <i class="far fa-edit"></i>
                                         </a>

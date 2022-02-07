@@ -3,25 +3,18 @@
 @{
     ViewData["Title"] = "UpdatePanelUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var roleList = ViewBag.RoleList as List<SelectListItem>;
 }
 
 <div class="container-fluid px-4">
-    <h1 class="mt-4">Kullanıcı Güncelle</h1>
+    <h1 class="mt-4">Bilgilerimi Güncelle</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
-        <li class="breadcrumb-item active">Kullanıcı Güncelle</li>
+        <li class="breadcrumb-item active">Bilgilerimi Güncelle</li>
     </ol>
-    <div class="card mb-4">
-        <div class="card-body">
-            Kullanıcı adı olarak mail girilmeli.
-            <br />
-            Role olarak "Admin" ya da daha kısıtlı yetkilere sahip "Editor" girilebilir
-        </div>
-    </div>
+   
     <div class="col-4">
 
-        <form method="post" enctype="multipart/form-data" asp-action="UpdateUser" asp-antiforgery="true">
+        <form method="post" enctype="multipart/form-data" asp-action="UpdateMyDataContent" asp-antiforgery="true">
             <div class="text-danger" asp-validation-summary="ModelOnly"></div>
             <input type="hidden" asp-for="Id" value="@Model.Id" />
             <div class="form-outline mb-4">
@@ -31,12 +24,17 @@
             </div>
 
             <div class="form-outline mb-4">
-                <label asp-for="Role" class="form-label">Rol</label>
-                <div class="col-12">
-                    @Html.DropDownListFor(m => m.Role.Id, roleList, "-Please select a role-", new { @class = "form-control" })
-                    <span asp-validation-for="Role" class="text-danger"></span>
-                </div>
+                <label asp-for="Password" class="form-label">Güncel Şifre</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
+            <div class="form-outline mb-4">
+                <label asp-for="NewPassword" class="form-label">Yeni Şifre</label>
+                <input asp-for="NewPassword" class="form-control" />
+                <span asp-validation-for="NewPassword" class="text-danger"></span>
+            </div>
+
             <button type="submit" class="btn btn-primary btn-block mb-4">Kaydet</button>
         </form>
     </div>

@@ -14,8 +14,10 @@ namespace panel.Models
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string ResetPassword { get; set; }
+        public string NewPassword { get; set; }
         public string Password { get; set; }
         public int RoleId { get; set; }
         public string Token { get; set; }
+        public string Salt { get; set; }
     }
 }

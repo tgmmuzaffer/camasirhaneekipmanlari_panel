@@ -15,8 +15,8 @@
 
                         <div class="form-floating mb-3">
                             <input asp-for="UserName" class="form-control" type="email" />
-                             <span asp-validation-for="UserName" class="text-danger"></span>
-                             <label for="inputEmail">E-Posta Adresi</label>
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                            <label for="inputEmail">E-Posta Adresi</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input asp-for="Password" class="form-control" type="password" placeholder="Şifre" />
@@ -26,6 +26,9 @@
                         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                             <a class="small" href="/forgotPassword">Şifremi Unuttum</a>
                             <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        <div class="text-center">
+                            <a class="btn btn-light" href="/register">Kayıt Ol</a>
                         </div>
                     </form>
                 </div>

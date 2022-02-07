@@ -16,6 +16,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using panel.Extensions;
+using panel.StaticDetail.Enums;
 
 namespace panel.Controllers
 {
@@ -31,11 +32,11 @@ namespace panel.Controllers
             _loginRepo = loginRepo;
         }
 
+        //anasayfa
         public IActionResult Index()
         {
             HttpContext.Session.TryGetValue("Jwt", out byte[] value);
             string token = string.Empty;
-
             if (value != null && value.Length > 0)
             {
                 return View();
@@ -43,11 +44,7 @@ namespace panel.Controllers
             return RedirectToAction("Login");
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
+        //login sayfasını açar
         [AllowAnonymous]
         [HttpGet("login")]
         public IActionResult Login()
@@ -56,15 +53,15 @@ namespace panel.Controllers
             return View(user);
         }
 
+        //login işlemini yapar
         [AllowAnonymous]
         [HttpPost("loginUser")]
         public async Task<IActionResult> LoginUser(UserDto userDto)
         {
-            string trycount = "1";
             var userdata = await _loginRepo.Login(StaticDetail.StaticDetails.login, userDto);
             if (string.IsNullOrEmpty(userdata.Token))
             {
-                return View();
+                return RedirectToAction("AccessDenied");
             }
 
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -74,10 +71,14 @@ namespace panel.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
             byte[] token = Encoding.UTF8.GetBytes(userdata.Token);
+            byte[] role = Encoding.UTF8.GetBytes(userdata.RoleId.ToString());
             HttpContext.Session.Set("Jwt", token);
+            HttpContext.Session.Set("UserRole", role);
+
             return RedirectToAction("Index", "Home");
         }
 
+        //Hesap oluştur sayfasını açar
         [AllowAnonymous]
         [HttpGet("register")]
         public IActionResult Register()
@@ -85,23 +86,31 @@ namespace panel.Controllers
             return View();
         }
 
+        //ilk hesap oluşturma 
+        [AllowAnonymous]
         [HttpPost("register")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(UserDto userDto)
+        public async Task<IActionResult> RegisterUser(UserDto userDto)
         {
-            UserDto userdata = await _loginRepo.Login(StaticDetail.StaticDetails.login, userDto);
+            if (userDto == null || userDto.RoleId <= 0)
+            {
+                userDto.RoleId = (int)Roles.Role.Editor;
+            }
+
+            UserDto userdata = await _loginRepo.Login(StaticDetail.StaticDetails.register, userDto);
             if (string.IsNullOrEmpty(userdata.Token))
             {
-                return View();
+                return RedirectToAction("Login");
             }
             byte[] token = Encoding.UTF8.GetBytes(userdata.Token);
-            byte[] userole = Encoding.UTF8.GetBytes(userdata.Role.RoleName);
+            byte[] userole = Encoding.UTF8.GetBytes(userdata.RoleId.ToString());
             HttpContext.Session.Set("Jwt", token);
             HttpContext.Session.Set("UserRole", userole);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Login");
         }
 
+        //Çıkış yap 
         [HttpGet("logout")]
         public IActionResult LogOut()
         {
@@ -111,12 +120,28 @@ namespace panel.Controllers
             return RedirectToAction("Index");
         }
 
+        //yetkisiz işlem sayfası
+        [AllowAnonymous]
         [HttpGet("acccessdenied")]
         public IActionResult AccessDenied()
         {
+            int deniedCount = 1;
+            HttpContext.Session.TryGetValue("DENIED", out byte[] value);
+            if (value == null)
+            {
+                byte[] deniedbytes = BitConverter.GetBytes(deniedCount);
+                HttpContext.Session.Set("DENIED", deniedbytes);
+            }
+            else
+            {
+                int newdeniedCount = BitConverter.ToInt32(value) + 1;
+                byte[] newdeniedbytes = BitConverter.GetBytes(newdeniedCount);
+                HttpContext.Session.Set("DENIED", newdeniedbytes);
+            }
             return View();
         }
 
+        //Şifremi unuttum sayfasını açar
         [AllowAnonymous]
         [HttpGet("forgotPassword")]
         public IActionResult ForgotPassword()
@@ -124,6 +149,7 @@ namespace panel.Controllers
             return View();
         }
 
+        //Şifremi yenileme talebi gönderir
         [HttpPost("forgotPasswordContent")]
         public async Task<IActionResult> ForgotPasswordContent(string username)
         {
@@ -132,10 +158,18 @@ namespace panel.Controllers
                 UserDto userdata = await _loginRepo.GetUserDataByName(StaticDetail.StaticDetails.getByUserName, username);
                 string passstring = StringProcess.GenerateString();
                 User user = new()
-                { Id = userdata.Id, Password = userdata.Password, ResetPassword = passstring, RoleId = userdata.RoleId, UserName = userdata.UserName };
+                {
+                    Id = userdata.Id,
+                    Password = null,
+                    ResetPassword = passstring,
+                    RoleId = userdata.RoleId,
+                    UserName = userdata.UserName,
+                    Salt = null
+                };
 
                 var updatedUser = await _loginRepo.Update(StaticDetail.StaticDetails.mainUrl + "api/user/updateResetUser", user);
                 string link = StaticDetail.StaticDetails.currentUrl + "updateuserpass/" + passstring;
+
                 MimeMessage mG = new MimeMessage();
                 BodyBuilder bodyBuilderG = new BodyBuilder();
                 SmtpClient smtpG = new SmtpClient();
@@ -167,13 +201,52 @@ namespace panel.Controllers
             }
         }
 
-        [AllowAnonymous]
-        [HttpPost("updatepassword")]
-        public async Task<IActionResult> UpdatePassword(User user)
+        //oturum sahibinin bilgilerini getirir
+        [Authorize(Roles = "Admin, Editor")]
+        [HttpGet( "updatemydata/{usermail}")]
+        public async Task<IActionResult> UpdateMyData(string usermail)
         {
-            return Ok();
+            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
+            string token = string.Empty;
+            if (value.Length > 0)
+            {
+                token = Encoding.Default.GetString(value);
+            }
+            else
+            {
+                return RedirectToAction("AccessDenied");
+            }
+            
+            var mydata = await _loginRepo.Get(StaticDetail.StaticDetails.getMyData + usermail, token);
+            UserDto userDto = new() { Id = mydata.Id, UserName = mydata.UserName };
+            return View(userDto);
         }
 
+        //oturum sahibi rol hariç diğer bilgilerini günceller
+        [Authorize(Roles = "Admin, Editor")]
+        [HttpPost("updatemydatacontent")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateMyDataContent(User user)
+        {
+            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
+            string token = string.Empty;
+            if (value.Length > 0)
+            {
+                token = Encoding.Default.GetString(value);
+            }
+            bool isUpdated = await _loginRepo.Update(StaticDetail.StaticDetails.updateMyDataContent, user, token);
+            if (isUpdated)
+            {
+                TempData["success"] = "Kullanıcı bilgileri güncellendi ";
+            }
+            else
+            {
+                TempData["fail"] = "Kullanıcı bilgileri güncellenemedi. ";
+            }
+            return RedirectToAction("Index");
+        }
+
+        //Kullanıcıya gelen şifremi unuttum maili ile şifre güncelleme sayfasını açar
         [AllowAnonymous]
         [Route("updateuserpass/{passstring}")]
         public async Task<IActionResult> UpdateUserPass(string passstring)
@@ -183,9 +256,10 @@ namespace panel.Controllers
                 ViewBag.passstring = passstring;
                 return View();
             }
-            return RedirectToRoute("/acccessdenied");
+            return RedirectToAction("/acccessdenied");
         }
 
+        //Şifremi unutum sayfasından gelen datalar ile değiştirme işlemini yapar
         [AllowAnonymous]
         [HttpPost("updatepass")]
         public async Task<IActionResult> UpdatePass(User user)
@@ -202,7 +276,7 @@ namespace panel.Controllers
             {
                 return RedirectToAction("AccessDenied");
             }
-            return RedirectToRoute("Login");
+            return RedirectToAction("Login");
 
         }
 
