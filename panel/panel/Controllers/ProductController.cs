@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using panel.Models.Dtos;
 
 namespace panel.Controllers
 {
@@ -16,14 +18,17 @@ namespace panel.Controllers
         private readonly IProductRepo _productRepo;
         private readonly ICategoryRepo _categoryRepo;
         private readonly IFileUpload _fileUpload;
-        public ProductController(IProductRepo productRepo, IFileUpload fileUpload, ICategoryRepo categoryRepo)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public ProductController(IProductRepo productRepo, IFileUpload fileUpload, ICategoryRepo categoryRepo, IHostingEnvironment hostingEnvironment)
         {
             _productRepo = productRepo;
             _fileUpload = fileUpload;
             _categoryRepo = categoryRepo;
+            _hostingEnvironment = hostingEnvironment;
         }
 
-        [Route(template:"addProduct", Name ="Ürün Ekle")]
+        [Route(template: "addProduct", Name = "Ürün Ekle")]
         public async Task<IActionResult> AddProduct()
         {
             this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
@@ -45,7 +50,7 @@ namespace panel.Controllers
 
         [HttpPost("createProduct")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateProduct([FromForm] Product product)
+        public async Task<IActionResult> CreateProduct([FromForm] ProductDto product)
         {
             this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
             string token = string.Empty;
@@ -55,7 +60,7 @@ namespace panel.Controllers
             }
             product.ImagePath = StringProcess.ClearString(product.Name);
             product.ImageName = product.ImagePath;
-            string uploadedfilePath =await _fileUpload.UploadFile(product.Imagefile, product.ImagePath);
+            string uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImagePath + ".webp");
             if (!string.IsNullOrEmpty(uploadedfilePath))
             {
                 byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
@@ -66,7 +71,7 @@ namespace panel.Controllers
             return RedirectToAction("GetAllProducts");
         }
 
-        [HttpGet(template:"getAllProducts", Name ="Ürün Listesi")]
+        [HttpGet(template: "getAllProducts", Name = "Ürün Listesi")]
         public async Task<IActionResult> GetAllProducts()
         {
             this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
@@ -80,27 +85,77 @@ namespace panel.Controllers
         }
 
         [HttpGet("updateProduct/{Id}")]
-        public async Task<IActionResult> UpdateCategory(int Id)
+        public async Task<IActionResult> UpdateProduct(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
+            var product = await _productRepo.Get(StaticDetail.StaticDetails.getProduct + Id);
+            var categories = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories);
+            List<SelectListItem> categoryList = new List<SelectListItem>();
+            foreach (var item in categories)
             {
-                token = Encoding.Default.GetString(value);
+                categoryList.Add(new SelectListItem()
+                {
+                    Text = item.Name,
+                    Value = item.Id.ToString(),
+                    Selected = (product.CategoryId == (item.Id))
+                });
             }
-            var category = await _categoryRepo.Get(StaticDetail.StaticDetails.getCategory + Id, token);
-            return View(category);
+            ViewBag.Categories = categoryList;
+            return View(product);
         }
 
         [HttpPost("updateProductContent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateProductContent(int Id)
+        public async Task<IActionResult> UpdateProductContent([FromForm] ProductDto productDto)
         {
+            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
+            string token = string.Empty;
+            string uploadedfilePath = string.Empty;
+            if (value.Length > 0)
+            {
+                token = Encoding.Default.GetString(value);
+            }
+
+            productDto.ImageName = StringProcess.ClearString(productDto.Name);
+            if (productDto.ImageFile == null)
+            {
+                var orjproductdetails = await _productRepo.Get(StaticDetail.StaticDetails.getProduct + productDto.Id, token);
+                if ((productDto.ImageName + ".webp") == orjproductdetails.ImagePath)
+                {
+                    var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + orjproductdetails.ImagePath;
+                    byte[] imageArray = System.IO.File.ReadAllBytes(orjpath);
+                    productDto.ImagePath = Convert.ToBase64String(imageArray);
+                }
+                else
+                {
+                    var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + orjproductdetails.ImagePath;
+                    byte[] imageArray = System.IO.File.ReadAllBytes(orjpath);
+                    System.IO.File.Delete(orjpath);
+                    var newpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + productDto.ImageName + ".webp";
+                    System.IO.File.WriteAllBytes(newpath, imageArray);
+                    productDto.ImagePath = Convert.ToBase64String(imageArray);
+                }
+            }
+            else
+            {
+                uploadedfilePath = await _fileUpload.UploadFile(productDto.ImageFile, productDto.ImageName);
+                if (!string.IsNullOrEmpty(uploadedfilePath))
+                {
+                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
+                    productDto.ImagePath = Convert.ToBase64String(imageArray);
+                }
+                else
+                {
+                    productDto.ImageName = string.Empty;
+                }
+            }
+
+            var res = await _productRepo.Update(StaticDetail.StaticDetails.updateProduct, productDto, token);
             return RedirectToAction("getAllProducts");
         }
 
         [Route("deleteProduct/{id}")]
-        public async Task<IActionResult> DeleteCategory(int Id)
+        [Route("deleteProduct/{id}/{title}")]
+        public async Task<IActionResult> DeleteCategory(int Id, string? title)
         {
             HttpContext.Session.TryGetValue("Jwt", out byte[] value);
             string token = string.Empty;
@@ -108,8 +163,15 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
+            //string imgPath = StringProcess.ClearString(title);
+            bool result = await _categoryRepo.Delete(StaticDetail.StaticDetails.deleteProduct + Id, token);
+            if (!string.IsNullOrEmpty(title))
+            {
+                var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + title;
+                System.IO.File.Delete(orjpath);
+            }
+          
 
-            bool result = await _categoryRepo.Delete(StaticDetail.StaticDetails.deleteCategory + Id, token);
             if (result)
             {
                 TempData["success"] = "Ürün silindi.  ";

@@ -1,6 +1,6 @@
-﻿@using panel.Models
-@model Product
-@{ 
+﻿@using panel.Models.Dtos
+@model ProductDto
+@{
     DateTime Currentdate = DateTime.Now;
     var categories = ViewBag.Categories as List<SelectListItem>;
 }
@@ -8,36 +8,36 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 <script src="//cdn.ckeditor.com/4.17.1/full/ckeditor.js"></script>
 <div class="container mt-3">
-    <h1>Ürün Ekle</h1>
+    <h1>Ürün Güncelle</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Ürün Ekle</li>
+            <li class="breadcrumb-item active" aria-current="page">Ürün Güncelle</li>
         </ol>
     </nav>
-    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateProduct" asp-antiforgery="true">
+    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateProductContent" asp-antiforgery="true">
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <input type="hidden" asp-for="CreateDate" value="@Currentdate" />
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
         <div class="form-group mt-3">
             <label asp-for="Name">Ürün Adı</label>
-            <input asp-for="Name" class="form-control">
+            <input asp-for="Name" class="form-control" value="@Model.Name">
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-        @* ürün kategorisi boş ise ürün kategorisi ekleme sayfasına gönder *@
         @if (categories == null)
         {
             <div class="alert alert-warning" role="alert">
                 <h4 class="alert-heading">Uyarı!</h4>
                 <p>Listelenicek kategori bulunamadı. Ürün ekleyebilmek için önce kategori eklemelisiniz.</p>
                 <hr>
-                <a href="/addCategory"> Kategori Ekle </a>
+                <a href="addCategory"> Kategori Ekle </a>
             </div>
         }
         else
         {
 
             <div class="form-group mt-3">
-                <label for="exampleFormControlSelect1">Ürün kategorisi</label>@*asp-for=""  Ürün kategorisi gelicek*@
+                <label for="exampleFormControlSelect1">Ürün kategorisi</label>
                 <select class="form-control" id="categoryId" asp-for="CategoryId">
                     <option value="default" disabled selected>Lütfen bir kategori şeçiniz</option>
                     @foreach (var item in categories)
@@ -51,22 +51,23 @@
 
         <div class="form-group mt-3">
             <label asp-for="ShortDesc">Kısa Açıklama</label>
-            <input asp-for="ShortDesc" class="form-control">
+            <input asp-for="ShortDesc" class="form-control" value="@Model.ShortDesc">
             <span asp-validation-for="ShortDesc" class="text-danger"></span>
         </div>
         <div class="form-group mt-3">
             <label asp-for="Description">Ürün Açıklaması</label>
-            <textarea asp-for="Description" id="Description" class="ckeditor" name="Description" rows="200"></textarea>
+            <textarea asp-for="Description" id="Description" class="ckeditor" name="Description" rows="200">@Model.Description</textarea>
             <span asp-validation-for="ShortDesc" class="text-danger"></span>
         </div>
         <div class="form-group mt-3">
-            <label asp-for="Imagefile" style="display:block;">Ürün Görseli</label>
-            <input asp-for="Imagefile" type="file" class="form-control-file mt-1">
-            <span asp-validation-for="Imagefile" class="text-danger"></span>
+            <label asp-for="ImageFile" style="display:block;">Ürün Görseli</label>
+            <img src="~/images/webpImages/@Model.ImagePath" style="max-width:300px; max-height:300px;" />
+            <input asp-for="ImageFile" type="file" class="form-control-file mt-1">
+            <span asp-validation-for="ImageFile" class="text-danger"></span>
         </div>
         <div class="form-check mt-3" style="display:inline-flex">
             <label class="form-check-label" asp-for="IsPublish">Ürünü Yayından Kaldır</label>
-            <input class="form-check-input" asp-for="IsPublish" type="checkbox" value="true">
+            <input class="form-check-input" asp-for="IsPublish" type="checkbox"  value="@Model.IsPublish">
         </div>
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
             <button type="submit" class="btn btn-primary">Kaydet</button>

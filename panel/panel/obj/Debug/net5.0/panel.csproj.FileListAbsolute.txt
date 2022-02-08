@@ -405,15 +405,19 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Contact\AddContact.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Contact\GetAllContacts.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Contact\UpdateContact.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\AccessDenied.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\ForgotPassword.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\Register.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\UpdateMyData.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\UpdateUserPass.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\ProductProperty\AddProductProperty.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\ProductProperty\GetAllProductProperties.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\ProductProperty\UpdateProductProperty.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Product\AddProduct.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Product\GetAllProducts.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Product\UpdateProduct.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\PropertyDesc\AddPropertyDescription.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\PropertyDesc\GetAllPropertyDescription.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\PropertyDesc\UpdatePropertyDescription.cshtml.g.cs
@@ -445,6 +449,3 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.pdb
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.genruntimeconfig.cache
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.csproj.AssemblyReference.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\UpdateUserPass.cshtml.g.cs
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\AccessDenied.cshtml.g.cs
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Home\UpdateMyData.cshtml.g.cs

@@ -1,10 +1,14 @@
-﻿@using panel.Models
-@model List<Product>
+﻿@using panel.Models.Dtos
+@model List<ProductDto>
 @{
     int i = 1;
 }
-
-
+<style>
+    .tableimage {
+        width: 50%;
+        height: 50%;
+    }
+</style>
 <div class="container mt-3">
     <h1>Ürün Listesi</h1>
     <nav aria-label="breadcrumb">
@@ -13,8 +17,6 @@
             <li class="breadcrumb-item active" aria-current="page">Ürün Listesi</li>
         </ol>
     </nav>
-    @* Ürünlerin küçük resimleri gelicek *@
-    @* Ürünleri soneklenene göre sıralıcaz *@
 
     @{ if (Model != null)
         {
@@ -24,39 +26,52 @@
                     Ürünler
                 </div>
                 <div class="card-body">
-                    <table id="datatablesSimple">
+                    <table id="datatablesSimple" style="text-align:center;">
                         <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>İsim</th>
-                                    <th>Görsel</th>
-                                    <th>Sil</th>
-                                    <th>Güncelle</th>
+                            <tr>
+                                <th style="width:10%">No</th>
+                                <th style="width:30%">İsim</th>
+                                <th style="width:10%">Görsel</th>
+                                <th style="width:20%">Tarih</th>
+                                <th style="width:10%">Yayında mı?</th>
+                                <th style="width:10%">Sil</th>
+                                <th style="width:10%">Güncelle</th>
 
-                                </tr>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
 
-                            <tr>
-                                <td>@i</td>
-                                <td>@item.Name</td>
-                                <td><img src="~/images/webpImages/@item.ImagePath" style="height:50px;" /></td>
-                                <td>
-                                    Sil
-                                    <a href="deleteProduct/@item.Id">
-                                        <i class="far fa-trash-alt"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    Güncelle
-                                    <a href="updateProduct/@item.Id">
-                                        <i class="far fa-edit"></i>
-                                    </a>
-                                </td>
+                                <tr>
+                                    <td style="width:10%; font-size:medium">@i</td>
+                                    <td style="width:30%">@item.Name</td>
+                                    <td style="width:10%"><img class="tableimage" src="~/images/webpImages/@item.ImagePath" /></td>
+                                    <td style="width:20%">@item.CreateDate</td>
 
-                            </tr>
+                                    @{
+                                        if (item.IsPublish)
+                                        {
+                                            <td style="width:10%"><i class="fa fa-check" style="color:#116530; font-size: large"></i></td>
+                                        }
+                                        else
+                                        {
+                                            <td style="width:10%"><i class="fa fa-times" style="color: #CD1818; font-size: large"></i></td>
+                                        }
+                                    }
+
+                                    <td style="width:10%">
+                                        <a href="deleteProduct/@item.Id/@item.ImagePath">
+                                            <i class="far fa-trash-alt" style="color:#CD1818; font-size: large"></i>
+                                        </a>
+                                    </td>
+                                    <td style="width:10%">
+                                        <a href="updateProduct/@item.Id">
+                                            <i class="far fa-edit" style="color:#F3950D; font-size: large"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
                                 i++;
                             }
                         </tbody>

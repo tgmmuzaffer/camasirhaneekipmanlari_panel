@@ -42,16 +42,28 @@
             <textarea asp-for="Content" id="Content" class="ckeditor" name="Content" rows="200"></textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
+        @if (tags == null)
+        {
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Uyarı!</h4>
+                <p>Listelenicek Tag bulunamadı. Blog ekleyebilmek için önce Tag eklemelisiniz.</p>
+                <hr>
+                <a href="/addTag"> Tag Ekle </a>
+            </div>
+        }
+        else
+        {
+            <div class="form-group mt-3">
+                <label style="display:block"> Taglar</label>
+                <select multiple class="selectpicker" asp-for="TagIds" data-none-selected-text="En az bir Tag seçiniz">
+                    @foreach (var item in tags)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        }
 
-        <div class="form-group mt-3">
-            <label style="display:block"> Taglar</label>
-            <select multiple class="selectpicker" asp-for="TagIds" data-none-selected-text="En az bir özellik seçiniz">
-                @foreach (var item in tags)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            </select>
-        </div>
 
         <div class="form-group mt-3">
             <label asp-for="ImageFile" style="display:block;">Blog Görseli</label>

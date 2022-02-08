@@ -1,10 +1,10 @@
 ﻿@using panel.Models.Dtos
 @model PropertyDescription
 @{
-    var productProperties = new List<SelectListItem>();
-    if (ViewBag.ProductPropertyList != null)
+    var productPropDescList = new List<SelectListItem>();
+    if (ViewBag.ProductPropDescList != null)
     {
-        productProperties = ViewBag.ProductPropertyList as List<SelectListItem>;
+        productPropDescList = ViewBag.ProductPropDescList as List<SelectListItem>;
     }
 }
 <div class="container mt-3">
@@ -18,16 +18,31 @@
 
 
     <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreatePropertyDescription" asp-antiforgery="true">
-        <div class="form-group mt-3">
-            <label style="display:block"> Özellikler</label>
-            <select class="form-control" asp-for="ProductPropertyId">
-                <option value="default" selected disabled>En az bir özellik seçiniz</option>
-                @foreach (var item in productProperties)
-                {
-                    <option value="@item.Value">@item.Text</option>
-                }
-            </select>
-        </div>
+        @{
+            if (productPropDescList == null)
+            {
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Uyarı!</h4>
+                    <p>Listelenicek Özellik Açıklaması bulunamadı. ******* ekleyebilmek için önce Özellik Açıklaması eklemelisiniz.</p>
+                    <hr>
+                    <a href="/addProductProperty"> Özellik Ekle </a>
+                </div>
+            }
+            else
+            {
+                <div class="form-group mt-3">
+                    <label style="display:block"> Özellik Açıklamaları</label>
+                    <select class="form-control" asp-for="ProductPropertyId">
+                        <option value="default" selected disabled>En az bir Özellik Açıklaması seçiniz</option>
+                        @foreach (var item in productPropDescList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+            }
+        }
+
 
         <div class="form-group mt-3">
             <label asp-for="Name">Özellik Açıklaması</label>

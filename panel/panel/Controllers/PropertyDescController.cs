@@ -28,12 +28,12 @@ namespace panel.Controllers
                 token = Encoding.Default.GetString(value);
             }
             var result = await _productPropertyRepo.GetList(StaticDetail.StaticDetails.getAllProductProperties, token);
-            List<SelectListItem> productPropertyList = new();
+            List<SelectListItem> productPropDescList = new();
             foreach (var item in result)
             {
-                productPropertyList.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString(), Selected = (item.Id == 1 ? true : false) });
+                productPropDescList.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString(), Selected = (item.Id == 1 ? true : false) });
             }
-            ViewBag.ProductPropertyList = productPropertyList;
+            ViewBag.ProductPropDescList = productPropDescList;
             return View();
         }
 

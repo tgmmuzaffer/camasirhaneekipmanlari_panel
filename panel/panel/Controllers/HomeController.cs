@@ -249,7 +249,7 @@ namespace panel.Controllers
         //Kullanıcıya gelen şifremi unuttum maili ile şifre güncelleme sayfasını açar
         [AllowAnonymous]
         [Route("updateuserpass/{passstring}")]
-        public async Task<IActionResult> UpdateUserPass(string passstring)
+        public IActionResult UpdateUserPass(string passstring)
         {
             if (!string.IsNullOrEmpty(passstring))
             {
