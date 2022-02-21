@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace panel.Repository
 {
-    public class CategoryRepo : BaseRepo<CategoryDto>, ICategoryRepo
+    public class CategoryRepo : BaseRepo<Category>, ICategoryRepo
     {
         public CategoryRepo(IHttpClientFactory clientFactory) : base(clientFactory)
         {

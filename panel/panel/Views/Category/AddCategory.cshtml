@@ -1,14 +1,10 @@
-﻿@using panel.Models.Dtos
-@model CategoryDto
+﻿@using panel.Models
+@model Category
 @{
-    var productProperties = new List<SelectListItem>();
-    if (ViewBag.ProductPropertyList != null)
-    {
-        productProperties = ViewBag.ProductPropertyList as List<SelectListItem>;
-    }
+    var categories = ViewBag.Categories as List<Category>;
+    int i = 1;
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+
 <div class="container mt-3">
     <h1>Kategori Ekle</h1>
     <nav aria-label="breadcrumb">
@@ -18,48 +14,78 @@
         </ol>
     </nav>
 
-
-    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateCategory" asp-antiforgery="true">
+    <button id="btnaddnew" class="btn btn-success" style="text-align:end">
+        Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+    <form id="addnewcat" class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateCategory" asp-antiforgery="true">
 
         <div class="form-group mt-3">
             <label asp-for="Name">Kategori Adı</label>
             <input asp-for="Name" class="form-control">
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
-        
-        @{
-            if (productProperties == null)
-            {
-                <div class="alert alert-warning" role="alert">
-                    <h4 class="alert-heading">Uyarı!</h4>
-                    <p>Listelenicek Özellik bulunamadı. Kategori ekleyebilmek için önce Özellik eklemelisiniz.</p>
-                    <hr>
-                    <a href="/addProductProperty"> Özellik Ekle </a>
-                </div>
-            }
-            else
-            {
-                <div class="form-group mt-3">
-                    <label style="display:block"> Özellikler</label>
-                    <select multiple class="selectpicker" asp-for="ProductPropertyIds" data-none-selected-text="En az bir özellik seçiniz">
-                        @foreach (var item in productProperties)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
-                    </select>
-                </div>
-            }
-        }
-
-
-
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </div>
     </form>
 
+
+    @if (categories != null)
+    {
+        <div class="card mb-4 mt-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Kategoriler
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>İsim</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in categories)
+                        {
+
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Name</td>
+                                <td>
+                                    Sil
+                                    <a href="deleteCategory/@item.Id">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    Güncelle
+                                    <a href="updateCategory/@item.Id">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+
+<script>
+    $('#btnaddnew').css('display', 'block');
+    $('#addnewcat').css('display', 'none');
+    $('#btnaddnew').click(function () {
+        $('#btnaddnew').css('display', 'none');
+        $('#addnewcat').css('display', 'block');
+
+    });
+</script>

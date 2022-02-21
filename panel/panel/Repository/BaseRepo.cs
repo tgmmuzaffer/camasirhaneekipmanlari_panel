@@ -106,21 +106,30 @@ namespace panel.Repository
 
         public async Task<T> Get(string url, string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-
-            var client = _clientFactory.CreateClient();
-            if (token != null && token.Length != 0)
+            try
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+                var client = _clientFactory.CreateClient();
+                if (token != null && token.Length != 0)
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<T>(jsonString);
+                }
+
+                return null;
             }
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            catch (Exception e)
             {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<T>(jsonString);
+                return null;
+
             }
 
-            return null;
         }
 
         public async Task<ICollection<T>> GetList(string url, string token = null)

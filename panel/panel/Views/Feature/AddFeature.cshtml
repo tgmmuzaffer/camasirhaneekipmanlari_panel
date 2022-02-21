@@ -1,0 +1,170 @@
+﻿@using panel.Models
+@model Feature
+@{
+    int i = 1;
+
+    var features = ViewBag.FeatureList as List<Feature>;
+}
+
+<div class="container mt-3">
+    <h1>Adedi Bilgi Ekle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adedi Bilgi Ekle</li>
+        </ol>
+    </nav>
+
+    verieln iism varsa alert vermenin bir yolunu bul
+    <form class="mt-5" method="post" enctype="multipart/form-data">
+        <div class="form-group mt-3">
+            <label asp-for="Name">Adedi Bilgi Adı</label>
+            <input asp-for="Name" class="form-control">
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button id="addnewfeature" type="button" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+    <hr />
+    @if (features != null)
+    {
+        <div class="card mb-4 mt-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Adedi Bilgi Listesi
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>İsim</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="featuretablebody">
+                        @foreach (var item in features)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Name</td>
+                                <td>
+                                    <a href="deleteFeature/@item.Id">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="updateFeature/@item.Id">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="text-align:end">
+            <a href="/addFeature" class="btn btn-primary"> Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i></a>
+
+        </div>
+    }
+
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#addnewfeature").click(function () {
+        var inpt = $("#Name").val();
+        var format = /[ `!@@#$%^&*()_+\-=\[\]{ };':"\\|,.<>\/?~]/;
+
+        if (inpt == "") {
+            alert("Lütfen metni yazın. ");
+        }
+        //else if (format.test(inpt)) {
+        //    alert("Özel karakter yazamazsınız. ");
+        //}
+        else {
+            $.post("createFeature", { featureName: inpt }, function (result) {
+                var jarray = JSON.parse(result);
+                console.log(jarray);
+                if (result != 0) {
+                    $('#featuretablebody').html("");
+                    var count = 0;
+                    $.each(jarray, function (index) {
+                        var name = jarray[index].Name;
+                        var id = jarray[index].Id;
+                        count++;
+                        $("#featuretablebody").append(
+                            `<tr><td>${count}</td>
+                                <td>${name}</td>
+                                <td>
+                                    <a href="deleteFeature/${id}">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="updateFeature/${id}">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td></tr>`
+                        );
+
+                    });
+                }
+                else {
+
+                }
+                
+
+            });
+
+        }
+
+    });
+</script>
+
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+    <script>
+        $('#featureIds').css("display", "none");
+
+
+
+        $("#SubCategoryId").change(function (e) {
+            $("#FeatureIds").html("");
+            if (e.target.value > 0) {
+                var featureUrl = "/getFeaturesBySubCatId/" + parseInt(e.target.value);
+                var features = [];
+                $.get(featureUrl, function (data_features) {
+                    if (data_features != 0) {
+                        $('#featureIds').css("display", "block");
+                        $.each(data_features, function (key_features, value_features) {
+                            features.push(value_features);
+                        });
+
+
+                    }
+                });
+
+            }
+
+
+
+
+
+            var optionsubcategoryId = $('#SubCategoryId').find(':selected').val();
+            if (optionsubcategoryId != null && optionsubcategoryId != undefined) {
+                var subCatUrl = "/getFeaturesBySubCatId/" + optioncategoryId;
+                var subcats = [];
+            }
+        });
+
+    </script>*@

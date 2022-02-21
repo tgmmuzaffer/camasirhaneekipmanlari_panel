@@ -1,0 +1,41 @@
+﻿@using panel.Models
+@model FeatureDescription
+@{
+    var featureList = new List<SelectListItem>();
+    if (ViewBag.FeatureList != null)
+    {
+        featureList = ViewBag.FeatureList as List<SelectListItem>;
+    }
+}
+<div class="container mt-3">
+    <h1> Adedi Bilgi İçeriği Güncelle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> Adedi Bilgi İçeriği Güncelle</li>
+        </ol>
+    </nav>
+
+    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateFeatureDescriptionContent" asp-antiforgery="true">
+
+        <div class="form-group mt-3">
+            <label style="display:block">Adedi Bilgiler</label>
+            <select class="selectpicker" asp-for="FeatureId" data-none-selected-text="Bir Adedi Bilgi seçiniz">
+                @foreach (var item in featureList)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="FeatureDesc"> Adedi Bilgi İçeriği Adı</label>
+            <input asp-for="FeatureDesc" class="form-control" value="@Model.FeatureDesc">
+            <span asp-validation-for="FeatureDesc" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+
+</div>

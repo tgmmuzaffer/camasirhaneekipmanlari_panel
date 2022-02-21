@@ -27,18 +27,6 @@
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
-        @* Tüm özellikler gelicek   *@
-
-        @*
-               Product Tablosuna category Id eklenicek
-            categories tabşlosundan product ıd çıkarılacak
-                product properties tanblosundsan category Id çıkarılacak
-                product property ile category lerin id lerinin tutulduğun bir tablo yapılacak
-
-
-
-        *@
-
         <div class="form-group mt-3">
             <label style="display:block"> Özellikler</label>
             <select multiple class="selectpicker" asp-for="ProductPropertyIds" data-none-selected-text="En az bir özellik seçiniz">

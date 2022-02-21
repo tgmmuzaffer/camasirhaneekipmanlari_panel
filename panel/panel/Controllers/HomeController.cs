@@ -36,9 +36,18 @@ namespace panel.Controllers
         public IActionResult Index()
         {
             HttpContext.Session.TryGetValue("Jwt", out byte[] value);
+            HttpContext.Session.TryGetValue("UserRole", out byte[] rolevalue);
+
             string token = string.Empty;
-            if (value != null && value.Length > 0)
+            string role = string.Empty;
+            if(rolevalue != null && rolevalue.Length > 00)
             {
+                role = Encoding.Default.GetString(rolevalue);
+            }
+            if (value != null && value.Length > 0 && role=="1")
+            {
+
+
                 return View();
             }
             return RedirectToAction("Login");

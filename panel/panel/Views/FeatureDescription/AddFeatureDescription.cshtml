@@ -1,0 +1,125 @@
+﻿@using panel.Models
+@model FeatureDescription
+@{
+    var featureList = new List<SelectListItem>();
+    if (ViewBag.FeatureList != null)
+    {
+        featureList = ViewBag.FeatureList as List<SelectListItem>;
+    }
+
+    int i = 1;
+    var featureDescs = ViewBag.FeatureDescList as List<FeatureDescription>;
+}
+<div class="container mt-3">
+    <h1> Adedi Bilgi İçeriği Ekle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page"> Adedi Bilgi İçeriği Ekle</li>
+        </ol>
+    </nav>
+
+    <button id="btnaddnew" class="btn btn-success" style="text-align:end">
+    Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+    <form id="addnewform" class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateFeatureDescription" asp-antiforgery="true">
+        @{
+            if (featureList == null)
+            {
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Uyarı!</h4>
+                    <p>Listelenicek Adedi Bilgi bulunamadı. Adedi Bilgi İçeriği ekleyebilmek için önce Adedi Bilgi eklemelisiniz.</p>
+                    <hr>
+                    <a href="/addFeature"> Adedi Bilgi Ekle </a>
+                </div>
+            }
+            else
+            {
+                <div class="form-group mt-3 col-lg-6">
+                    <label style="display:block">Adedi Bilgiler</label>
+                    <select class="form-control" asp-for="FeatureId">
+                        <option selected disabled value="default">Bir Adedi Bilgi seçiniz</option>
+
+                        @foreach (var item in featureList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>
+            }
+        }
+        <div class="form-group mt-3 col-lg-6">
+            <label asp-for="FeatureDesc"> Adedi Bilgi İçeriği Adı</label>
+            <input asp-for="FeatureDesc" class="form-control">
+            <span asp-validation-for="FeatureDesc" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+
+    @if (featureDescs != null)
+    {
+        <div class="card mb-4 mt-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Adedi Bilgi İçerikleri
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>İsim</th>
+                            <th>Ait Olduğu Adedi Bilgi</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in featureDescs)
+                        {
+
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.FeatureDesc</td>
+                                <td>@item.Feature.Name</td>
+                                <td>
+                                    <a href="deleteFeatureDescription/@item.Id">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="updateFeatureDescription/@item.Id">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $("#FeatureId").change(function (e) {
+        var selectedtext = $("#FeatureId option:selected").text();
+        $('.dataTable-input').val(selectedtext);
+
+    });
+
+    $('#btnaddnew').css('display', 'block');
+    $('#addnewform').css('display', 'none');
+    $('#btnaddnew').click(function () {
+        $('#btnaddnew').css('display', 'none');
+        $('#addnewform').css('display', 'block');
+
+    });
+</script>

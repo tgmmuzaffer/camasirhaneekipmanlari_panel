@@ -1,0 +1,140 @@
+﻿@using panel.Models
+@model List<Feature>
+@{
+    int i = 1;
+
+    var feature = ViewBag.Feature as Feature;
+    //var subCategoryList = new List<SelectListItem>();
+    //if (ViewBag.SubCategoryList != null)
+    //{
+    //    subCategoryList = ViewBag.SubCategoryList as List<SelectListItem>;
+    //}
+}
+
+<div class="container mt-3">
+    <h1>Adedi Bilgi Güncelle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adedi Bilgi Güncelle</li>
+        </ol>
+    </nav>
+
+    <div id="updatefeatureform">
+        <form class="mt-5" method="post" enctype="multipart/form-data">
+            <input type="hidden" id="Id" name="Id" value="@feature.Id" />
+            @*<div class="form-group mt-3">
+                    <label style="display:block"> Alt Kategori </label>
+                    <select class="selectpicker" asp-for="SubCategories" data-none-selected-text="Alt Kategori seçiniz">
+                        @foreach (var item in subCategoryList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                </div>*@
+
+            <div class="form-group mt-3">
+                <label>Adedi Bilgi Adı</label>
+                <input id="Name" name="Name" class="form-control" value="@feature.Name" />
+            </div>
+
+            <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                <button id="updatefeature" type="button" class="btn btn-primary">Kaydet</button>
+            </div>
+        </form>
+    </div>
+
+    @if (Model != null)
+    {
+        <div class="card mb-4 mt-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Adedi Bilgi Listesi
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>İsim</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="featuretablebody">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Name</td>
+                                <td>
+                                    <a href="deleteFeature/@item.Id">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="updateFeature/@item.Id">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="text-align:end">
+            <a href="/addFeature" class="btn btn-primary"> Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+    }
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $("#updatefeature").click(function () {
+        var inpt = $("#Name").val();
+        var inptid = $("#Id").val();
+        var Id = parseInt(inptid);
+        var format = /[ `!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+
+        if (inpt == "") {
+            alert("Lütfen aramak istediğiniz metni giriniz. ");
+        }
+        //else if (format.test(inpt)) {
+        //    alert("Özel karakter yazamazsınız. ");
+        //}
+        else {
+            $.post("/updateFeatureContent", { inptid: Id, name: inpt }, function (result) {
+                var jarray = JSON.parse(result);
+                if (result != 0) {
+                    $('#updatefeatureform').html("");
+                    $('#featuretablebody').html("");
+                    var count = 0;
+                    $.each(jarray, function (index) {
+                        var name = jarray[index].Name;
+                        var id = jarray[index].Id;
+                        count++;
+                        $("#featuretablebody").append(
+                            `<tr><td>${count}</td>
+                                <td>${name}</td>
+                                <td>
+                                    <a href="deleteFeature/${id}">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="updateFeature/${id}">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td></tr>`
+                        );
+
+                    });
+                }
+            });
+        }
+
+    });
+</script>

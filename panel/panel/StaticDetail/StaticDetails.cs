@@ -19,11 +19,11 @@
         public static string getByUserName = mainUrl+ "api/user/getByUserName/";
         public static string resetPassword = mainUrl+ "api/user/resetPassword";
         //propertyDesc
-        public static string createPropertyDesc = mainUrl+ "api/propertyDesc/createPropertyDesc";
-        public static string getPropertyDesc = mainUrl+ "api/propertyDesc/getPropertyDesc/";
-        public static string getAllPropertyDescs = mainUrl+ "api/propertyDesc/getAllPropertyDescs";
-        public static string updatePropertyDesc = mainUrl+ "api/propertyDesc/updatePropertyDesc";
-        public static string deletePropertyDesc = mainUrl+ "api/propertyDesc/deletePropertyDesc/";
+        //public static string createPropertyDesc = mainUrl+ "api/propertyDesc/createPropertyDesc";
+        //public static string getPropertyDesc = mainUrl+ "api/propertyDesc/getPropertyDesc/";
+        //public static string getAllPropertyDescs = mainUrl+ "api/propertyDesc/getAllPropertyDescs";
+        //public static string updatePropertyDesc = mainUrl+ "api/propertyDesc/updatePropertyDesc";
+        //public static string deletePropertyDesc = mainUrl+ "api/propertyDesc/deletePropertyDesc/";
         //category
         public static string createCategory = mainUrl + "api/category/createCategory";
         public static string getCategory = mainUrl + "api/category/getCategory/";
@@ -37,11 +37,11 @@
         public static string updateProduct = mainUrl + "api/product/updateProduct";
         public static string deleteProduct = mainUrl + "api/product/deleteProduct/";
         //productproperty
-        public static string createProductProperty = mainUrl + "api/productproperty/createProductProperty";
-        public static string getProductProperty = mainUrl + "api/productproperty/getProductProperty/";
-        public static string getAllProductProperties = mainUrl + "api/productproperty/getAllProductProperties";
-        public static string updateProductProperty = mainUrl + "api/productproperty/updateProductProperty";
-        public static string deleteProductProperty = mainUrl + "api/productproperty/deleteProductProperty/";
+        //public static string createProductProperty = mainUrl + "api/productproperty/createProductProperty";
+        //public static string getProductProperty = mainUrl + "api/productproperty/getProductProperty/";
+        //public static string getAllProductProperties = mainUrl + "api/productproperty/getAllProductProperties";
+        //public static string updateProductProperty = mainUrl + "api/productproperty/updateProductProperty";
+        //public static string deleteProductProperty = mainUrl + "api/productproperty/deleteProductProperty/";
         //contact
         public static string createContact = mainUrl + "api/contact/createContact";
         public static string getContact = mainUrl + "api/contact/getContact/";
@@ -73,5 +73,44 @@
         public static string getAllReferances = mainUrl + "api/referance/getAllReferances";
         public static string updateReferance = mainUrl + "api/referance/updateReferance";
         public static string deleteReferance = mainUrl + "api/referance/deleteReferance/";
+        //featureDescription
+        public static string createfeatureDescription = mainUrl + "api/featureDescription/createfeatureDescription";
+        public static string getfeatureDescription = mainUrl + "api/featureDescription/getfeatureDescription/";
+        public static string getAllfeatureDescriptions = mainUrl + "api/featureDescription/getAllfeatureDescriptions";
+        public static string updatefeatureDescription = mainUrl + "api/featureDescription/updatefeatureDescription";
+        public static string deletefeatureDescription = mainUrl + "api/featureDescription/deletefeatureDescription/";
+        //feature
+        public static string createFeature = mainUrl + "api/feature/createFeature";
+        public static string getFeature = mainUrl + "api/feature/getFeature/";
+        public static string getAllFeatures = mainUrl + "api/feature/getAllFeatures";
+        public static string getFeaturesBySubCatId = mainUrl + "api/feature/getFeaturesBySubCatId/";
+        public static string updateFeature = mainUrl + "api/feature/updateFeature";
+        public static string deleteFeature = mainUrl + "api/feature/deleteFeature/";
+        //subcategory
+        public static string createSubCategory = mainUrl + "api/subcategory/createSubCategory";
+        public static string getSubCategory = mainUrl + "api/subcategory/getSubCategory/";
+        public static string getSubCategoryByCatId = mainUrl + "api/subcategory/getSubCategoryByCatId/";
+        public static string getAllSubCategories = mainUrl + "api/subcategory/getAllSubCategories";
+        public static string updateSubCategory = mainUrl + "api/subcategory/updateSubCategory";
+        public static string deleteSubCategory = mainUrl + "api/subcategory/deleteSubCategory/";
+        //prfe
+        //public static string createPrFe = mainUrl + "api/prfe/createPrFe";
+        public static string createMultiplePrFe = mainUrl + "api/prfe/createMultiplePrFe";
+        public static string getPrFe = mainUrl + "api/prfe/getPrFe/";
+        public static string getAllPrFes = mainUrl + "api/prfe/getAllPrFes";
+        public static string updatePrFe = mainUrl + "api/prfe/updatePrFe";
+        public static string deletePrFe = mainUrl + "api/prfe/deletePrFe/";
+        //prfedesc
+        //public static string createFeFedesc = mainUrl + "api/prfedesc/createFeFedesc";
+        public static string createMultiplePrFedesc = mainUrl + "api/prfedesc/createMultiplePrFedesc";
+        public static string getPrFedesc = mainUrl + "api/prfedesc/getPrFedesc/";
+        public static string getAllPrFedescs = mainUrl + "api/prfedesc/getAllPrFedescs";
+        public static string updatePrFedesc = mainUrl + "api/prfedesc/updatePrFedesc";
+        public static string deletePrFedesc = mainUrl + "api/prfedesc/deletePrFedesc/";
+        //fesubcat
+        public static string createupdateFeSubCat = mainUrl + "api/fesubcat/createupdateFeSubCat";
+        public static string getFeSubCat = mainUrl + "api/fesubcat/getFeSubCat/";
+        public static string getAllFeSubCats = mainUrl + "api/fesubcat/getAllFeSubCats";
+        public static string deleteFeSubCat = mainUrl + "api/fesubcat/deleteFeSubCat/";
     }
 }

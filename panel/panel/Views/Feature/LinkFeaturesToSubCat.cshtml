@@ -1,0 +1,105 @@
+﻿@using panel.Models
+@model Feature
+@{
+    var subCategoryList = new List<SelectListItem>();
+    if (ViewBag.SubCategoryList != null)
+    {
+        subCategoryList = ViewBag.SubCategoryList as List<SelectListItem>;
+    }
+}
+
+<div class="container mt-3">
+    <h1>Adedi Bilgi İlişkilendir</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adedi Bilgi İlişkilendir</li>
+        </ol>
+    </nav>
+    <div id="updatefeatureform">
+        <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateCreateFeatureSubCatLinks" asp-antiforgery="true">
+            <input type="hidden" asp-for="FeatureIds" value="" />
+            <div class="form-group mt-3 col-lg-6">
+                <label style="display:block"> Alt Kategoriler </label>
+                <select class="form-control" asp-for="SubCategoryId">
+                    <option selected disabled value="default">Alt Kategori seçiniz</option>
+                    @foreach (var item in subCategoryList)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group mt-3" id="featurecheckdiv" style="text-align:start;">
+
+            </div>
+            <div id="linkfeatureDiv" class="d-flex d-none align-items-center justify-content-between mt-4 mb-0">
+                <button id="linkfeatureButton" class="btn btn-primary" type="submit" onclick="getChecked()">Kaydet</button>
+            </div>
+        </form>
+    </div>
+   
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $('#featureselectdiv').css('display', 'none');
+    $("#SubCategoryId").change(function (e) {
+        $('#featurecheckdiv').html("");
+        if (e.target.value > 0) {
+            var featureUrl = "/getFeaturesBySubCatId/" + parseInt(e.target.value);
+            $.get(featureUrl, function (data_features) {
+
+                console.log(data_features);
+
+                if (data_features != 0) {
+                    $('#featureselectdiv').css("display", "block");
+                    $('#linkfeatureDiv').attr('style', 'display: block !important');
+                    let mainlabel = document.createElement("label");
+                    mainlabel.style.cssText = "display:block";
+                    mainlabel.innerText = "Adedi Bilgiler";
+
+                    var featurecheckdiv = document.getElementById("featurecheckdiv");
+                    featurecheckdiv.appendChild(mainlabel);
+
+                    $.each(data_features, function (key_features, value_features) {
+                        let div = document.createElement("div");
+                        div.className = "form-check form-switch";
+
+
+                        let input = document.createElement("input");
+                        input.className = "form-check-input featureInput";
+                        input.type = "checkbox";
+                        input.id = data_features[key_features].id;
+                        input.value = data_features[key_features].id;
+                        if (data_features[key_features].isChoosen) {
+                            input.checked = true;
+                        }
+
+                        let label = document.createElement("label");
+                        label.className = "form-check-label";
+                        label.innerText = data_features[key_features].name;
+
+                        div.appendChild(label);
+                        div.appendChild(input);
+                        featurecheckdiv.appendChild(div);
+
+                    });
+                }
+            });
+        }
+    });
+
+
+    function getChecked() {
+        var chekedArr = [];
+        $("#featurecheckdiv input[type=checkbox]:checked").each(function () {
+            chekedArr.push(this.value);
+        });
+        var checkedIds = chekedArr.join(",");
+        $('#FeatureIds').val(checkedIds);
+    }
+
+    
+</script>

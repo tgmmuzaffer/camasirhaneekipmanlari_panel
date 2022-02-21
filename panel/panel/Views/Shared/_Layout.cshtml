@@ -1,5 +1,4 @@
-﻿@*@using panel.Models.Dtos
-    @model SearchDto*@
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +43,7 @@
                         @*<div class="sb-sidenav-menu-heading">Kullanıcı İşlemleri</div>*@
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fa fa-users"></i></div>
-                            
+
                             Kullanıcı
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
@@ -69,48 +68,33 @@
                             </nav>
                         </div>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="false" aria-controls="collapseLayouts">
+                        <a class="nav-link collapsed" href="/addCategory">
                             <div class="sb-nav-link-icon"><i class="fas fa-crosshairs"></i></div>
                             Kategori
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseCategory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/addCategory">Kategori Ekle</a>
-                            </nav>
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/getAllCategories">Kategori Listesi</a>
-                            </nav>
-                        </div>
-
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseProductProperty" aria-expanded="false" aria-controls="collapseLayouts">
+                       
+                        <a class="nav-link collapsed" href="/addSubCategory" >
                             <div class="sb-nav-link-icon"><i class="fa fa-tag"></i></div>
-                            Ürün Özellikleri
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            Alt Kategori
                         </a>
-                        <div class="collapse" id="collapseProductProperty" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/addProductProperty">Özellik Ekle</a>
-                            </nav>
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/getAllProductProperties">Özellik Listesi</a>
-                            </nav>
-                        </div>
-
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePropertyDesc" aria-expanded="false" aria-controls="collapseLayouts">
+                        
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFeature" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-info"></i></div>
-                            Özellik Açıklamaları
+                            Adedi Bilgi
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapsePropertyDesc" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <div class="collapse" id="collapseFeature" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/addPropertyDescription">Özellik Açıklaması Ekle</a>
+                                <a class="nav-link" href="/addFeature">Adedi Bilgi Ekle</a>
                             </nav>
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/getAllPropertyDescription">Özellik Açıklamları Listesi</a>
+                                <a class="nav-link" href="/linkFeaturesToSubCat">Adedi Bilgi İlişkilendir</a>
                             </nav>
                         </div>
-
+                        <a class="nav-link collapsed" href="/addFeatureDescription">
+                            <div class="sb-nav-link-icon"><i class="fas fa-info"></i><i class="fas fa-info"></i></div>
+                            Adedi Bilgi İçeriği                            
+                        </a>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fa fa-plug"></i></div>
                             İletişim
@@ -166,7 +150,7 @@
                                 <a class="nav-link" href="/getAllSlider">Slider Listesi</a>
                             </nav>
                         </div>
-                        
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReferance" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                             Referans

@@ -14,13 +14,12 @@ namespace panel.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepo _categoryRepo;
-        private readonly IProductPropertyRepo _productPropertyRepo;
+        private readonly ISubCategoryRepo _subCategoryRepo;
 
-        public CategoryController(ICategoryRepo categoryRepo, IProductPropertyRepo productPropertyRepo)
+        public CategoryController(ICategoryRepo categoryRepo, ISubCategoryRepo subCategoryRepo)
         {
             _categoryRepo = categoryRepo;
-            _productPropertyRepo = productPropertyRepo;
-
+            _subCategoryRepo = subCategoryRepo;
         }
 
         [Route(template:"addCategory", Name ="Kategori Ekle")]
@@ -32,19 +31,16 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            var result = await _productPropertyRepo.GetList(StaticDetail.StaticDetails.getAllProductProperties, token);
-            List<SelectListItem> productPropertyList = new List<SelectListItem>();
-            foreach (var item in result)
-            {
-                productPropertyList.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString(), Selected = (item.Id == 1 ? true : false) });
-            }
-            ViewBag.ProductPropertyList = productPropertyList;
+
+            var categories = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories, token);
+            ViewBag.Categories = categories;
+
             return View();
         }
 
         [HttpPost("createCategory")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCategory([FromForm] CategoryDto category)
+        public async Task<IActionResult> CreateCategory([FromForm] Category category)
         {
             this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
             string token = string.Empty;
@@ -54,20 +50,21 @@ namespace panel.Controllers
             }
             var res = await _categoryRepo.Create(StaticDetail.StaticDetails.createCategory, category, token);
 
-            return RedirectToAction("GetAllCategories");
+            return RedirectToAction("AddCategory");
         }
-        [Route(template:"getAllCategories", Name ="Kategori Listesi")]
-        public async Task<IActionResult> GetAllCategories()
-        {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-            var categories = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories, token);
-            return View(categories);
-        }
+
+        //[Route(template:"getAllCategories", Name ="Kategori Listesi")]
+        //public async Task<IActionResult> GetAllCategories()
+        //{
+        //    this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
+        //    string token = string.Empty;
+        //    if (value.Length > 0)
+        //    {
+        //        token = Encoding.Default.GetString(value);
+        //    }
+        //    var categories = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories, token);
+        //    return View(categories);
+        //}
 
         [HttpGet("updateCategory/{Id}")]
         public async Task<IActionResult> UpdateCategory(int Id)
@@ -78,21 +75,25 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            var category = await _categoryRepo.Get(StaticDetail.StaticDetails.getCategory + Id, token);
-            var result = await _productPropertyRepo.GetList(StaticDetail.StaticDetails.getAllProductProperties, token);
-            List<SelectListItem> productPropertyList = new();
-            foreach (var item in result)
-            {
-                //var a = category.ProductPropertyIds.Contains(item.Id);
-                productPropertyList.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString(), Selected = (category.ProductPropertyIds.Contains(item.Id) ? true : false) });
-            }
-            ViewBag.ProductPropertyList = productPropertyList;
+            var category = await _categoryRepo.Get(StaticDetail.StaticDetails.getCategory + Id, token); 
+            //var subCategories = await _subCategoryRepo.GetList(StaticDetail.StaticDetails.getAllSubCategories, token);
+            //List<SelectListItem> subCatregoryList = new();
+            //foreach (var item in subCategories)
+            //{
+            //    //var a = category.ProductPropertyIds.Contains(item.Id);
+            //    subCatregoryList.Add(new SelectListItem() 
+            //    { Text = item.Name, 
+            //        Value = item.Id.ToString(), 
+            //        Selected = (category.ProductPropertyIds.Contains(item.Id) ? true : false) 
+            //    });
+            //}
+            //ViewBag.ProductPropertyList = productPropertyList;
             return View(category);
         }
 
         [HttpPost("updateCategoryContent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateCategoryContent([FromForm] CategoryDto categoryDto)
+        public async Task<IActionResult> UpdateCategoryContent([FromForm] Category category)
         {
             this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
             string token = string.Empty;
@@ -100,9 +101,9 @@ namespace panel.Controllers
             {
                 token = Encoding.Default.GetString(value);
             }
-            var res = await _categoryRepo.Update(StaticDetail.StaticDetails.updateCategory, categoryDto, token);
+            var res = await _categoryRepo.Update(StaticDetail.StaticDetails.updateCategory, category, token);
 
-            return RedirectToAction("GetAllCategories");
+            return RedirectToAction("AddCategory");
         }
 
         [Route("deleteCategory/{id}")]
@@ -125,7 +126,7 @@ namespace panel.Controllers
                 TempData["fail"] = "Kategori silinirken bir hata oluştu";
             }
 
-            return RedirectToAction("getAllCategories");
+            return RedirectToAction("AddCategory");
         }
     }
 }

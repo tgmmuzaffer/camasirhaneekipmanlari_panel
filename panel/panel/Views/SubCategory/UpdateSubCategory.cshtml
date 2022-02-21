@@ -1,0 +1,44 @@
+﻿@using panel.Models
+@model SubCategory
+@{
+    var categoryList = new List<SelectListItem>();
+    if (ViewBag.CategoryList != null)
+    {
+        categoryList = ViewBag.CategoryList as List<SelectListItem>;
+    }
+}
+
+<div class="container mt-3">
+    <h1>Alt Kategori Ekle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Alt Kategori Ekle</li>
+        </ol>
+    </nav>
+
+
+    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateSubCategoryContent" asp-antiforgery="true">
+
+        <div class="form-group mt-3">
+            <label asp-for="Name">Alt Kategori Adı</label>
+            <input asp-for="Name" class="form-control" value="@Model.Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mt-3">
+            <label style="display:block"> Kategoriler </label>
+            <select class="selectpicker" asp-for="CategoryId" data-none-selected-text="En az bir Kategori seçiniz">
+                @foreach (var item in categoryList)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+
+</div>

@@ -1,0 +1,77 @@
+﻿@using panel.Models
+@model List<FeatureDescription>
+@{
+    int i = 1;
+}
+
+
+<div class="container mt-3">
+    <h1>Adedi Bilgi İçerik Listesi</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Adedi Bilgi İçerik Listesi</li>
+        </ol>
+    </nav>
+
+
+    @{ if (Model != null)
+        {
+            <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table me-1"></i>
+                        Adedi Bilgi İçerikleri
+                    </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>İsim</th>
+                                <th>Ait Olduğu Adedi Bilgi</th>
+                                <th>Sil</th>
+                                <th>Güncelle</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.FeatureDesc</td>
+                                    <td>@item.Feature.Name</td>
+                                    <td>
+                                        <a href="deleteFeatureDescription/@item.Id">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="updateFeatureDescription/@item.Id">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div style="text-align:end">
+                <a href="/addFeatureDescription" class="btn btn-primary"> Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i></a>
+
+            </div>
+        }
+        else
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    Üzgünüm Adedi Bilgi İçerik kayıtları bulunamadı.
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,121 @@
+﻿@using panel.Models
+@model SubCategory
+@{
+    var categoryList = new List<SelectListItem>();
+    if (ViewBag.CategoryList != null)
+    {
+        categoryList = ViewBag.CategoryList as List<SelectListItem>;
+    }
+
+    int i = 1;
+    var subcategories = ViewBag.Subcategories as List<SubCategory>;
+}
+
+<div class="container mt-3">
+    <h1>Alt Kategori Ekle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Alt Kategori Ekle</li>
+        </ol>
+    </nav>
+
+    <button id="btnaddnew" class="btn btn-success" style="text-align:end">
+        Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+
+    <form id="addnewsubcat" class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateSubCategory" asp-antiforgery="true">
+
+        <div class="form-group mt-3">
+            <label asp-for="Name">Alt Kategori Adı</label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        @if (categoryList == null)
+        {
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Uyarı!</h4>
+                <p>Listelenicek Kategori bulunamadı. Alt Kategori ekleyebilmek için önce Kategori eklemelisiniz.</p>
+                <hr>
+                <a href="/addCategory"> Kategori Ekle </a>
+            </div>
+        }
+        else
+        {
+            <div class="form-group mt-3">
+                <label style="display:block"> Kategoriler </label>
+                <select class="form-control" asp-for="CategoryId" data-none-selected-text="En az bir Kategori seçiniz">
+                    @foreach (var item in categoryList)
+                    {
+                        <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        }
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+
+    @if (subcategories != null)
+    {
+        <div class="card mb-4 mt-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                Alt Kategoriler
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>İsim</th>
+                            <th>Kategorisi</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in subcategories)
+                        {
+
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Name</td>
+                                <td>@item.Category.Name</td>
+                                <td>
+                                    Sil
+                                    <a href="deleteSubCategory/@item.Id">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    Güncelle
+                                    <a href="updateSubCategory/@item.Id">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $('#btnaddnew').css('display', 'block');
+    $('#addnewsubcat').css('display', 'none');
+    $('#btnaddnew').click(function () {
+        $('#btnaddnew').css('display', 'none');
+        $('#addnewsubcat').css('display', 'block');
+
+    });
+</script>

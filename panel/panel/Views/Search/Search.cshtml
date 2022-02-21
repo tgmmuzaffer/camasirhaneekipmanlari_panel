@@ -45,13 +45,12 @@
             alert("Lütfen aramak istediğiniz metni giriniz. ");
         }
         else if (format.test(inpt)) {
-            alert("Özel karakter gitremezsiniz. ");
+            alert("Özel karakter yazamazsınız. ");
         }
         else {
             $.post("search", { searchText: inpt }, function (result) {
                 var jarray = JSON.parse(result).SearchResultDtos;
                 $.each(jarray, function (index) {
-                    console.log(index)
                     var url = jarray[index].SearhResultUrl;
                     var name = jarray[index].SearhResultUrlName;
                     $("#searchresult")

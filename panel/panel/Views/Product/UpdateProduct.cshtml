@@ -1,11 +1,13 @@
-﻿@using panel.Models.Dtos
-@model ProductDto
+﻿@using panel.Models
+@model Product
+
 @{
     DateTime Currentdate = DateTime.Now;
     var categories = ViewBag.Categories as List<SelectListItem>;
+    var subcategoryList = ViewBag.SubCategories as List<SelectListItem>;
+    var featureList = ViewBag.Feature as List<Feature>;
+    string style = string.Empty;
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
 <script src="//cdn.ckeditor.com/4.17.1/full/ckeditor.js"></script>
 <div class="container mt-3">
     <h1>Ürün Güncelle</h1>
@@ -18,6 +20,8 @@
     <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateProductContent" asp-antiforgery="true">
         <div class="text-danger" asp-validation-summary="ModelOnly"></div>
         <input type="hidden" asp-for="CreateDate" value="@Currentdate" />
+        <input type="hidden" asp-for="FeatureIds" value="" />
+        <input type="hidden" asp-for="FeatureDescriptionIds" value="" />
         <input type="hidden" asp-for="Id" value="@Model.Id" />
         <div class="form-group mt-3">
             <label asp-for="Name">Ürün Adı</label>
@@ -30,7 +34,7 @@
                 <h4 class="alert-heading">Uyarı!</h4>
                 <p>Listelenicek kategori bulunamadı. Ürün ekleyebilmek için önce kategori eklemelisiniz.</p>
                 <hr>
-                <a href="addCategory"> Kategori Ekle </a>
+                <a href="/addCategory"> Kategori Ekle </a>
             </div>
         }
         else
@@ -48,7 +52,94 @@
                 </select>
             </div>
         }
+        @if (subcategoryList == null)
+        {
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Uyarı!</h4>
+                <p>Listelenicek altkategori bulunamadı. Ürün ekleyebilmek için önce altkategori eklemelisiniz.</p>
+                <hr>
+                <a href="/addSubCategory">Altkategori Ekle </a>
+            </div>
+        }
+        else
+        {
+            <div id="subcatId" class="form-group mt-3">
+                <label>Alt kategorisi</label>
+                <select class="form-control" id="subCategoryId" asp-for="SubCategoryId">
+                    <option value="default" disabled selected>Lütfen bir altkategori şeçiniz</option>
+                    @foreach (var item in subcategoryList)
+                    {
+                        <option value="@item.Value">@item.Text</option>
 
+                    }
+                </select>
+            </div>
+        }
+
+        @{
+
+            //if (Model.Feature != null && Model.Feature.Count > 0)
+            //{
+            if (featureList != null && featureList.Count > 0)
+            {
+                <div id="featureDiv" class="mt-3 p-2" style="border: 1px solid #ced4da; border-radius: 0.25rem; background-color: #F8F8F8;">
+                    <label>Adedi Bilgileri</label>
+                    <hr />
+                    <div id="featurealertId">
+                    </div>
+                    <div id='featId' class='form-group mt-3'>
+                        @*@foreach (var item in Model.Feature)
+                            {*@
+                        @foreach (var item in featureList)
+                        {
+                            var currentFeDEsc = Model.FeatureDescriptions.Where(a => a.FeatureId == item.Id).FirstOrDefault();
+                            style = currentFeDEsc == null ? style = "color: #516BEB;" : style = string.Empty;
+                        <div class="form-group mt-3">
+                            <label style="@style">@item.Name</label>
+                            
+                           
+
+                            @*<button id="@item.Name-plus" type="button" onclick="functionPlus()" class="btn btn-danger btn-sm mb-1" style="float:right; margin-left:5px; margin-right:5px;"><i class="fa fa-plus"></i></button>
+                            <button id="@item.Name" type="button" onclick="functionMinus(this)" class="btn btn-success btn-sm mb-1" style="float:right; margin-left:5px; margin-right:5px;"><i class="fa fa-minus"></i></button>*@
+                            <select style="@style" class="form-control featureSelect">
+                                @if (currentFeDEsc == null)
+                                {
+                                    <option value="default" selected disabled style="">Bir Adedi Bilgi İçeriği seçiniz</option>
+                                }
+
+                                @foreach (var itemFE_desc in item.FeatureDescriptions)
+                                {
+
+                                    if (currentFeDEsc != null)
+                                    {
+                                        if (currentFeDEsc.Id == itemFE_desc.Id)
+                                        {
+                                            <option data-val="@item.Id" disabled selected value="@itemFE_desc.Id">@itemFE_desc.FeatureDesc</option>
+                                        }
+                                    }
+
+
+                                    <option data-val="@item.Id" value="@itemFE_desc.Id">@itemFE_desc.FeatureDesc</option>
+                                }
+
+                            </select>
+                        </div>
+                        }
+
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                        <button id="takeFeature" type="button" class="btn btn-primary">Adedi Bilgileri Al</button>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-primary" role="alert">
+                    <h4 class="alert-heading">Adedi Bilgi Eklenmedi!</h4>
+                    <p>Bu ürüne ait adedi bilgi atanmamıştır. Ürüne adedi bilgi atamak için alt kategoriyi tekrar seçerek gelen menülerden işlemi gerçekleştirebilirsiniz.</p>
+                </div>
+            }
+        }
         <div class="form-group mt-3">
             <label asp-for="ShortDesc">Kısa Açıklama</label>
             <input asp-for="ShortDesc" class="form-control" value="@Model.ShortDesc">
@@ -65,9 +156,9 @@
             <input asp-for="ImageFile" type="file" class="form-control-file mt-1">
             <span asp-validation-for="ImageFile" class="text-danger"></span>
         </div>
-        <div class="form-check mt-3" style="display:inline-flex">
-            <label class="form-check-label" asp-for="IsPublish">Ürünü Yayından Kaldır</label>
-            <input class="form-check-input" asp-for="IsPublish" type="checkbox"  value="@Model.IsPublish">
+        <div class="form-check mt-3">
+            <label class="form-check-label" asp-for="IsPublish">Ürünü Yayınla</label>
+            <input class="form-check-input" asp-for="IsPublish" type="checkbox" value="@Model.IsPublish">
         </div>
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
             <button type="submit" class="btn btn-primary">Kaydet</button>
@@ -75,12 +166,154 @@
     </form>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 <script>
     $(document).ready(function () {
         CKEDITOR.replace('#Description');
     });
 
+    //$('#subcatId').css("display", "none");
+    //$('#featureDiv').css("display", "none");
+    $('#featurealertId').css("display", "none");
+    //$('#takeFeature').css("display", "none");
+    $("#categoryId").change(function () {
+        var optioncategoryId = $('#categoryId').find(':selected').val();
+        if (optioncategoryId != null && optioncategoryId != undefined) {
+            var subCatUrl = "/getSubCategoryByCatId/" + optioncategoryId;
+            var subcats = [];
+            $.get(subCatUrl, function (data) {
+                $("#subcatalertId").html("");
+                if (data == null) {
+                    $("#subcatalertId").append("<div class='alert alert-warning'role='alert'><h4 class='alert-heading'>Uyarı!</h4><p> Listelenicek alt kategori bulunamadı.Ürün ekleyebilmek için önce alt kategori ekleyin ve tekrar kategori seçin.</p><hr><a href='/addSubCategory' target='_blank'>Alt Kategori Ekle </a></div>");
+                }
+
+                $.each(data, function (key, value) {
+                    subcats.push(value);
+                });
+                $('#subcatId').css("display", "block");
+                $("#subCategoryId").html("");
+                $("#subCategoryId").append("<option value='default' disabled selected>Lütfen bir alt kategori şeçiniz</option>");
+                $.each(subcats, function (keysubcats, valuesubcats) {
+                    $("#subCategoryId").append(`<option value=${parseInt(valuesubcats.id)}>${valuesubcats.name}</option>`);
+                });
+            });
+        }
+    });
+
+    $("#subCategoryId").change(function (e) {
+        if (e.target.value > 0) {
+            var featureUrl = "/getFeaturesBySubCatId/" + parseInt(e.target.value);
+            var features = [];
+            $.get(featureUrl, function (data_features) {
+                console.log(data_features);
+                if (data_features == 0) {
+                    $("#featurealertId").html("");
+                    $("#featId").html("");
+                    $('#featureDiv').css("display", "block");
+                    $('#featurealertId').css("display", "block");
+                    $('#takeFeature').css("display", "none");
+
+                    $("#featurealertId").append("<div class='alert alert-warning'role='alert'><h4 class='alert-heading'>Uyarı!</h4><p> Seçilen alt kategoriye ait listelenicek adedi bilgi bulunamadı. Seçilen alt kategoriye ait ürün ekleyebilmek için önce adedi ekleyin ve tekrar alt kategori seçin.</p><hr><a href='/addFeature' target='_blank'>Alt Kategori Ekle </a></div>");
+                }
+                if (data_features != 0) {
+                    $("#featurealertId").html("");
+                    $('#featurealertId').css("display", "none");
+                    $('#featureDiv').css("display", "block");
+                    $('#takeFeature').css("display", "block");
+
+                    $.each(data_features, function (key_features, value_features) {
+                        console.log(data_features[key_features]);
+                        if (data_features[key_features].isChoosen) {
+                            features.push(value_features);
+                        }
+
+                    });
+                    if (features.length == 0) {
+                        $("#featurealertId").html("");
+                        $("#featId").html("");
+                        $('#featureDiv').css("display", "block");
+                        $('#featurealertId').css("display", "block");
+                        $('#takeFeature').css("display", "none");
+
+                        $("#featurealertId").append("<div class='alert alert-warning'role='alert'><h4 class='alert-heading'>Uyarı!</h4><p> Seçilen alt kategoriye ait listelenicek adedi bilgi bulunamadı. Ürüne ait adedi bilgi var ise <a href='/linkFeaturesToSubCat'>buradan<a/> ilişkilendirebilirsiniz.</p></div>");
+                    }
+
+                    $("#featId").html("");
+                    var featId = document.getElementById("featId");
+                    $.each(features, function (index, valuefeatures) {
+                        let div = document.createElement("div");
+                        div.className = "form-group mt-3";
+                        /*div.id*/
+                        let select = document.createElement("select");
+                        select.className = "form-control featureSelect";
+                        /*select.id*/
+                        let label = document.createElement("label");
+                        label.innerText = valuefeatures.name;
+                        function officesList() {
+                            var first_el = document.createElement("option");
+                            first_el.textContent = "Bir Adedi Bilgi İçeriği seçiniz";
+                            first_el.value = "default";
+                            first_el.disabled = "true";
+                            first_el.selected = "true";
+                            select.appendChild(first_el);
+
+                            for (var i = 0; i < valuefeatures.featureDescriptions.length; i++) {
+                                var optn = valuefeatures.featureDescriptions[i];
+                                var el = document.createElement("option");
+                                el.setAttribute("data-val", `${valuefeatures.id}`);
+                                el.textContent = optn.featureDesc;
+                                el.value = optn.id;
+
+                                select.appendChild(el);
+                            }
+                        }
+
+                        officesList();
+
+                        div.appendChild(label);
+                        div.appendChild(select);
+                        featId.appendChild(div);
+
+                    });
+                }
+            });
+        }
+    });
+
+    $("#takeFeature").click(function (e) {
+        var featureIdsList = [];
+        var featureDescriptionIdsList = [];
+        var featArr = $("#featId .featureSelect option:selected").map(function () {
+            var fe = $(this).data("val");
+            if (!isNaN(fe)) {
+                return $(this).data("val").toString();
+            }
+
+        }).get();
+
+        var featureDescIdArr = $('select.featureSelect').map(function () {
+            return this.value;
+        }).get();
+
+        $.each(featArr, function (key, fa) {
+            if (typeof fa == "string" && fa != "0" && !isNaN(fa)) {
+                featureIdsList.push(fa);
+            }
+        });
+
+        $.each(featureDescIdArr, function (key, fda) {
+            if (typeof fda == "string" && fda != "0" && !isNaN(fda)) {
+                featureDescriptionIdsList.push(fda);
+            }
+        });
+
+
+        var featureIds = featureIdsList.join();
+        var featureDescriptionIds = featureDescriptionIdsList.join();
+        $('#FeatureIds').val(featureIds);
+        $('#FeatureDescriptionIds').val(featureDescriptionIds);
+    });
+
+    //function functionMinus(e) {
+    //    $(".featureSelect").find('option').removeAttr("selected");
+    //}
 </script>

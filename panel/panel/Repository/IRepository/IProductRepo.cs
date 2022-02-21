@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace panel.Repository.IRepository
 {
-    public interface IProductRepo : IBaseRepo<ProductDto>
+    public interface IProductRepo : IBaseRepo<Product>
     {
+        //Task<bool> DeleteProduct(string url, Product entity, string token);
     }
 }

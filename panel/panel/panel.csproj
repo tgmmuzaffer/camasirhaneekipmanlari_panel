@@ -6,6 +6,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\ProductProperty\**" />
+    <Compile Remove="Views\PropertyDesc\**" />
+    <Content Remove="Views\ProductProperty\**" />
+    <Content Remove="Views\PropertyDesc\**" />
+    <EmbeddedResource Remove="Views\ProductProperty\**" />
+    <EmbeddedResource Remove="Views\PropertyDesc\**" />
+    <None Remove="Views\ProductProperty\**" />
+    <None Remove="Views\PropertyDesc\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\ProductPropertyController.cs" />
+    <Compile Remove="Controllers\PropertyDescController.cs" />
+    <Compile Remove="Models\ProductProperty.cs" />
+    <Compile Remove="Models\PropertyDescription.cs" />
+    <Compile Remove="Repository\IRepository\IProductPropertyRepo.cs" />
+    <Compile Remove="Repository\IRepository\IPropertyDescRepo.cs" />
+    <Compile Remove="Repository\ProductPropertyRepo.cs" />
+    <Compile Remove="Repository\PropertyDescRepo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Search\Search.cshtml" />
     <None Include="wwwroot\assets\demo\chart-area-demo.js" />
     <None Include="wwwroot\assets\demo\chart-bar-demo.js" />

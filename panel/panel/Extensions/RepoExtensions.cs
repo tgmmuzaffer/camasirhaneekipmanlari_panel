@@ -19,16 +19,22 @@ namespace panel.Extensions
             services.AddScoped<IRoleRepo, RoleRepo>();
             services.AddScoped<ILoginRepo, LoginRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
-            services.AddScoped<IPropertyDescRepo, PropertyDescRepo>();
+            //services.AddScoped<IPropertyDescRepo, PropertyDescRepo>();
             services.AddScoped<IProductRepo, ProductRepo>();
             services.AddScoped<ICategoryRepo, CategoryRepo>();
-            services.AddScoped<IProductPropertyRepo, ProductPropertyRepo>();
+            //services.AddScoped<IProductPropertyRepo, ProductPropertyRepo>();
             services.AddScoped<IFileUpload, FileUplaod>();
             services.AddScoped<IContactRepo, ContactRepo>();
             services.AddScoped<ITagRepo, TagRepo>();
             services.AddScoped<IBlogRepo, BlogRepo>();
             services.AddScoped<ISliderRepo, SliderRepo>();
             services.AddScoped<IReferanceRepo, ReferanceRepo>();
+            services.AddScoped<ISubCategoryRepo, SubCategoryRepo>();
+            services.AddScoped<IFeatureRepo, FeatureRepo >();
+            services.AddScoped<IFeatureDescriptionRepo, FeatureDescriptionRepo>();
+            services.AddScoped<IPr_Fe_RelRepo, Pr_Fe_RelRepo>();
+            services.AddScoped<IFe_FeDesc_RelRepo, Fe_FeDesc_RelRepo>();
+            services.AddScoped<IFe_SubCat_RelRepo, Fe_SubCat_RelRepo>();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace panel.Repository.IRepository
 {
-     public interface ICategoryRepo : IBaseRepo<CategoryDto>
+     public interface ICategoryRepo : IBaseRepo<Category>
     {
     }
 }

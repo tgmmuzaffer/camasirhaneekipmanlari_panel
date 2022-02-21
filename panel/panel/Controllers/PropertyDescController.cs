@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using panel.Models;
+using panel.Models.Dtos;
 using panel.Repository.IRepository;
 using System.Collections.Generic;
 using System.Text;
@@ -63,6 +64,12 @@ namespace panel.Controllers
                 token = Encoding.Default.GetString(value);
             }
             var properties = await _propertyTabRepo.GetList(StaticDetail.StaticDetails.getAllPropertyDescs, token);
+            foreach (var item in properties)
+            {
+                var y = await _propertyTabRepo.Get(StaticDetail.StaticDetails.getProductProperty + item.ProductPropertyId, token);
+                item.ProductPropertyName = y.Name;
+            }
+            PropertyDescription propertyDes = new();
             return View(properties);
         }
 
