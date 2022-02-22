@@ -112,5 +112,8 @@
         public static string getFeSubCat = mainUrl + "api/fesubcat/getFeSubCat/";
         public static string getAllFeSubCats = mainUrl + "api/fesubcat/getAllFeSubCats";
         public static string deleteFeSubCat = mainUrl + "api/fesubcat/deleteFeSubCat/";
+        //log
+        public static string getlogs = mainUrl + "api/log/getlogs/";
+        public static string deletelogs = mainUrl + "api/log/deletelogs";
     }
 }

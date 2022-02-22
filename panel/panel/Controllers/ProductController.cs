@@ -13,7 +13,7 @@ using panel.Models.Dtos;
 
 namespace panel.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductRepo _productRepo;
         private readonly ICategoryRepo _categoryRepo;
@@ -38,12 +38,7 @@ namespace panel.Controllers
         [Route(template: "addProduct", Name = "Ürün Ekle")]
         public async Task<IActionResult> AddProduct()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var categories = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories, token);
 
             List<SelectListItem> categorylist = new List<SelectListItem>();
@@ -59,12 +54,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProduct([FromForm] Product product)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             product.ImageName = StringProcess.ClearString(product.Name);
             string uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName + ".webp");
             if (!string.IsNullOrEmpty(uploadedfilePath))
@@ -117,15 +107,8 @@ namespace panel.Controllers
         [HttpGet(template: "getAllProducts", Name = "Ürün Listesi")]
         public async Task<IActionResult> GetAllProducts()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var products = await _productRepo.GetList(StaticDetail.StaticDetails.getAllProducts, token);
-            //fetaure ve4 feature desc doldurulmadığında yani olmaya n ürünlerde sıfır geliyto
-            //
             return View(products);
         }
 
@@ -176,14 +159,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateProductContent([FromForm] Product product)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            string uploadedfilePath = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             product.ImageName = StringProcess.ClearString(product.Name);
             if (product.ImageFile == null)
             {
@@ -263,20 +239,13 @@ namespace panel.Controllers
         [Route("deleteProduct/{id}/{title}")]
         public async Task<IActionResult> DeleteCategory(int Id, string? title)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-            //string imgPath = StringProcess.ClearString(title);
+            string token = GetToken();
             bool result = await _productRepo.Delete(StaticDetail.StaticDetails.deleteProduct + Id, token);
             if (!string.IsNullOrEmpty(title))
             {
                 var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + title;
                 System.IO.File.Delete(orjpath);
             }
-
 
             if (result)
             {

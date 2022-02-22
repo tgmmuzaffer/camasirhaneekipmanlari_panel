@@ -92,8 +92,8 @@
         else {
             $.post("createFeature", { featureName: inpt }, function (result) {
                 var jarray = JSON.parse(result);
-                console.log(jarray);
                 if (result != 0) {
+                    $('#Name').val("");
                     $('#featuretablebody').html("");
                     var count = 0;
                     $.each(jarray, function (index) {

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace panel.Controllers
 {
-    public class ReferanceController : Controller
+    public class ReferanceController : BaseController
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IReferanceRepo _referanceRepo;
@@ -32,12 +32,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateReferance(ReferanceDto referanceDto)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             referanceDto.ImageName = StringProcess.ClearString(referanceDto.Name) + ".webp";
             var uploadedfilePath = await _fileUpload.UploadFile(referanceDto.Image, referanceDto.ImageName);
             if (!string.IsNullOrEmpty(uploadedfilePath))
@@ -53,12 +48,7 @@ namespace panel.Controllers
         [Route(template: "getAllReferance", Name = "Referans Listesi")]
         public async Task<IActionResult> GetAllReferance()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var result = await _referanceRepo.GetList(StaticDetail.StaticDetails.getAllReferances, token);
             return View(result);
         }
@@ -66,12 +56,7 @@ namespace panel.Controllers
         [HttpGet("updateReferance/{Id}")]
         public async Task<IActionResult> UpdateReferance(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var blog = await _referanceRepo.Get(StaticDetail.StaticDetails.getReferance + Id, token);
             return View(blog);
         }
@@ -80,14 +65,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateReferanceContent([FromForm] ReferanceDto referanceDto)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            string uploadedfilePath = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             referanceDto.ImageName = StringProcess.ClearString(referanceDto.Name) + ".webp";
             if (referanceDto.Image == null)
             {
@@ -125,13 +103,7 @@ namespace panel.Controllers
         [Route("deleteReferance/{id}/{ImageName}")]
         public async Task<IActionResult> DeleteReferance(int Id, string ImageName)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-            //string imgPath = ClearString.Clear(title);
+            string token = GetToken();
             bool result = await _referanceRepo.Delete(StaticDetail.StaticDetails.deleteReferance + Id, token);
             var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + ImageName;
             System.IO.File.Delete(orjpath);

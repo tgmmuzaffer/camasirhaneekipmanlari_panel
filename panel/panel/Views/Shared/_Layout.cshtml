@@ -41,6 +41,33 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         @*<div class="sb-sidenav-menu-heading">Kullanıcı İşlemleri</div>*@
+                        <a class="nav-link collapsed" href="/addCategory">
+                            <div class="sb-nav-link-icon"><i class="fas fa-crosshairs"></i></div>
+                            Kategori
+                        </a>
+                        <a class="nav-link collapsed" href="/addSubCategory">
+                            <div class="sb-nav-link-icon"><i class="fa fa-tag"></i></div>
+                            Alt Kategori
+                        </a>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFeature" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-info"></i></div>
+                            Adedi Bilgi
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseFeature" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/addFeature">Adedi Bilgi Ekle</a>
+                            </nav>
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" href="/linkFeaturesToSubCat">Adedi Bilgi İlişkilendir</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link collapsed" href="/addFeatureDescription">
+                            <div class="sb-nav-link-icon"><i class="fas fa-info"></i><i class="fas fa-info"></i></div>
+                            Adedi Bilgi İçeriği
+                        </a>
+
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fa fa-users"></i></div>
 
@@ -68,33 +95,12 @@
                             </nav>
                         </div>
 
-                        <a class="nav-link collapsed" href="/addCategory">
-                            <div class="sb-nav-link-icon"><i class="fas fa-crosshairs"></i></div>
-                            Kategori
-                        </a>
-                       
-                        <a class="nav-link collapsed" href="/addSubCategory" >
-                            <div class="sb-nav-link-icon"><i class="fa fa-tag"></i></div>
-                            Alt Kategori
-                        </a>
-                        
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseFeature" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-info"></i></div>
-                            Adedi Bilgi
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseFeature" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/addFeature">Adedi Bilgi Ekle</a>
-                            </nav>
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/linkFeaturesToSubCat">Adedi Bilgi İlişkilendir</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="/addFeatureDescription">
-                            <div class="sb-nav-link-icon"><i class="fas fa-info"></i><i class="fas fa-info"></i></div>
-                            Adedi Bilgi İçeriği                            
-                        </a>
+
+
+
+
+
+
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseContact" aria-expanded="false" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fa fa-plug"></i></div>
                             İletişim

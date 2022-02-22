@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace panel.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly IUserRepo _userRepo;
         private readonly IRoleRepo _roleRepo;
@@ -22,31 +22,18 @@ namespace panel.Controllers
             _roleRepo = roleRepo;
         }
 
-        [HttpGet(template:"panelusers", Name ="Panel Kullanıcıları")]
+        [HttpGet(template: "panelusers", Name = "Panel Kullanıcıları")]
         public async Task<IActionResult> PanelUsers()
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             var resultUser = await _userRepo.GetList(StaticDetail.StaticDetails.getAllUser, token);
             return View(resultUser);
         }
 
-        [Route(template:"addpaneluser", Name ="Panel Kullanıcısı Ekle")]
+        [Route(template: "addpaneluser", Name = "Panel Kullanıcısı Ekle")]
         public async Task<IActionResult> AddPanelUser()
         {
-
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             var resultRole = await _roleRepo.GetRoles(StaticDetail.StaticDetails.getRoles, token);
             List<SelectListItem> roleList = new();
             foreach (var item in resultRole)
@@ -60,12 +47,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPanelUser(UserDto userDto)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             userDto.RoleId = userDto.Role.Id;
             userDto.Role = null;
             var result = await _userRepo.Create(StaticDetail.StaticDetails.registerUser, userDto, token);
@@ -75,14 +57,8 @@ namespace panel.Controllers
         [Route("deletepaneluser/{id}")]
         public async Task<IActionResult> DeletePanelUser(int Id)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
-            bool result = await _userRepo.Delete((StaticDetail.StaticDetails.deleteUser)+Id, token);
+            string token = GetToken();
+            bool result = await _userRepo.Delete((StaticDetail.StaticDetails.deleteUser) + Id, token);
             if (result)
             {
                 TempData["success"] = "Kullanıcı silindi.  ";
@@ -98,12 +74,7 @@ namespace panel.Controllers
         [HttpGet("updatepaneluser/{id}")]
         public async Task<IActionResult> UpdatePanelUser(int Id)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var model = await _userRepo.Get((StaticDetail.StaticDetails.getUser) + Id, token);
             var resultRole = await _roleRepo.GetRoles(StaticDetail.StaticDetails.getRoles, token);
             List<SelectListItem> roleList = new();
@@ -120,12 +91,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateUser(UserDto userDto)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             userDto.RoleId = userDto.Role.Id;
             bool result = await _userRepo.Update(StaticDetail.StaticDetails.updateUser, userDto, token);
             if (result)
@@ -140,6 +106,6 @@ namespace panel.Controllers
             return RedirectToAction("PanelUsers");
         }
 
-       
+
     }
 }

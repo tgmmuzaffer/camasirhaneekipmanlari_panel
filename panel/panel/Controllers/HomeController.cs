@@ -21,35 +21,52 @@ using panel.StaticDetail.Enums;
 namespace panel.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ILoginRepo _loginRepo;
-
-        public HomeController(ILogger<HomeController> logger, ILoginRepo loginRepo)
+        private readonly ILogRepo _logRepo;
+        private readonly ICategoryRepo _categoryRepo;
+        public HomeController(ILogger<HomeController> logger, ILoginRepo loginRepo, ILogRepo logRepo, ICategoryRepo categoryRepo)
         {
             _logger = logger;
             _loginRepo = loginRepo;
+            _logRepo = logRepo;
+            _categoryRepo = categoryRepo;
         }
 
         //anasayfa
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            HttpContext.Session.TryGetValue("UserRole", out byte[] rolevalue);
+            //HttpContext.Session.TryGetValue("Jwt", out byte[] value);
+            //HttpContext.Session.TryGetValue("UserRole", out byte[] rolevalue);
 
-            string token = string.Empty;
-            string role = string.Empty;
-            if(rolevalue != null && rolevalue.Length > 00)
+            //string token = string.Empty;
+            //string role = string.Empty;
+            //if(rolevalue != null && rolevalue.Length > 00)
+            //{
+            //    role = Encoding.Default.GetString(rolevalue);
+            //}
+
+            //if (value != null && value.Length > 0 && role=="1")
+            //{
+            //    token = Encoding.Default.GetString(value);
+
+            //}
+            string token = GetToken();
+            string role = GetRole();
+            if (role == "1")
             {
-                role = Encoding.Default.GetString(rolevalue);
+                var loggs = await _logRepo.GetList(StaticDetail.StaticDetails.getlogs, 20, token);
+                return View(loggs);
             }
-            if (value != null && value.Length > 0 && role=="1")
+            else if (role == "2")
             {
-
-
-                return View();
+                var loggs = await _logRepo.GetList(StaticDetail.StaticDetails.getlogs, 5, token);
+                return View(loggs);
             }
+            //var productCount = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories);
+
             return RedirectToAction("Login");
         }
 
@@ -212,7 +229,7 @@ namespace panel.Controllers
 
         //oturum sahibinin bilgilerini getirir
         [Authorize(Roles = "Admin, Editor")]
-        [HttpGet( "updatemydata/{usermail}")]
+        [HttpGet("updatemydata/{usermail}")]
         public async Task<IActionResult> UpdateMyData(string usermail)
         {
             this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
@@ -225,7 +242,7 @@ namespace panel.Controllers
             {
                 return RedirectToAction("AccessDenied");
             }
-            
+
             var mydata = await _loginRepo.Get(StaticDetail.StaticDetails.getMyData + usermail, token);
             UserDto userDto = new() { Id = mydata.Id, UserName = mydata.UserName };
             return View(userDto);
@@ -237,12 +254,14 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateMyDataContent(User user)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            //this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
+            //string token = string.Empty;
+            //if (value.Length > 0)
+            //{
+            //    token = Encoding.Default.GetString(value);
+            //}
+            string token = GetToken();
+
             bool isUpdated = await _loginRepo.Update(StaticDetail.StaticDetails.updateMyDataContent, user, token);
             if (isUpdated)
             {
@@ -287,12 +306,6 @@ namespace panel.Controllers
             }
             return RedirectToAction("Login");
 
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        }        
     }
 }

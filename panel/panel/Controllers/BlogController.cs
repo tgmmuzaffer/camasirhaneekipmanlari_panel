@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace panel.Controllers
 {
 
-    public class BlogController : Controller
+    public class BlogController : BaseController
     {
         private readonly IBlogRepo _blogRepo;
         private readonly ITagRepo _tagRepo;
@@ -36,12 +36,7 @@ namespace panel.Controllers
         public async Task<IActionResult> AddBlog()
         {
 
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var result = await _tagRepo.GetList(StaticDetail.StaticDetails.getAllTags, token);
             List<SelectListItem> tagsList = new List<SelectListItem>();
             foreach (var item in result)
@@ -56,12 +51,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBlog([FromForm] BlogDto blog)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             blog.ImagePath = StringProcess.ClearString(blog.Title);
             blog.ImageName = blog.ImagePath;
             string uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImagePath+".webp");
@@ -78,12 +68,7 @@ namespace panel.Controllers
         [Route(template: "getAllBlogs", Name = "Blog Listesi")]
         public async Task<IActionResult> GetAllBlogs()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var blogs = await _blogRepo.GetList(StaticDetail.StaticDetails.getAllBlogs, token);
             return View(blogs);
         }
@@ -91,12 +76,8 @@ namespace panel.Controllers
         [HttpGet("updateBlog/{Id}")]
         public async Task<IActionResult> UpdateBlog(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
+
             var blog = await _blogRepo.Get(StaticDetail.StaticDetails.getBlog + Id, token);
             var tags = await _tagRepo.GetList(StaticDetail.StaticDetails.getAllTags, token);
            
@@ -117,13 +98,9 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateBlogContent([FromForm] BlogDto blog)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
+           
             string uploadedfilePath = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
 
             blog.ImageName = StringProcess.ClearString(blog.Title);
             if (blog.ImageFile == null)
@@ -166,12 +143,8 @@ namespace panel.Controllers
         [Route("deleteBlog/{id}/{title}")]
         public async Task<IActionResult> DeleteBlog(int Id, string title)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
+
             string imgPath = StringProcess.ClearString(title);
             bool result = await _blogRepo.Delete(StaticDetail.StaticDetails.deleteBlog + Id, token);
             var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + imgPath + ".webp";

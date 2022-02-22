@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace panel.Controllers
 {
-    public class FeatureDescriptionController : Controller
+    public class FeatureDescriptionController : BaseController
     {
         private readonly IFeatureDescriptionRepo _featureDescriptionRepo;
         private readonly IFeatureRepo _featureRepo;
@@ -25,13 +25,7 @@ namespace panel.Controllers
         [Route(template: "addFeatureDescription", Name = "Adedi Bilgi İçeriği")]
         public async Task<IActionResult> AddFeatureDescription()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             var features = await _featureRepo.GetList(StaticDetail.StaticDetails.getAllFeatures, token);
             List<SelectListItem> featureList = new();
             foreach (var item in features)
@@ -49,12 +43,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateFeatureDescription([FromForm] FeatureDescription featureDescription)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var res = await _featureDescriptionRepo.Create(StaticDetail.StaticDetails.createfeatureDescription, featureDescription, token);
 
             return RedirectToAction("AddFeatureDescription");
@@ -76,12 +65,7 @@ namespace panel.Controllers
         [HttpGet("updateFeatureDescription/{Id}")]
         public async Task<IActionResult> UpdateFeatureDescription(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var features = await _featureRepo.GetList(StaticDetail.StaticDetails.getAllFeatures);
             var fetureDescriptions = await _featureDescriptionRepo.Get(StaticDetail.StaticDetails.getfeatureDescription + Id, token);
             List<SelectListItem> featureList = new();
@@ -97,12 +81,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateFeatureDescriptionContent([FromForm] Feature feature)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var res = await _featureRepo.Update(StaticDetail.StaticDetails.updateFeature, feature, token);
 
             return RedirectToAction("AddFeatureDescription");
@@ -111,13 +90,7 @@ namespace panel.Controllers
         [Route("deleteFeatureDescription/{id}")]
         public async Task<IActionResult> DeleteFeatureDescription(int Id)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             bool result = await _featureRepo.Delete(StaticDetail.StaticDetails.deleteFeature + Id, token);
             if (result)
             {

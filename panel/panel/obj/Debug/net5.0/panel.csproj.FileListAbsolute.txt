@@ -904,3 +904,5 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\o
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\panel.pdb
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\panel.genruntimeconfig.cache
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\panel.csproj.AssemblyReference.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\Razor\Views\Error\Ise.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\Razor\Views\Error\Notfound.cshtml.g.cs

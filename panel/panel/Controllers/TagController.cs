@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace panel.Controllers
 {
-    public class TagController : Controller
+    public class TagController : BaseController
     {
         private readonly ITagRepo _tagRepo;
         public TagController(ITagRepo tagRepo)
@@ -26,12 +26,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTag([FromForm] Tag tag)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var res = await _tagRepo.Create(StaticDetail.StaticDetails.createTag, tag, token);
 
             return RedirectToAction("GetAllTags");
@@ -40,12 +35,7 @@ namespace panel.Controllers
         [Route(template: "getAllTags", Name = "Tag Listesi")]
         public async Task<IActionResult> GetAllTags()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var tags = await _tagRepo.GetList(StaticDetail.StaticDetails.getAllTags, token);
             return View(tags);
         }
@@ -53,12 +43,7 @@ namespace panel.Controllers
         [HttpGet("updateTag/{Id}")]
         public async Task<IActionResult> UpdateTag(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var tag = await _tagRepo.Get(StaticDetail.StaticDetails.getTag+ Id, token);
             return View(tag);
         }
@@ -66,12 +51,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateTagContent([FromForm] Tag tag)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var res = await _tagRepo.Update(StaticDetail.StaticDetails.updateTag, tag, token);
 
             return RedirectToAction("GetAllTags");
@@ -80,13 +60,7 @@ namespace panel.Controllers
         [Route("deleteTag/{id}")]
         public async Task<IActionResult> DeleteTag(int Id)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             bool result = await _tagRepo.Delete(StaticDetail.StaticDetails.deleteTag + Id, token);
             if (result)
             {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace panel.Controllers
 {
-    public class SubCategoryController : Controller
+    public class SubCategoryController : BaseController
     {
         private readonly ICategoryRepo _categoryRepo;
         private readonly ISubCategoryRepo _subCategoryRepo;
@@ -25,13 +25,7 @@ namespace panel.Controllers
         [Route(template: "addSubCategory", Name = "Alt Kategori Ekle")]
         public async Task<IActionResult> AddSubCategory()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             var result = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories, token);
             List<SelectListItem> categoryList = new List<SelectListItem>();
             foreach (var item in result)
@@ -50,13 +44,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSubCategory([FromForm] SubCategory subcategory)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             var res = await _subCategoryRepo.Create(StaticDetail.StaticDetails.createSubCategory, subcategory, token);
             return RedirectToAction("AddSubCategory");
         }
@@ -76,13 +64,7 @@ namespace panel.Controllers
         [Route("getSubCategoryByCatId/{Id}")]
         public async Task<IActionResult> GetSubCategory(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             var subcategory = await _subCategoryRepo.GetList(StaticDetail.StaticDetails.getSubCategoryByCatId + Id, token);            
             return Json(subcategory);
         }
@@ -90,13 +72,7 @@ namespace panel.Controllers
         [HttpGet("updateSubCategory/{Id}")]
         public async Task<IActionResult> UpdateSubCategory(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             var categories = await _categoryRepo.GetList(StaticDetail.StaticDetails.getAllCategories, token);
             var subcategory = await _subCategoryRepo.Get(StaticDetail.StaticDetails.getSubCategory + Id, token);
             List<SelectListItem> categoryList = new();
@@ -117,12 +93,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateSubCategoryContent([FromForm] SubCategory subCategory)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var res = await _subCategoryRepo.Update(StaticDetail.StaticDetails.updateSubCategory, subCategory, token);
 
             return RedirectToAction("AddSubCategory");
@@ -131,13 +102,7 @@ namespace panel.Controllers
         [Route("deleteSubCategory/{id}")]
         public async Task<IActionResult> DeleteSubCategory(int Id)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             bool result = await _subCategoryRepo.Delete(StaticDetail.StaticDetails.deleteSubCategory + Id, token);
             if (result)
             {

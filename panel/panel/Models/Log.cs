@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace panel.Models
 {
-    public class ProductProperty : IEntity
+    public class Log
     {
         public int Id { get; set; }
-        public int CategoryId { get; set; }
-        public string Name { get; set; }
-
+        public string Message { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public string Exception { get; set; }
     }
 }

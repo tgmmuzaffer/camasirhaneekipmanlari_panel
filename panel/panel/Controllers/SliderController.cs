@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace panel.Controllers
 {
-    public class SliderController : Controller
+    public class SliderController : BaseController
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ISliderRepo _sliderRepo;
@@ -34,12 +34,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSlider(SliderDto sliderDto)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             sliderDto.ImageName = StringProcess.ClearString(sliderDto.SliderName) + ".webp";
             var uploadedfilePath = await _fileUpload.UploadFile(sliderDto.Image, sliderDto.ImageName);
             if (!string.IsNullOrEmpty(uploadedfilePath))
@@ -55,12 +50,7 @@ namespace panel.Controllers
         [Route(template: "getAllSlider", Name = "Slider Listesi")]
         public async Task<IActionResult> GetAllSlider()
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var result =await _sliderRepo.GetList(StaticDetail.StaticDetails.getAllSliders, token);
             return View(result);
         }
@@ -68,12 +58,7 @@ namespace panel.Controllers
         [HttpGet("updateSlider/{Id}")]
         public async Task<IActionResult> UpdateSlider(int Id)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
+            string token = GetToken();
             var blog = await _sliderRepo.Get(StaticDetail.StaticDetails.getSlider + Id, token);
             return View(blog);
         }
@@ -82,14 +67,7 @@ namespace panel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateSliderContent([FromForm] SliderDto sliderDto)
         {
-            this.HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            string uploadedfilePath = string.Empty;
-            if (value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-
+            string token = GetToken();
             sliderDto.ImageName = StringProcess.ClearString(sliderDto.SliderName)+ ".webp";
             if (sliderDto.Image == null)
             {
@@ -127,13 +105,7 @@ namespace panel.Controllers
         [Route("deleteSlider/{id}/{ImageName}")]
         public async Task<IActionResult> DeleteBlog(int Id, string ImageName)
         {
-            HttpContext.Session.TryGetValue("Jwt", out byte[] value);
-            string token = string.Empty;
-            if (value != null && value.Length > 0)
-            {
-                token = Encoding.Default.GetString(value);
-            }
-            //string imgPath = ClearString.Clear(title);
+            string token = GetToken();
             bool result = await _sliderRepo.Delete(StaticDetail.StaticDetails.deleteSlider + Id, token);
             var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + ImageName;
             System.IO.File.Delete(orjpath);

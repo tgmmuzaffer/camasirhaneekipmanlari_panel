@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace panel.Controllers
 {
-    public class SearchController : Controller
+    public class SearchController : BaseController
     {
         private readonly IActionDescriptorCollectionProvider _actionDescriptorCollectionProvider;
 

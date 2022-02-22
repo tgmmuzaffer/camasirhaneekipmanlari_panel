@@ -62,6 +62,23 @@ namespace panel
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
+                await next();
+                if (context.Response.StatusCode == 404)
+                {
+                    var routeNF = "notfound";
+                    context.Request.Path = routeNF;
+                    await next();
+                }
+                else if (context.Response.StatusCode == 500)
+                {
+                    var routeISE = "ise";
+                    context.Request.Path = routeISE;
+                    await next();
+                }
+            });
             app.UseStaticFiles();
 
             app.UseRouting();

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace panel.Repository.IRepository
 {
-    public interface IProductPropertyRepo : IBaseRepo<ProductProperty>
+    public interface ILogRepo 
     {
+        Task<bool> Delete(string url, string token);
+        Task<ICollection<Log>> GetList(string url,int count,  string token);
     }
 }

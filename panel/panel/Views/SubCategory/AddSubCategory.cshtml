@@ -26,11 +26,7 @@
 
     <form id="addnewsubcat" class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateSubCategory" asp-antiforgery="true">
 
-        <div class="form-group mt-3">
-            <label asp-for="Name">Alt Kategori Adı</label>
-            <input asp-for="Name" class="form-control">
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
+
         @if (categoryList == null)
         {
             <div class="alert alert-warning" role="alert">
@@ -52,7 +48,11 @@
                 </select>
             </div>
         }
-
+        <div class="form-group mt-3">
+            <label asp-for="Name">Alt Kategori Adı</label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </div>
