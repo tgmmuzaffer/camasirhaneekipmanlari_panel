@@ -51,8 +51,7 @@ namespace panel.Repository
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                return new UserDto();
             }
         }
 
@@ -107,7 +106,7 @@ namespace panel.Repository
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                return new UserDto();
             }
 
         }
@@ -140,8 +139,7 @@ namespace panel.Repository
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                return false;
             }
         }
     }

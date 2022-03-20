@@ -43,35 +43,44 @@
                             @foreach (var item in Model)
                             {
 
-                                <tr>
-                                    <td style="width:10%; font-size:medium">@i</td>
-                                    <td style="width:30%">@item.Name</td>
+                            <tr>
+                                <td style="width:10%; font-size:medium">@i</td>
+                                <td style="width:30%">@item.Name</td>
+                                @if (!string.IsNullOrEmpty(item.ImagePath))
+                                {
                                     <td style="width:10%"><img class="tableimage" src="~/images/webpImages/@item.ImagePath" /></td>
-                                    <td style="width:20%">@item.CreateDate</td>
 
-                                    @{
-                                        if (item.IsPublish)
-                                        {
-                                            <td style="width:10%"><i class="fa fa-check" style="color:#116530; font-size: large"></i></td>
-                                        }
-                                        else
-                                        {
-                                            <td style="width:10%"><i class="fa fa-times" style="color: #CD1818; font-size: large"></i></td>
-                                        }
+                                }
+                                else
+                                {
+                                    <td style="width:10%"><img class="tableimage" src="~/images/webpImages/deafult.webp" /></td>
+
+                                }
+                                <td style="width:20%">@item.CreateDate</td>
+
+                                @{
+                                    if (item.IsPublish)
+                                    {
+                                        <td style="width:10%"><i class="fa fa-check" style="color:#116530; font-size: large"></i></td>
                                     }
+                                    else
+                                    {
+                                        <td style="width:10%"><i class="fa fa-times" style="color: #CD1818; font-size: large"></i></td>
+                                    }
+                                }
 
-                                    <td style="width:10%">
-                                        <a href="deleteProduct/@item.Id/@item.ImagePath">
-                                            <i class="far fa-trash-alt" style="color:#CD1818; font-size: large"></i>
-                                        </a>
-                                    </td>
-                                    <td style="width:10%">
-                                        <a href="updateProduct/@item.Id">
-                                            <i class="far fa-edit" style="color:#F3950D; font-size: large"></i>
-                                        </a>
-                                    </td>
+                                <td style="width:10%">
+                                    <a href="deleteProduct/@item.Id/@item.ImagePath">
+                                        <i class="far fa-trash-alt" style="color:#CD1818; font-size: large"></i>
+                                    </a>
+                                </td>
+                                <td style="width:10%">
+                                    <a href="updateProduct/@item.Id">
+                                        <i class="far fa-edit" style="color:#F3950D; font-size: large"></i>
+                                    </a>
+                                </td>
 
-                                </tr>
+                            </tr>
                                 i++;
                             }
                         </tbody>

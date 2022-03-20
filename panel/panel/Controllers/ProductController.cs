@@ -56,10 +56,10 @@ namespace panel.Controllers
         {
             string token = GetToken();
             product.ImageName = StringProcess.ClearString(product.Name);
-            string uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName + ".webp");
-            if (!string.IsNullOrEmpty(uploadedfilePath))
+            string[] uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName);
+            if (uploadedfilePath.Length != 0)
             {
-                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
+                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
                 product.ImagePath = Convert.ToBase64String(imageArray);
             }
 
@@ -141,7 +141,7 @@ namespace panel.Controllers
             List<Feature> featureList = new();
             var features = await _featureRepo.GetList(StaticDetail.StaticDetails.getFeaturesBySubCatId + Id);
             var fe_subCatRel = await _fe_SubCat_RelRepo.GetList(StaticDetail.StaticDetails.getAllFeSubCats);
-            var rel_IdList = fe_subCatRel.Where(a => a.SubCategoryId == Id).Select(b => b.FeatureId).ToList();
+            var rel_IdList = fe_subCatRel.Where(a => a.SubCategoryId == product.SubCategoryId).Select(b => b.FeatureId).ToList();
             foreach (var item in features)
             {
                 if (rel_IdList.Any(a => a == item.Id))
@@ -182,10 +182,10 @@ namespace panel.Controllers
             }
             else
             {
-                uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName);
-                if (!string.IsNullOrEmpty(uploadedfilePath))
+               string[] uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName + ".webp");
+                if (uploadedfilePath.Length != 0)
                 {
-                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
+                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
                     product.ImagePath = Convert.ToBase64String(imageArray);
                 }
                 else
@@ -214,7 +214,7 @@ namespace panel.Controllers
                 product.Feature = featureList;
                 product.FeatureDescriptions = featureDescriptionList;
                 var prodresult = await _productRepo.Update(StaticDetail.StaticDetails.updateProduct, product, token);
-                if (prodresult)
+                if (!prodresult)
                 {
                     TempData["fail"] = "Ürün güncellenirken bir hata oluştu";
                     return RedirectToAction("GetAllProducts");

@@ -57,7 +57,6 @@
             else {
                 $.post("forgotPasswordContent", { username: inpt }, function (result) {
 
-                    console.log(result);
                     if (result == 0) {
                         $("#userName").val("");
                         //$("#userName").text("");

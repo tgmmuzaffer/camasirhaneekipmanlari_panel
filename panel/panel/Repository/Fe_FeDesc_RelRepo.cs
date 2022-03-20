@@ -52,8 +52,7 @@ namespace panel.Repository
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                return false;
             }
         }
     }

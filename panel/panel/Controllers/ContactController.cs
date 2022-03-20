@@ -17,9 +17,15 @@ namespace panel.Controllers
             _contactRepo = contactRepo;
         }
         [Route(template:"addContact", Name ="İletişim Ekle")]
-        public IActionResult AddContact()
+        public async Task<IActionResult> AddContact()
         {
-            return View();
+            var contact = await _contactRepo.Get(StaticDetail.StaticDetails.getContact);
+            if (contact == null)
+            {
+                return View();
+            }
+
+            return RedirectToAction("UpdateContact");
         }
 
         [HttpPost]
@@ -28,22 +34,28 @@ namespace panel.Controllers
         {
             string token = GetToken();
             var res = await _contactRepo.Create(StaticDetail.StaticDetails.createContact, contact, token);
-            return RedirectToAction("GetAllContacts");
+            return RedirectToAction("AddContact");
         }
 
-        [Route(template:"getAllContacts", Name ="İletişim")]
-        public async Task<IActionResult> GetAllContacts()
-        {
-            string token = GetToken();
-            var contact = await _contactRepo.GetList(StaticDetail.StaticDetails.getAllContacts, token);
-            return View(contact);
-        }
+        //[Route(template:"getAllContacts", Name ="İletişim")]
+        //public async Task<IActionResult> GetAllContacts()
+        //{
+        //    string token = GetToken();
+        //    var contact = await _contactRepo.GetList(StaticDetail.StaticDetails.getAllContacts, token);
+        //    return View(contact);
+        //}
 
-        [HttpGet("updateContact/{Id}")]
-        public async Task<IActionResult> UpdateContact(int Id)
+        //[Route(template:"getContact", Name ="İletişim")]
+        //public async Task<IActionResult> GetContact()
+        //{
+        //    var contact = await _contactRepo.Get(StaticDetail.StaticDetails.getContact);
+        //    return View(contact);
+        //}
+
+        [HttpGet("updateContact")]
+        public async Task<IActionResult> UpdateContact()
         {
-            string token = GetToken();
-            var contact = await _contactRepo.Get(StaticDetail.StaticDetails.getContact + Id, token);
+            var contact = await _contactRepo.Get(StaticDetail.StaticDetails.getContact);
             return View(contact);
         }
 
@@ -53,7 +65,7 @@ namespace panel.Controllers
         {
             string token = GetToken();
             var res = await _contactRepo.Update(StaticDetail.StaticDetails.updateContact, contact, token);
-            return RedirectToAction("GetAllContacts");
+            return RedirectToAction("AddContact");
         }
 
         [Route("deleteContact/{id}")]
@@ -70,7 +82,7 @@ namespace panel.Controllers
                 TempData["fail"] = "İletişim bilgileri silinirken bir hata oluştu";
             }
 
-            return RedirectToAction("GetAllContacts");
+            return RedirectToAction("AddContact");
         }
     }
 }

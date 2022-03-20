@@ -33,14 +33,8 @@
         </div>
 
         <div class="form-group mt-3">
-            <label asp-for="ShortDesc">Kısa Açıklma</label>
-            <input asp-for="ShortDesc" class="form-control">
-            <span asp-validation-for="ShortDesc" class="text-danger"></span>
-        </div>
-
-        <div class="form-group mt-3">
-            <label asp-for="Content">Ürün Açıklaması</label>
-            <textarea asp-for="Content" id="Content" class="ckeditor" name="Content" rows="200"></textarea>
+            <label asp-for="Content">Blog İçeriği</label>
+            <textarea asp-for="Content" id="Content" class="ckeditor" name="Content" rows="8000"></textarea>
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
         @if (tags.Count == 0)

@@ -19,10 +19,9 @@ namespace panel.Extensions
             services.AddScoped<IRoleRepo, RoleRepo>();
             services.AddScoped<ILoginRepo, LoginRepo>();
             services.AddScoped<IUserRepo, UserRepo>();
-            //services.AddScoped<IPropertyDescRepo, PropertyDescRepo>();
+            services.AddScoped<IAboutUsRepo, AboutUsRepo>();
             services.AddScoped<IProductRepo, ProductRepo>();
             services.AddScoped<ICategoryRepo, CategoryRepo>();
-            //services.AddScoped<IProductPropertyRepo, ProductPropertyRepo>();
             services.AddScoped<IFileUpload, FileUplaod>();
             services.AddScoped<IContactRepo, ContactRepo>();
             services.AddScoped<ITagRepo, TagRepo>();
@@ -36,6 +35,7 @@ namespace panel.Extensions
             services.AddScoped<IFe_FeDesc_RelRepo, Fe_FeDesc_RelRepo>();
             services.AddScoped<IFe_SubCat_RelRepo, Fe_SubCat_RelRepo>();
             services.AddScoped<ILogRepo,LogRepo>();
+            services.AddScoped<ICat_Fe_RelRepo, Cat_Fe_RelRepo>();
         }
     }
 }

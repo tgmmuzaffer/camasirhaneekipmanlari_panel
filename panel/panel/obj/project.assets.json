@@ -6758,11 +6758,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\MONSTER\\source\\repos\\camasirhaneekipmanlari_panel - Kopya\\panel\\panel\\panel.csproj",
+      "projectUniqueName": "C:\\Users\\MONSTER\\source\\repos\\camasirhaneekipmanlari_panel\\panel\\panel\\panel.csproj",
       "projectName": "panel",
-      "projectPath": "C:\\Users\\MONSTER\\source\\repos\\camasirhaneekipmanlari_panel - Kopya\\panel\\panel\\panel.csproj",
+      "projectPath": "C:\\Users\\MONSTER\\source\\repos\\camasirhaneekipmanlari_panel\\panel\\panel\\panel.csproj",
       "packagesPath": "C:\\Users\\MONSTER\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\MONSTER\\source\\repos\\camasirhaneekipmanlari_panel - Kopya\\panel\\panel\\obj\\",
+      "outputPath": "C:\\Users\\MONSTER\\source\\repos\\camasirhaneekipmanlari_panel\\panel\\panel\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -6845,7 +6845,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   },

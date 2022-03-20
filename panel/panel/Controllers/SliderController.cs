@@ -26,34 +26,43 @@ namespace panel.Controllers
 
         [Route(template: "addSlider", Name = "Slider Ekle")]
         public async Task<IActionResult> AddSlider()
-        {           
+        {
+            string token = GetToken();
+            var sliders = await _sliderRepo.GetList(StaticDetail.StaticDetails.getAllSliders, token);
+            ViewBag.Sliders = sliders;
             return View();
         }
 
         [HttpPost("createSlider")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateSlider(SliderDto sliderDto)
+        public async Task<IActionResult> CreateSlider(Slider slider)
         {
             string token = GetToken();
-            sliderDto.ImageName = StringProcess.ClearString(sliderDto.SliderName) + ".webp";
-            var uploadedfilePath = await _fileUpload.UploadFile(sliderDto.Image, sliderDto.ImageName);
-            if (!string.IsNullOrEmpty(uploadedfilePath))
+            slider.ImageName = StringProcess.ClearString(slider.SliderName);
+            string[] uploadedfilePath = Array.Empty<string>();
+            if (slider.Image != null)
             {
-                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
-                sliderDto.ImageData = Convert.ToBase64String(imageArray);
+                uploadedfilePath = await _fileUpload.UploadFile(slider.Image, slider.ImageName, isblog:false, isslider:true);
             }
 
-            var result = await _sliderRepo.Create(StaticDetail.StaticDetails.createSlider, sliderDto, token);
-            return RedirectToAction("GetAllSlider");
+            if (uploadedfilePath.Length != 0)
+            {
+                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
+                slider.ImageData = Convert.ToBase64String(imageArray);
+                slider.ImageName = uploadedfilePath[1];
+            }
+
+            var result = await _sliderRepo.Create(StaticDetail.StaticDetails.createSlider, slider, token);
+            return RedirectToAction("AddSlider");
         }
 
-        [Route(template: "getAllSlider", Name = "Slider Listesi")]
-        public async Task<IActionResult> GetAllSlider()
-        {
-            string token = GetToken();
-            var result =await _sliderRepo.GetList(StaticDetail.StaticDetails.getAllSliders, token);
-            return View(result);
-        }
+        //[Route(template: "getAllSlider", Name = "Slider Listesi")]
+        //public async Task<IActionResult> GetAllSlider()
+        //{
+        //    string token = GetToken();
+        //    var result =await _sliderRepo.GetList(StaticDetail.StaticDetails.getAllSliders, token);
+        //    return View(result);
+        //}
 
         [HttpGet("updateSlider/{Id}")]
         public async Task<IActionResult> UpdateSlider(int Id)
@@ -65,45 +74,50 @@ namespace panel.Controllers
 
         [HttpPost("updateSliderContent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateSliderContent([FromForm] SliderDto sliderDto)
+        public async Task<IActionResult> UpdateSliderContent([FromForm] Slider slider)
         {
             string token = GetToken();
-            sliderDto.ImageName = StringProcess.ClearString(sliderDto.SliderName)+ ".webp";
-            if (sliderDto.Image == null)
+            slider.ImageName = StringProcess.ClearString(slider.SliderName)+ ".webp";
+            if (slider.Image == null)
             {
-                var orjsliderdetails = await _sliderRepo.Get(StaticDetail.StaticDetails.getSlider + sliderDto.Id, token);
-                if ((sliderDto.ImageName + ".webp") == orjsliderdetails.ImageName)
+                var orjsliderdetails = await _sliderRepo.Get(StaticDetail.StaticDetails.getSlider + slider.Id, token);
+                if ((slider.ImageName + ".webp") == orjsliderdetails.ImageName)
                 {
                     var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + orjsliderdetails.ImageName;
                     byte[] imageArray = System.IO.File.ReadAllBytes(orjpath);
-                    sliderDto.ImageData = Convert.ToBase64String(imageArray);
+                    slider.ImageData = Convert.ToBase64String(imageArray);
                 }
                 else
                 {
                     var orjpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + orjsliderdetails.ImageName;
                     byte[] imageArray = System.IO.File.ReadAllBytes(orjpath);
                     System.IO.File.Delete(orjpath);
-                    var newpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + sliderDto.ImageName;
+                    var newpath = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + slider.ImageName;
                     System.IO.File.WriteAllBytes(newpath, imageArray);
-                    sliderDto.ImageData = Convert.ToBase64String(imageArray);
+                    slider.ImageData = Convert.ToBase64String(imageArray);
                 }
             }
             else
             {
-                uploadedfilePath = await _fileUpload.UploadFile(sliderDto.Image, sliderDto.ImageName);
-                if (!string.IsNullOrEmpty(uploadedfilePath))
+                string[] uploadedfilePath = await _fileUpload.UploadFile(slider.Image, slider.ImageName, isblog: false, isslider:true);
+                if (uploadedfilePath.Length != 0)
                 {
-                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
-                    sliderDto.ImageData = Convert.ToBase64String(imageArray);
+                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
+                    slider.ImageData = Convert.ToBase64String(imageArray);
+                }
+                else
+                {
+                    slider.ImageName = string.Empty;
                 }
             }
 
-            var res = await _sliderRepo.Update(StaticDetail.StaticDetails.updateSlider, sliderDto, token);
-            return RedirectToAction("GetAllSlider");
+            var res = await _sliderRepo.Update(StaticDetail.StaticDetails.updateSlider, slider, token);
+            return RedirectToAction("AddSlider");
         }
 
+        [Route("deleteSlider/{id}")]
         [Route("deleteSlider/{id}/{ImageName}")]
-        public async Task<IActionResult> DeleteBlog(int Id, string ImageName)
+        public async Task<IActionResult> DeleteSlider(int Id, string? ImageName)
         {
             string token = GetToken();
             bool result = await _sliderRepo.Delete(StaticDetail.StaticDetails.deleteSlider + Id, token);
@@ -118,7 +132,7 @@ namespace panel.Controllers
                 TempData["fail"] = "Slider silinirken bir hata oluştu";
             }
 
-            return RedirectToAction("GetAllSlider");
+            return RedirectToAction("AddSlider");
         }
     }
 }

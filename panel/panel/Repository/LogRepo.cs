@@ -57,8 +57,8 @@ namespace panel.Repository
             }
             catch (Exception e)
             {
+                return null;
 
-                throw;
             }
 
         }

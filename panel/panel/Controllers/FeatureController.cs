@@ -16,12 +16,14 @@ namespace panel.Controllers
         private readonly ISubCategoryRepo _subCategoryRepo;
         private readonly IFeatureRepo _featureRepo;
         private readonly IFe_SubCat_RelRepo _fe_SubCat_RelRepo;
+        private readonly ICat_Fe_RelRepo _cat_Fe_RelRepo;
 
-        public FeatureController(ISubCategoryRepo subCategoryRepo, IFeatureRepo featureRepo, IFe_SubCat_RelRepo fe_SubCat_RelRepo)
+        public FeatureController(ISubCategoryRepo subCategoryRepo, IFeatureRepo featureRepo, IFe_SubCat_RelRepo fe_SubCat_RelRepo, ICat_Fe_RelRepo cat_Fe_RelRepo)
         {
             _subCategoryRepo = subCategoryRepo;
             _featureRepo = featureRepo;
             _fe_SubCat_RelRepo = fe_SubCat_RelRepo;
+            _cat_Fe_RelRepo = cat_Fe_RelRepo;
         }
 
         [Route(template: "addFeature", Name = "Adedi Bilgi Ekle")]
@@ -76,29 +78,65 @@ namespace panel.Controllers
         public async Task<IActionResult> UpdateCreateFeatureSubCatLinks(Feature feature)
         {
             string token = GetToken();
-            var featureIds = feature.FeatureIds.Split(",");
-            List<int> fIds = new();
-            foreach (var item in featureIds)
+            var category = await _subCategoryRepo.Get(StaticDetail.StaticDetails.getCatId + feature.SubCategoryId, token);
+
+
+            if (feature.FeatureIds != null)
             {
-                fIds.Add(Convert.ToInt32(item));
+                List<int> fIds = new();
+                var featureIds = feature.FeatureIds.Split(",");
+                foreach (var item in featureIds)
+                {
+                    fIds.Add(Convert.ToInt32(item));
+                }
+
+                List<Fe_SubCat_Relational> fe_SubCat_Relationals = new();
+                foreach (var item in fIds)
+                {
+                    Fe_SubCat_Relational fe_SubCat_Relational = new()
+                    {
+                        FeatureId = Convert.ToInt32(item),
+                        SubCategoryId = feature.SubCategoryId
+                    };
+                    fe_SubCat_Relationals.Add(fe_SubCat_Relational);
+                }
+
+
+                
+                //List<Cat_Fe_Relational> fe_Cat_Relationals = new();
+                //foreach (var item in fIds)
+                //{
+                //    Cat_Fe_Relational fe_Cat_Relational = new()
+                //    {
+                //        FeatureId = Convert.ToInt32(item),
+                //        CategoryId = category.CategoryId
+                //    };
+                //    fe_Cat_Relationals.Add(fe_Cat_Relational);
+                //}
+
+                var resSubcat = await _fe_SubCat_RelRepo.UpdateCreateFeatureSubCatLinks(StaticDetail.StaticDetails.createupdateFeSubCat, fe_SubCat_Relationals, token);
+                //var resCat = await _cat_Fe_RelRepo.UpdateCreateFeatureCatLinks(StaticDetail.StaticDetails.createupdateFeCat, fe_Cat_Relationals, token);
+
+                if (resSubcat)
+                {
+                    TempData["success"] = "Adedi Bilgi Eklendi.  ";
+                    return RedirectToAction("LinkFeaturesToSubCat");
+                }
+
+            }
+            else
+            {
+                var deleteresSubcat = await _fe_SubCat_RelRepo.Delete(StaticDetail.StaticDetails.deleteFeSubCatBysubCatId + feature.SubCategoryId, token);
+                var deleteresCat = await _cat_Fe_RelRepo.Delete(StaticDetail.StaticDetails.deleteFeCatByCatId + category.CategoryId, token);
+
+                if (deleteresSubcat || deleteresCat)
+                {
+                    TempData["success"] = "Adedi Bilgi güncellendi.  ";
+                    return RedirectToAction("LinkFeaturesToSubCat");
+                }
             }
 
-            List<Fe_SubCat_Relational> fe_SubCat_Relationals = new();
-            foreach (var item in fIds)
-            {
-                Fe_SubCat_Relational fe_SubCat_Relational = new()
-                {
-                    FeatureId = Convert.ToInt32(item),
-                    SubCategoryId = feature.SubCategoryId
-                };
-                fe_SubCat_Relationals.Add(fe_SubCat_Relational);
-            }
-            var res = await _fe_SubCat_RelRepo.UpdateCreateFeatureSubCatLinks(StaticDetail.StaticDetails.createupdateFeSubCat, fe_SubCat_Relationals, token);
-            if (res)
-            {
-                TempData["success"] = "Adedi Bilgi Eklendi.  ";
-                return RedirectToAction("LinkFeaturesToSubCat");
-            }
+
 
 
             TempData["fail"] = "Adedi Bilgi Eklenirken bir hata oluştu";

@@ -53,7 +53,7 @@ namespace panel.Repository
             catch (Exception e)
             {
 
-                throw new Exception(e.Message);
+                return 0;
             }
 
         }
@@ -83,25 +83,34 @@ namespace panel.Repository
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                return false;
             }
 
         }
         public async Task<bool> Delete(string url, string token)
         {
-            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Delete, url);
 
-            var client = _clientFactory.CreateClient();
-            if (token != null && token.Length != 0)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var client = _clientFactory.CreateClient();
+                if (token != null && token.Length != 0)
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                {
+                    return true;
+                }
+                return false;
             }
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            catch (Exception e)
             {
-                return true;
+
+                return false;
             }
-            return false;
+            
         }
 
         public async Task<T> Get(string url, string token)
@@ -134,44 +143,60 @@ namespace panel.Repository
 
         public async Task<ICollection<T>> GetList(string url, string token = null)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url);
-
-            var client = _clientFactory.CreateClient();
-            if (token != null && token.Length != 0)
+            try
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+                var client = _clientFactory.CreateClient();
+                if (token != null && token.Length != 0)
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<ICollection<T>>(jsonString);
+                }
+
+                return null;
             }
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            catch (Exception e)
             {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<ICollection<T>>(jsonString);
+                return null;
             }
 
-            return null;
         }
 
         public async Task<bool> IsExist(string url, string name, string token = null)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, url + name);
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, url + name);
 
-            var client = _clientFactory.CreateClient();
-            if (token != null && token.Length != 0)
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            }
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var jsonString = await response.Content.ReadAsStringAsync();
-                if (string.IsNullOrEmpty(jsonString))
+                var client = _clientFactory.CreateClient();
+                if (token != null && token.Length != 0)
                 {
-                    return false;
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 }
-                return true;
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var jsonString = await response.Content.ReadAsStringAsync();
+                    if (string.IsNullOrEmpty(jsonString))
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
             }
 
-            return false;
         }
     }
 }

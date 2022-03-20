@@ -1,0 +1,69 @@
+﻿@using panel.Models
+@model AboutUs
+@*<script src="//cdn.ckeditor.com/4.17.1/full/ckeditor.js"></script>*@
+
+<div class="container mt-3">
+    <h1>Hakkımızda Ekle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Hakkımızda Ekle</li>
+        </ol>
+    </nav>
+
+    <form id="addnewaboutus" class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateAboutUs" asp-antiforgery="true">
+
+        <div class="form-group mt-3">
+            <label asp-for="Title">Başlık</label>
+            <input asp-for="Title" class="form-control">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="SubTitle">Alt Başlık</label>
+            <input asp-for="SubTitle" class="form-control">
+            <span asp-validation-for="SubTitle" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Content1">İçerik1</label>
+            <input asp-for="Content1" class="form-control">
+            <span asp-validation-for="Content1" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="ImageFile1" style="display:block;">İçerik1 Görseli</label>
+            <input asp-for="ImageFile1" type="file" class="form-control-file mt-1">
+            <span asp-validation-for="ImageFile1" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label  asp-for="Content2">İçerik2</label>
+            <input asp-for="Content2" class="form-control">
+            <span asp-validation-for="Content2" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="ImageFile2" style="display:block;">İçerik2 Görseli</label>
+            <input asp-for="ImageFile2" type="file" class="form-control-file mt-1">
+            <span asp-validation-for="ImageFile2" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Content3">İçerik3</label>
+            <input asp-for="Content3" class="form-control">
+            <span asp-validation-for="Content3" class="text-danger"></span>
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="ImageFile3" style="display:block;">İçerik3 Görseli</label>
+            <input asp-for="ImageFile3" type="file" class="form-control-file mt-1">
+            <span asp-validation-for="ImageFile3" class="text-danger"></span>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+</div>
+
+@*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        CKEDITOR.replace('#Content1');
+        CKEDITOR.replace('#Content2');
+        CKEDITOR.replace('#Content3');
+    });
+</script>*@

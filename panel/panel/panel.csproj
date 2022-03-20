@@ -28,6 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Contact\GetAllContacts.cshtml" />
+    <Content Remove="Views\Slider\GetAllSlider.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Search\Search.cshtml" />
     <None Include="wwwroot\assets\demo\chart-area-demo.js" />
     <None Include="wwwroot\assets\demo\chart-bar-demo.js" />

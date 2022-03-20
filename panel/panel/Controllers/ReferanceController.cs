@@ -33,11 +33,11 @@ namespace panel.Controllers
         public async Task<IActionResult> CreateReferance(ReferanceDto referanceDto)
         {
             string token = GetToken();
-            referanceDto.ImageName = StringProcess.ClearString(referanceDto.Name) + ".webp";
-            var uploadedfilePath = await _fileUpload.UploadFile(referanceDto.Image, referanceDto.ImageName);
-            if (!string.IsNullOrEmpty(uploadedfilePath))
+            referanceDto.ImageName = StringProcess.ClearString(referanceDto.Name);
+            string[] uploadedfilePath = await _fileUpload.UploadFile(referanceDto.Image, referanceDto.ImageName);
+            if (uploadedfilePath.Length != 0)
             {
-                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
+                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
                 referanceDto.ImageData = Convert.ToBase64String(imageArray);
             }
 
@@ -57,8 +57,8 @@ namespace panel.Controllers
         public async Task<IActionResult> UpdateReferance(int Id)
         {
             string token = GetToken();
-            var blog = await _referanceRepo.Get(StaticDetail.StaticDetails.getReferance + Id, token);
-            return View(blog);
+            var result = await _referanceRepo.Get(StaticDetail.StaticDetails.getReferance + Id, token);
+            return View(result);
         }
 
         [HttpPost("updateReferanceContent")]
@@ -88,10 +88,10 @@ namespace panel.Controllers
             }
             else
             {
-                uploadedfilePath = await _fileUpload.UploadFile(referanceDto.Image, referanceDto.ImageName);
-                if (!string.IsNullOrEmpty(uploadedfilePath))
+                string[] uploadedfilePath = await _fileUpload.UploadFile(referanceDto.Image, referanceDto.ImageName);
+                if (uploadedfilePath.Length != 0)
                 {
-                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
+                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
                     referanceDto.ImageData = Convert.ToBase64String(imageArray);
                 }
             }

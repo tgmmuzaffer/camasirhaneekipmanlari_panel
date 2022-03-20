@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,6 +17,8 @@ namespace panel.Models
         public string Link { get; set; }
         public string ButtonName { get; set; }
         public string ImageName { get; set; }
+        public string ImageData { get; set; }
+        public IFormFile Image { get; set; }
         public bool IsShow { get; set; }
     }
 }

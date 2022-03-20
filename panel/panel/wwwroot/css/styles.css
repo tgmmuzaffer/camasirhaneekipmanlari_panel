@@ -11700,3 +11700,7 @@ body {
   font-size: 0.75rem;
   border-radius: 0.25rem !important;
 }
+.tableimage{
+    max-width:100px;
+    max-height:100px;
+}

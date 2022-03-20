@@ -24,7 +24,7 @@ namespace panel.Repository
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Post, url);
-                if (fe_SubCat_Relationals != null )
+                if (fe_SubCat_Relationals.Count>0 )
                 {
                     request.Content = new StringContent(JsonConvert.SerializeObject(fe_SubCat_Relationals), Encoding.UTF8, "application/json");
                 }
@@ -51,8 +51,7 @@ namespace panel.Repository
             }
             catch (Exception e)
             {
-
-                throw new Exception(e.Message);
+                return false;
             }
         }
     }

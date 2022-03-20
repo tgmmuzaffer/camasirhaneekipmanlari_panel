@@ -1,5 +1,5 @@
-﻿@using panel.Models.Dtos
-@model List<SliderDto>
+﻿@using panel.Models
+@model List<Slider>
 @{
     int i = 1;
 }
@@ -12,7 +12,9 @@
             <li class="breadcrumb-item active" aria-current="page">Slider Listesi</li>
         </ol>
     </nav>
-
+    <button id="btnaddnew" class="btn btn-success" style="text-align:end">
+        Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
 
     @{ if (Model != null)
         {
@@ -65,13 +67,14 @@
 
             </div>
         }
-        else
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    Üzgünüm slider kayıtları bulunamadı.
-                </div>
-            </div>
-        }
     }
 </div>
+<script>
+    $('#btnaddnew').css('display', 'block');
+    $('#addnewcat').css('display', 'none');
+    $('#btnaddnew').click(function () {
+        $('#btnaddnew').css('display', 'none');
+        $('#addnewcat').css('display', 'block');
+
+    });
+</script>

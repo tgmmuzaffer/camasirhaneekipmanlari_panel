@@ -54,10 +54,10 @@ namespace panel.Controllers
             string token = GetToken();
             blog.ImagePath = StringProcess.ClearString(blog.Title);
             blog.ImageName = blog.ImagePath;
-            string uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImagePath+".webp");
-            if (!string.IsNullOrEmpty(uploadedfilePath))
+            string[] uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImagePath, isblog: true, isslider:false);
+            if (uploadedfilePath.Length != 0)
             {
-                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
+                byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
                 blog.ImagePath = Convert.ToBase64String(imageArray);
             }
             var res = await _blogRepo.Create(StaticDetail.StaticDetails.createBlog, blog, token);
@@ -99,7 +99,7 @@ namespace panel.Controllers
         public async Task<IActionResult> UpdateBlogContent([FromForm] BlogDto blog)
         {
            
-            string uploadedfilePath = string.Empty;
+            string[] uploadedfilePath = Array.Empty<string>();
             string token = GetToken();
 
             blog.ImageName = StringProcess.ClearString(blog.Title);
@@ -124,10 +124,10 @@ namespace panel.Controllers
             }
             else
             {
-                uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImageName);
-                if (!string.IsNullOrEmpty(uploadedfilePath))
+                uploadedfilePath = await _fileUpload.UploadFile(blog.ImageFile, blog.ImageName,isblog: true, isslider:false);
+                if (uploadedfilePath.Length != 0)
                 {
-                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath);
+                    byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
                     blog.ImagePath = Convert.ToBase64String(imageArray);
                 }
                 else

@@ -1,6 +1,9 @@
-﻿@using panel.Models.Dtos
-@model SliderDto
-
+﻿@using panel.Models
+@model Slider
+@{
+    var sliders = ViewBag.Sliders as List<Slider>;
+    int i = 1;
+}
 
 <div class="container mt-3">
     <h1>Slider Ekle</h1>
@@ -10,8 +13,10 @@
             <li class="breadcrumb-item active" aria-current="page">Slider Ekle</li>
         </ol>
     </nav>
-    <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateSlider" asp-antiforgery="true">
-        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <button id="btnaddnew" class="btn btn-success" style="text-align:end">
+        Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i>
+    </button>
+    <form id="addnewSlider" class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateSlider" asp-antiforgery="true">
         <div class="form-group mt-3">
             <label asp-for="SliderName">Slider Adı</label>
             <input asp-for="SliderName" class="form-control">
@@ -56,10 +61,89 @@
         <div class="form-group mt-3">
             <label asp-for="IsShow" style="display:block;">Slider Aktif Mi?</label>
             <input asp-for="IsShow" type="checkbox" checked value="true" class="form-control-file">
-        </div>   
+        </div>
 
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </div>
     </form>
+    @{ if (sliders != null)
+        {
+            <div class="card mb-4 mt-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Slider Listesi
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                                <tr>
+                                    <th style="width:10%">No</th>
+                                    <th style="width:40%">İsim</th>
+                                    <th style="width:20%">Görsel</th>
+                                    <th style="width:10%">Yayında mı?</th>
+
+                                    <th style="width:10%">Sil</th>
+                                    <th style="width:10%">Güncelle</th>
+
+                                </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in sliders)
+                            {
+
+                            <tr>
+                                <td style="width:10%">@i</td>
+                                <td style="width:40%">@item.SliderName</td>
+                                @*<td><img src="~/images/webpImages/@item.ImageName" style="height:50px;" /></td>*@
+
+                                @if (!string.IsNullOrEmpty(item.ImageName))
+                                {
+                                    <td style="width:20%"><img class="tableimage" src="~/images/webpImages/@item.ImageName" /></td>
+                                }
+                                else
+                                {
+                                    <td style="width:20%"><img class="tableimage" src="~/images/webpImages/deafult.webp" /></td>
+                                }
+                                @{
+                                    if (item.IsShow)
+                                    {
+                                        <td style="width:10%"><i class="fa fa-check" style="color:#116530; font-size: large"></i></td>
+                                    }
+                                    else
+                                    {
+                                        <td style="width:10%"><i class="fa fa-times" style="color: #CD1818; font-size: large"></i></td>
+                                    }
+                                }
+                                <td style="width:10%">
+                                    <a href="deleteSlider/@item.Id/@item.ImageName">
+                                        <i class="far fa-trash-alt" style="color:#CD1818; font-size: large"></i>
+                                    </a>
+                                </td>
+                                <td style="width:10%">
+                                    <a href="updateSlider/@item.Id">
+                                        <i class="far fa-edit" style="color:#F3950D; font-size: large"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+    }
 </div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $('#btnaddnew').css('display', 'block');
+    $('#addnewSlider').css('display', 'none');
+    $('#btnaddnew').click(function () {
+        $('#btnaddnew').css('display', 'none');
+        $('#addnewSlider').css('display', 'block');
+
+    });
+</script>

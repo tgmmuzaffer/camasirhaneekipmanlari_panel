@@ -1,6 +1,6 @@
 ﻿@using panel.Models
 @model Contact
-
+<script src="//cdn.ckeditor.com/4.17.1/full/ckeditor.js"></script>
 
 <div class="container mt-3">
     <h1>İletişim Bilgileri Ekle</h1>
@@ -15,20 +15,36 @@
     <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="CreateContact" asp-antiforgery="true">
         <div class="form-group mt-2">
             <label asp-for="Name">İsim</label>
-            <input class="form-control" asp-for="Name" placeholder="İsim">
+            <input class="form-control" type="text" asp-for="Name" placeholder="İsim">
         </div>
         <div class="form-group mt-2">
             <label asp-for="Adress">Adres</label>
-            <input class="form-control" asp-for="Adress" placeholder="Adres">
+            <input class="form-control" type="text" asp-for="Adress" placeholder="Adres">
         </div>
         <div class="form-group mt-2">
-            <label asp-for="MapAdress">IFrame</label>
-            <input asp-for="MapAdress" class="form-control" aria-describedby="iframeHelp" placeholder="IFrame">
+            <label>IFrame</label>
+            @*<label asp-for="MapAdress">IFrame</label>*@
+            @*<input asp-for="MapAdress" class="form-control" aria-describedby="iframeHelp" placeholder="IFrame">*@
+            <textarea asp-for="MapAdress" class="ckeditor" rows="200"></textarea>
             <small id="iframeHelp" class="form-text text-muted">GoogleMaps ile adres belirlendikten sonra alınan iframe</small>
+            <b>/</b>
+            <small id="iframeHelp" class="form-text text-muted">width="100%" height="475" olarak verilmelidir</small>
         </div>
         <div class="form-group mt-2">
             <label asp-for="Email">E-Posta</label>
             <input asp-for="Email" type="email" class="form-control" placeholder="E-Posta">
+        </div>
+         <div class="form-group mt-3">
+            <label asp-for="InstagramAccount">Instagram Hesabı</label>
+            <input asp-for="InstagramAccount" class="form-control">
+        </div>
+         <div class="form-group mt-3">
+            <label asp-for="LinkedInAccount">LinkedIn Hesabı</label>
+            <input asp-for="LinkedInAccount" class="form-control">
+        </div>
+         <div class="form-group mt-3">
+            <label asp-for="TwitterAccount">Twitter Hesabı</label>
+            <input asp-for="TwitterAccount" class="form-control">
         </div>
         <div class="form-group mt-2">
             <label asp-for="Phone1">Tel No 1</label>
@@ -39,12 +55,36 @@
             <input asp-for="Phone2" type="tel" class="form-control" placeholder="Tel No 2">
         </div>
         <div class="form-group mt-2">
+            <label asp-for="WorkDay1">Çalışma Günü 1</label>
+            <input asp-for="WorkDay1" type="text" class="form-control" placeholder="Çalışma Günü 1">
+        </div>
+        <div class="form-group mt-2">
             <label asp-for="WorkHour1">Çalışma Saati 1</label>
-            <input asp-for="WorkHour1" type="tel" class="form-control" placeholder="Çalışma Saati 1">
+            <input asp-for="WorkHour1" type="text" class="form-control" placeholder="Çalışma Saati 1">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="WorkDay2">Çalışma Günü 2</label>
+            <input asp-for="WorkDay2" type="text" class="form-control" placeholder="Çalışma Günü 2">
         </div>
         <div class="form-group mt-2">
             <label asp-for="WorkHour2">Çalışma Saati 2</label>
-            <input asp-for="WorkHour2" type="tel" class="form-control" placeholder="Çalışma Saati 2">
+            <input asp-for="WorkHour2" type="text" class="form-control" placeholder="Çalışma Saati 2">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="WorkDay3">Çalışma Günü 3</label>
+            <input asp-for="WorkDay3" type="text" class="form-control" placeholder="Çalışma Günü 3">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="WorkHour3">Çalışma Saati 3</label>
+            <input asp-for="WorkHour3" type="text" class="form-control" placeholder="Çalışma Saati 3">
+        </div>
+        <div class="form-group mt-2">
+            <label asp-for="ContactTitle">Başlık</label>
+            <input asp-for="ContactTitle" type="text" class="form-control" placeholder="Başlık">
+        </div>
+        <div class="form-group mt-2">
+            <label>Metin</label>
+            <textarea asp-for="ContactContent" class="ckeditor" rows="200"></textarea>           
         </div>
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
             <button type="submit" class="btn btn-primary">Kaydet</button>
@@ -52,3 +92,10 @@
     </form>
 
 </div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('#MapAdress');
+            CKEDITOR.replace('#ContactContent');
+        });
+    </script>

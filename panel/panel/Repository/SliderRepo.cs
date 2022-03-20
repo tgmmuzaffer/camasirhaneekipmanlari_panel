@@ -1,4 +1,5 @@
-﻿using panel.Models.Dtos;
+﻿using panel.Models;
+using panel.Models.Dtos;
 using panel.Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace panel.Repository
 {
-    public class SliderRepo : BaseRepo<SliderDto>, ISliderRepo
+    public class SliderRepo : BaseRepo<Slider>, ISliderRepo
     {
         public SliderRepo(IHttpClientFactory clientFactory) : base(clientFactory)
         {

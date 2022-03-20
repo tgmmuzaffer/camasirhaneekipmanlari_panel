@@ -15,5 +15,8 @@ namespace panel.Models.Dtos
         public string ImageData { get; set; }
         public string ShortDescription { get; set; }
         public string Description { get; set; }
+        public string InstagramAccount { get; set; }
+        public string LinkedInAccount { get; set; }
+        public string TwitterAccount { get; set; }
     }
 }
