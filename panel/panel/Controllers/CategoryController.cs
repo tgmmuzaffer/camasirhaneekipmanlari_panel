@@ -82,6 +82,13 @@ namespace panel.Controllers
             return View(category);
         }
 
+        [HttpGet("getCategoryByName/{name}")]
+        public async Task<IActionResult> GetCategoryByName(string name)
+        {
+            var category = await _categoryRepo.Get(StaticDetail.StaticDetails.getCategoryName + name);
+            return View(category);
+        }
+
         [HttpGet("updateCategory/{Id}")]
         public async Task<IActionResult> UpdateCategory(int Id)
         {

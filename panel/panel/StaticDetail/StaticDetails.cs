@@ -2,8 +2,10 @@
 {
     public static class StaticDetails
     {
-        public static string mainUrl = "https://localhost:44396/";
-        public static string currentUrl = "https://localhost:44301/";
+        //public static string mainUrl = "https://localhost:44396/";
+        public static string mainUrl = "https://ce-api.camasirhaneekipmanlari.com/";
+        //public static string currentUrl = "https://localhost:44301/";
+        public static string currentUrl = "https://test-panel.camasirhaneekipmanlari.com/";
         //role
         public static string getRoles = mainUrl + "api/role/getRoles";
         //user
@@ -22,6 +24,7 @@
         public static string createCategory = mainUrl + "api/category/createCategory";
         public static string getCategory = mainUrl + "api/category/getCategory/";
         public static string getCategoryName = mainUrl + "api/category/getCategoryName/";
+        public static string getCategoryByName = mainUrl + "api/category/getCategoryByName/";
         public static string getAllCategories = mainUrl + "api/category/getAllCategories";
         public static string getAllCategoriesName = mainUrl + "api/category/getAllCategoriesName";
         public static string updateCategory = mainUrl + "api/category/updateCategory";
