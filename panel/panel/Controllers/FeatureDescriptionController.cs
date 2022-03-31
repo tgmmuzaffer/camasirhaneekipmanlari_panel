@@ -74,15 +74,15 @@ namespace panel.Controllers
                 featureList.Add(new SelectListItem() { Text = item.Name, Value = item.Id.ToString(), Selected = (item.Id == fetureDescriptions.FeatureId) });
             }
             ViewBag.FeatureList = featureList;
-            return View(features);
+            return View(fetureDescriptions);
         }
 
         [HttpPost("updateFeatureDescriptionContent")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateFeatureDescriptionContent([FromForm] Feature feature)
+        public async Task<IActionResult> UpdateFeatureDescriptionContent([FromForm] FeatureDescription featureDescription)
         {
             string token = GetToken();
-            var res = await _featureRepo.Update(StaticDetail.StaticDetails.updateFeature, feature, token);
+            var res = await _featureDescriptionRepo.Update(StaticDetail.StaticDetails.updatefeatureDescription, featureDescription, token);
 
             return RedirectToAction("AddFeatureDescription");
         }
@@ -91,7 +91,7 @@ namespace panel.Controllers
         public async Task<IActionResult> DeleteFeatureDescription(int Id)
         {
             string token = GetToken();
-            bool result = await _featureRepo.Delete(StaticDetail.StaticDetails.deleteFeature + Id, token);
+            bool result = await _featureDescriptionRepo.Delete(StaticDetail.StaticDetails.deletefeatureDescription + Id, token);
             if (result)
             {
                 TempData["success"] = "Adedi Bilgi İçeriği silindi.  ";

@@ -19,7 +19,7 @@
 
 
     <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateSubCategoryContent" asp-antiforgery="true">
-
+        <input type="hidden" asp-for="Id" class="form-control" value="@Model.Id">
         <div class="form-group mt-3">
             <label asp-for="Name">Alt Kategori Adı</label>
             <input asp-for="Name" class="form-control" value="@Model.Name">

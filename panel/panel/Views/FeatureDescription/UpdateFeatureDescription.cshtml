@@ -17,7 +17,7 @@
     </nav>
 
     <form class="mt-5" method="post" enctype="multipart/form-data" asp-action="UpdateFeatureDescriptionContent" asp-antiforgery="true">
-
+        <input type="hidden" asp-for="Id" class="form-control" value="@Model.Id">
         <div class="form-group mt-3">
             <label style="display:block">Adedi Bilgiler</label>
             <select class="selectpicker" asp-for="FeatureId" data-none-selected-text="Bir Adedi Bilgi seçiniz">
@@ -37,5 +37,4 @@
             <button type="submit" class="btn btn-primary">Kaydet</button>
         </div>
     </form>
-
 </div>
