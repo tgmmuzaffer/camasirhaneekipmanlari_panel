@@ -51,6 +51,11 @@ namespace panel.Controllers
                 slider.ImageData = Convert.ToBase64String(imageArray);
                 slider.ImageName = uploadedfilePath[1];
             }
+            else if(uploadedfilePath.Length == 0)
+            {
+                TempData["fail"] = "Slider Resmi eklenirken bir hata oluştu";
+                return RedirectToAction("AddSlider");
+            }
 
             var result = await _sliderRepo.Create(StaticDetail.StaticDetails.createSlider, slider, token);
             return RedirectToAction("AddSlider");

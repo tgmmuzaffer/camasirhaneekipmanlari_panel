@@ -50,18 +50,7 @@ namespace panel.Repository
                 {
                     string extension = Path.GetExtension(file.FileName);
                     if (whitelist.Any(a => extension.Contains(a)))
-                    {
-                        //if (extension == ".svg")
-                        //{
-                        //    imageName += ".svg";
-                        //    string path = await SaveImage(file, imageName);
-                        //    if (!string.IsNullOrEmpty(path))
-                        //    {
-                        //        return new[] { path, imageName };
-                        //    }
-
-                        //    return Array.Empty<string>();
-                        //}
+                    {                        
                         if (!string.IsNullOrEmpty(imageName) && !isblog && !isslider)
                         {
                             Size size = new Size(800, 800);
