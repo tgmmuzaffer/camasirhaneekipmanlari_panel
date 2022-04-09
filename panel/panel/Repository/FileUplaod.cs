@@ -23,7 +23,7 @@ namespace panel.Repository
             _clientFactory = clientFactory;
             _hostingEnvironment = hostingEnvironment;
         }
-        public async Task<string[]> UploadFile(IFormFile file, string imageName, bool isblog=default, bool isslider= default)
+        public async Task<string[]> UploadFile(IFormFile file, string imageName, bool isblog=default, bool isslider= default,bool isproduct = default)
         {
             List<string> whitelist = new List<string>()
             {
@@ -97,6 +97,22 @@ namespace panel.Repository
                         else if (!string.IsNullOrEmpty(imageName) && !isblog && isslider)
                         {
                             Size size = new Size(1920, 670);
+                            imageName += ".webp";
+                            string path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + imageName;
+                            using (var webPFileStream = new FileStream(path, FileMode.Create))
+                            {
+                                using ImageFactory imageFactory = new(preserveExifData: false);
+                                imageFactory.Load(file.OpenReadStream())
+                                            .Format(new WebPFormat())
+                                            .Quality(80)
+                                            .Resize(size)
+                                            .Save(webPFileStream);
+                            }
+                            return new[] { path, imageName };
+                        }
+                        else if (!string.IsNullOrEmpty(imageName) && !isproduct)
+                        {
+                            Size size = new Size(800, 800);
                             imageName += ".webp";
                             string path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + imageName;
                             using (var webPFileStream = new FileStream(path, FileMode.Create))

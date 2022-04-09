@@ -56,7 +56,7 @@ namespace panel.Controllers
         {
             string token = GetToken();
             product.ImageName = StringProcess.ClearString(product.Name);
-            string[] uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName);
+            string[] uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName, isproduct:true);
             if (uploadedfilePath.Length != 0)
             {
                 byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);
@@ -182,7 +182,7 @@ namespace panel.Controllers
             }
             else
             {
-               string[] uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName + ".webp");
+               string[] uploadedfilePath = await _fileUpload.UploadFile(product.ImageFile, product.ImageName, isproduct: true);
                 if (uploadedfilePath.Length != 0)
                 {
                     byte[] imageArray = System.IO.File.ReadAllBytes(uploadedfilePath[0]);

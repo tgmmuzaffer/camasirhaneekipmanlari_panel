@@ -455,6 +455,23 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\o
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\panel.csproj.AssemblyReference.cache
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\Razor\Views\Error\Ise.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel - Kopya\panel\panel\obj\Debug\net5.0\Razor\Views\Error\Notfound.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.csproj.AssemblyReference.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.AssemblyInfoInputs.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.AssemblyInfo.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.csproj.CoreCompileInputs.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.RazorAssemblyInfo.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.RazorAssemblyInfo.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\scopedcss\bundle\panel.styles.css
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\staticwebassets\panel.StaticWebAssets.Manifest.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.TagHelpers.input.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.TagHelpers.output.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.RazorCoreGenerate.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.dll
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\refint\panel.dll
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.pdb
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\bin\Debug\net5.0\appsettings.json
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\bin\Debug\net5.0\bundleconfig.json
@@ -838,19 +855,8 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\bin\Debug
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.AssemblyInfoInputs.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.AssemblyInfo.cs
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.csproj.CoreCompileInputs.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.RazorAssemblyInfo.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.RazorAssemblyInfo.cs
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\scopedcss\bundle\panel.styles.css
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\staticwebassets\panel.StaticWebAssets.Manifest.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.TagHelpers.input.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.TagHelpers.output.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.RazorCoreGenerate.cache
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\AboutUs\AddAboutUs.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\AboutUs\UpdateAboutUs.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Blog\AddBlog.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Blog\GetAllBlogs.cshtml.g.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Blog\UpdateBlog.cshtml.g.cs
@@ -903,11 +909,5 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.RazorTargetAssemblyInfo.cs
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.Views.pdb
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.csproj.CopyComplete
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.dll
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\ref\panel.dll
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.pdb
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.genruntimeconfig.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.csproj.AssemblyReference.cache
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\AboutUs\AddAboutUs.cshtml.g.cs
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\AboutUs\UpdateAboutUs.cshtml.g.cs
-C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\refint\panel.dll
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\ref\panel.dll
