@@ -911,3 +911,9 @@ C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.csproj.CopyComplete
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\panel.genruntimeconfig.cache
 C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\ref\panel.dll
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Industry\AddIndustry.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Industry\GetAllIndustry.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Industry\UpdateIndustry.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Faq\AddFaq.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Faq\GetAllFaqs.cshtml.g.cs
+C:\Users\MONSTER\source\repos\camasirhaneekipmanlari_panel\panel\panel\obj\Debug\net5.0\Razor\Views\Faq\UpdateFaq.cshtml.g.cs

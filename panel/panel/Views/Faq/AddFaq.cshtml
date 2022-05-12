@@ -1,0 +1,80 @@
+﻿
+@using panel.Models
+@model Faq
+
+@{
+    int i = 1;
+    var faqs = ViewBag.Faq as List<Faq>;
+}
+
+<div class="container mt-3">
+    <h1>S.S.S Ekle</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">S.S.S Ekle</li>
+        </ol>
+    </nav>
+
+    <form class="mt-5" method="post" enctype="multipart/form-data"  asp-action="CreateFaq" asp-antiforgery="true">
+        <div class="form-group mt-3">
+            <label asp-for="Title">Soru</label>
+            <input asp-for="Title" class="form-control">
+        </div>
+        <div class="form-group mt-3">
+            <label asp-for="Description">Cevap</label>
+            <input asp-for="Description" class="form-control">
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </div>
+    </form>
+    <hr />
+    @if (faqs != null)
+    {
+        <div class="card mb-4 mt-4">
+            <div class="card-header">
+                <i class="fas fa-table me-1"></i>
+                S.S.S Listesi
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Soru</th>
+                            <th>Cevap</th>
+                            <th>Sil</th>
+                            <th>Güncelle</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in faqs)
+                        {
+                            <tr>
+                                <td>@i</td>
+                                <td>@item.Title</td>
+                                <td>@item.Description</td>
+                                <td>
+                                    <a href="deleteFaq/@item.Id">
+                                        <i class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="updateFaq/@item.Id">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            i++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>       
+    }
+
+</div>

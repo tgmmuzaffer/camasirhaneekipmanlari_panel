@@ -1,0 +1,98 @@
+﻿@using panel.Extensions
+@using panel.Models
+@model List<Industry>
+@{
+    int i = 1;
+}
+<div class="container mt-3">
+    <h1>Sektörler</h1>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Sektörler</li>
+        </ol>
+    </nav>
+
+
+    @{
+        <div class="mb-2" style="text-align:end">
+            <a href="/addIndustry" class="btn btn-primary"> Yeni Ekle <i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+
+        //if (Model != null)
+        //{
+        //    foreach (var item in Model)
+        //    {
+        //         <div class="card mb-3" style="max-width: 540px;">
+        //        <div class="row no-gutters">
+        //            <div class="col-md-4">
+        //                <img src="~/images/webpImages/@item.ImagePath" class="card-img" alt="...">
+        //            </div>
+        //            <div class="col-md-8">
+        //                <div class="card-body">
+        //                    <h5 class="card-title">@item.Description</h5>
+        //                </div>
+        //            </div>
+        //        </div>
+        //    </div>
+        //    }
+
+
+        //}
+        if (Model != null)
+        {
+            <div class="card mb-4 mt-5">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Blog Listesi
+                </div>
+                <div class="card-body">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Açıklama</th>
+                                <th>Görsel</th>
+                                <th>Sil</th>
+                                <th>Güncelle</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                string imgName = item.Description[..3];
+                                imgName = StringProcess.ClearString(imgName);
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@item.Description</td>
+                                    <td><img src="~/images/webpImages/@item.ImagePath" style="height:50px;" /></td>
+                                    <td>
+                                        <a href="deleteIndustry/@item.Id/@imgName">
+                                            <i class="far fa-trash-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="updateIndustry/@item.Id">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                    </td>
+
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    Üzgünüm Sektör kayıtları bulunamadı.
+                </div>
+            </div>
+        }
+    }
+</div>

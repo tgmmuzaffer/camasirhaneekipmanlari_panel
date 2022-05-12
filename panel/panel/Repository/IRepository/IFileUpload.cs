@@ -8,6 +8,6 @@ namespace panel.Repository.IRepository
 {
     public interface IFileUpload
     {
-        Task<string[]> UploadFile(IFormFile file, string imageName, bool isblog=default, bool isslider = default ,bool isproduct=default);
+        Task<string[]> UploadFile(IFormFile file, string imageName, bool isblog=default, bool isslider = default ,bool isproduct=default, bool isIndustry =default, bool isreferance=default);
     }
 }

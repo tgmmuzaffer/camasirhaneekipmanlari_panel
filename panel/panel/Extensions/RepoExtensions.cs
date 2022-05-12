@@ -36,6 +36,8 @@ namespace panel.Extensions
             services.AddScoped<IFe_SubCat_RelRepo, Fe_SubCat_RelRepo>();
             services.AddScoped<ILogRepo,LogRepo>();
             services.AddScoped<ICat_Fe_RelRepo, Cat_Fe_RelRepo>();
+            services.AddScoped<IIndustryRepo, IndustryRepo>();
+            services.AddScoped<IFaqRepo, FaqRepo>();
         }
     }
 }

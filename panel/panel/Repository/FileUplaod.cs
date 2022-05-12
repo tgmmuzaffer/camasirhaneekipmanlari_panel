@@ -23,7 +23,7 @@ namespace panel.Repository
             _clientFactory = clientFactory;
             _hostingEnvironment = hostingEnvironment;
         }
-        public async Task<string[]> UploadFile(IFormFile file, string imageName, bool isblog=default, bool isslider= default,bool isproduct = default)
+        public async Task<string[]> UploadFile(IFormFile file, string imageName, bool isblog=default, bool isslider= default,bool isproduct = default, bool isIndustry = default, bool isreferance= default)
         {
             List<string> whitelist = new List<string>()
             {
@@ -105,6 +105,38 @@ namespace panel.Repository
                                 imageFactory.Load(file.OpenReadStream())
                                             .Format(new WebPFormat())
                                             .Quality(80)
+                                            .Resize(size)
+                                            .Save(webPFileStream);
+                            }
+                            return new[] { path, imageName };
+                        }
+                        else if (!string.IsNullOrEmpty(imageName) && isIndustry)
+                        {
+                            Size size = new Size(800, 800);
+                            imageName += ".webp";
+                            string path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + imageName;
+                            using (var webPFileStream = new FileStream(path, FileMode.Create))
+                            {
+                                using ImageFactory imageFactory = new(preserveExifData: false);
+                                imageFactory.Load(file.OpenReadStream())
+                                            .Format(new WebPFormat())
+                                            .Quality(80)
+                                            .Resize(size)
+                                            .Save(webPFileStream);
+                            }
+                            return new[] { path, imageName };
+                        }
+                        else if (!string.IsNullOrEmpty(imageName) && isreferance)
+                        {
+                            Size size = new Size(550, 412);
+                            imageName += ".webp";
+                            string path = _hostingEnvironment.WebRootPath + "\\images\\webpImages\\" + imageName;
+                            using (var webPFileStream = new FileStream(path, FileMode.Create))
+                            {
+                                using ImageFactory imageFactory = new(preserveExifData: false);
+                                imageFactory.Load(file.OpenReadStream())
+                                            .Format(new WebPFormat())
+                                            .Quality(70)
                                             .Resize(size)
                                             .Save(webPFileStream);
                             }

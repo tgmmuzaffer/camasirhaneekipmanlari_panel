@@ -54,7 +54,7 @@
         //slider
         public static string createSlider = mainUrl + "api/slider/createSlider";
         public static string getSlider = mainUrl + "api/slider/getSlider/";
-        public static string getAllSliders = mainUrl + "api/slider/getAllSliders";
+        public static string getAllSliders = mainUrl + "api/slider/getAllSliders/";
         public static string getAllShowingSliders = mainUrl + "api/slider/getAllSliders/";
         public static string updateSlider = mainUrl + "api/slider/updateSlider";
         public static string deleteSlider = mainUrl + "api/slider/deleteSlider/";
@@ -117,5 +117,17 @@
         public static string getAboutUs = mainUrl + "api/aboutus/getAboutUs";
         public static string updateAboutUs = mainUrl + "api/aboutus/updateAboutUs";
         public static string deleteAboutUs = mainUrl + "api/aboutus/deleteAboutUs/";
+        //industry
+        public static string createIndustry = mainUrl + "api/industry/createIndustry";
+        public static string getIndustry = mainUrl + "api/industry/getIndustry/";
+        public static string getIndustries = mainUrl + "api/industry/getIndustries";
+        public static string updateIndustry = mainUrl + "api/industry/updateIndustry";
+        public static string deleteIndustry = mainUrl + "api/industry/deleteIndustry/";
+        //faq
+        public static string createFaq = mainUrl + "api/faq/createFaq";
+        public static string getFaq = mainUrl + "api/faq/getFaq/";
+        public static string getAllFaqs = mainUrl + "api/faq/getAllFaqs";
+        public static string updateFaq = mainUrl + "api/faq/updateFaq";
+        public static string deleteFaq = mainUrl + "api/faq/deleteFaq/";
     }
 }
